@@ -6,6 +6,12 @@ Using bootstrap/fontawesome for the default design
 Added btiteam donation button in admin
 Fixed added new forum mysql error when sort is blank
 Error Reporting error_reporting(E_ALL & ~E_NOTICE); has been added
+MYSQLi Functions fixed removing previous tool based changes
+Additional Templates Languages sorted on new style bootstrap themes
+Style & Language now set via profile edit page
+Fixed php notices on php 5.6 and above
+Installer fixed - By King Cobra
+Amended copyrights in some files - King Cobra
 
 13/01/2015 Started with xbtit 2.3.0 rev. 757
 -------------------
