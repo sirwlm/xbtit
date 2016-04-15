@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL & ~E_NOTICE);
 GLOBAL $XBTT_USE;
 $language['ACP_BAN_IP']='Ban IPs';
 $language['ACP_FORUM']='Forum&rsquo;s Settings';
