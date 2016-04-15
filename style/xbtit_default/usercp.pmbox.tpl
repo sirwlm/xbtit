@@ -31,7 +31,7 @@ function popusers(url)
 </script>
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h4><i class="fa fa-fw fa-user"></i>New Private Message</h4>
+        <h4><i class="fa fa-fw fa-user"></i><tag:language.PRIVATE_MSG /></h4>
     </div>
     <div class="panel-body" align="center">
 

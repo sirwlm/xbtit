@@ -1,6 +1,6 @@
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h4><i class="fa fa-fw fa-users"></i>Members</h4>
+    <h4><i class="fa fa-fw fa-users"></i><tag:language.MNU_MEMBERS /></h4>
   </div>
   <div class="panel-body">
 

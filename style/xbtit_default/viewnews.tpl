@@ -2,7 +2,7 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h4><i class="fa fa-fw fa-newspaper-o"></i>News</h4>
+    <h4><i class="fa fa-fw fa-newspaper-o"></i><tag:language.MNU_NEWS /></h4>
   </div>
   <div class="panel-body">
 <table cellpadding="4" cellspacing="1" border="0" width="100%" style="font-family:Verdana;font-size:10px">

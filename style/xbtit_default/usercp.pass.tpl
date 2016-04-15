@@ -1,6 +1,6 @@
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h4><i class="fa fa-fw fa-cogs"></i>Change Password</h4>
+    <h4><i class="fa fa-fw fa-cogs"></i><tag:language.MNU_UCP_CHANGEPWD /></h4>
   </div>
   <div class="panel-body" align="center">
 <form method="post" name="password" action="<tag:pwd.frm_action />">

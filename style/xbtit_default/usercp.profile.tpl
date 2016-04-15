@@ -1,6 +1,6 @@
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h4><i class="fa fa-fw fa-cogs"></i>Edit Profile</h4>
+    <h4><i class="fa fa-fw fa-cogs"></i><tag:language.MNU_UCP_INFO /></h4>
   </div>
   <div class="panel-body" align="center">
 <form name="utente" method="post" action="<tag:profile.frm_action />">
