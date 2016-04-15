@@ -1787,7 +1787,7 @@ function ipb_send_pm($ipb_sender=0, $ipb_recepient, $ipb_subject, $ipb_msg, $sys
 
 function ipb_make_post($forum_id, $forum_subj, $forum_post, $poster_id=0, $update_old_topic=true)
 {
-    global $ipb_prefix, $THIS_BASEPATH, $btit_settings, $registry , $DBDT;
+    global $ipb_prefix, $THIS_BASEPATH, $btit_settings, $registry;
 
     if($poster_id==0)
     {
@@ -1828,7 +1828,7 @@ function ipb_make_post($forum_id, $forum_subj, $forum_post, $poster_id=0, $updat
         $mycount=0;
     else
     {
-        $res = get_result("SELECT `t`.* FROM `{$ipb_prefix}topics` `t` LEFT JOIN `{$ipb_prefix}posts` `p` ON `t`.`tid`=`p`.`topic_id` WHERE `t`.`forum_id`=".$forum_id." AND `t`.`title`='".mysqli_real_escape_string($DBDT,$clean_subj)."' AND `t`.`last_post`=`p`.`post_date` AND `t`.`last_poster_id`=`p`.`author_id`");
+        $res = get_result("SELECT `t`.* FROM `{$ipb_prefix}topics` `t` LEFT JOIN `{$ipb_prefix}posts` `p` ON `t`.`tid`=`p`.`topic_id` WHERE `t`.`forum_id`=".$forum_id." AND `t`.`title`='".mysqli_real_escape_string($GLOBALS['conn'],$clean_subj)."' AND `t`.`last_post`=`p`.`post_date` AND `t`.`last_poster_id`=`p`.`author_id`");
         $mycount=count($res);
     }
     if($mycount>0)

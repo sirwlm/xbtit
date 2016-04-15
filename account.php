@@ -153,7 +153,7 @@ if ($_POST["conferma"]) {
        elseif ($ret==-4)
         stderr($language["ERROR"],$language["ERR_USER_ALREADY_EXISTS"]);
        elseif ($ret==-7)
-        stderr($language["ERROR"],$language["ERR_NO_SPACE"]." <span style=\"color:red;font-weight:bold;\">".preg_replace('/\ /', '_', mysqli_real_escape_string($DBDT,$_POST["user"]))."</span><br /> ");
+        stderr($language["ERROR"],$language["ERR_NO_SPACE"]." <span style=\"color:red;font-weight:bold;\">".preg_replace('/\ /', '_', mysqli_real_escape_string($GLOBALS['conn'],$_POST["user"]))."</span><br /> ");
        elseif ($ret==-8)
          stderr($language["ERROR"],$language["ERR_SPECIAL_CHAR"]);
        elseif ($ret==-9)
@@ -176,7 +176,7 @@ else {
 
 function tabella($action,$dati=array()) {
 
-   global $idflag,$link, $idlangue, $idstyle, $CURUSER,$USE_IMAGECODE, $TABLE_PREFIX, $language, $tpl_account,$THIS_BASEPATH, $btit_settings ,$DBDT;
+   global $idflag,$link, $idlangue, $idstyle, $CURUSER,$USE_IMAGECODE, $TABLE_PREFIX, $language, $tpl_account,$THIS_BASEPATH, $btit_settings;
 
    $pass_min_req=explode(",", $btit_settings["secsui_pass_min_req"]); 
    $tpl_account->set("pass_min_char",$pass_min_req[0]); 
@@ -267,7 +267,7 @@ function tabella($action,$dati=array()) {
        $remotedns = strtoupper($remotedns);
        preg_match('/^(.+)\.([A-Z]{2,3})$/', $remotedns, $tldm);
        if (isset($tldm[2]))
-             $remotedns = mysqli_real_escape_string($DBDT,$tldm[2]);
+             $remotedns = mysqli_real_escape_string($GLOBALS['conn'],$tldm[2]);
      }
 
    foreach($fres as $flag)
@@ -358,12 +358,12 @@ elseif ($action!="mod")
 
 function aggiungiutente() {
 
-global $SITENAME,$SITEEMAIL,$BASEURL,$VALIDATION,$USERLANG,$USE_IMAGECODE, $TABLE_PREFIX, $XBTT_USE, $language,$THIS_BASEPATH, $FORUMLINK, $db_prefix, $btit_settings , $DBDT;
+global $SITENAME,$SITEEMAIL,$BASEURL,$VALIDATION,$USERLANG,$USE_IMAGECODE, $TABLE_PREFIX, $XBTT_USE, $language,$THIS_BASEPATH, $FORUMLINK, $db_prefix, $btit_settings;
 
-$utente=mysqli_real_escape_string($DBDT,$_POST["user"]);
-$pwd=mysqli_real_escape_string($DBDT,$_POST["pwd"]);
-$pwd1=mysqli_real_escape_string($DBDT,$_POST["pwd1"]);
-$email=mysqli_real_escape_string($DBDT,$_POST["email"]);
+$utente=mysqli_real_escape_string($GLOBALS['conn'],$_POST["user"]);
+$pwd=mysqli_real_escape_string($GLOBALS['conn'],$_POST["pwd"]);
+$pwd1=mysqli_real_escape_string($GLOBALS['conn'],$_POST["pwd1"]);
+$email=mysqli_real_escape_string($GLOBALS['conn'],$_POST["email"]);
 $idlangue=intval($_POST["language"]);
 $idstyle=intval($_POST["style"]);
 $idflag=intval($_POST["flag"]);
@@ -421,7 +421,7 @@ if (mysqli_num_rows($res)>0)
 }
 // duplicate username
 
-if (strpos(mysqli_real_escape_string($DBDT,$utente), " ")==true)
+if (strpos(mysqli_real_escape_string($GLOBALS['conn'],$utente), " ")==true)
    {
    return -7;
    exit;
@@ -482,7 +482,7 @@ else
   }
 
 $bannedchar=array("\\", "/", ":", "*", "?", "\"", "@", "$", "'", "`", ",", ";", ".", "<", ">", "!", "�", "%", "^", "&", "(", ")", "+", "=", "#", "~");
-if (straipos(mysqli_real_escape_string($DBDT,$utente), $bannedchar)==true)
+if (straipos(mysqli_real_escape_string($GLOBALS['conn'],$utente), $bannedchar)==true)
    {
    return -8;
    exit;
@@ -530,7 +530,7 @@ $multipass=hash_generate(array("salt" => ""), $_POST["pwd"], $_POST["user"]);
 $i=$btit_settings["secsui_pass_type"];
 
 $pid=md5(uniqid(rand(),true));
-do_sqlquery("INSERT INTO `{$TABLE_PREFIX}users` (`username`, `password`, `salt`, `pass_type`, `dupe_hash`, `random`, `id_level`, `email`, `style`, `language`, `flag`, `joined`, `lastconnect`, `pid`, `time_offset`, `torrentsperpage`) VALUES ('".$utente."', '".mysqli_real_escape_string($DBDT,$multipass[$i]["rehash"])."', '".mysqli_real_escape_string($DBDT,$multipass[$i]["salt"])."', '".$i."', '".mysqli_real_escape_string($DBDT,$multipass[$i]["dupehash"])."', ".$random.", ".$idlevel.", '".$email."', ".$idstyle.", ".$idlangue.", ".$idflag.", NOW(), NOW(),'".$pid."', '".$timezone."', $mtpp)",true);
+do_sqlquery("INSERT INTO `{$TABLE_PREFIX}users` (`username`, `password`, `salt`, `pass_type`, `dupe_hash`, `random`, `id_level`, `email`, `style`, `language`, `flag`, `joined`, `lastconnect`, `pid`, `time_offset`, `torrentsperpage`) VALUES ('".$utente."', '".mysqli_real_escape_string($GLOBALS['conn'],$multipass[$i]["rehash"])."', '".mysqli_real_escape_string($GLOBALS['conn'],$multipass[$i]["salt"])."', '".$i."', '".mysqli_real_escape_string($GLOBALS['conn'],$multipass[$i]["dupehash"])."', ".$random.", ".$idlevel.", '".$email."', ".$idstyle.", ".$idlangue.", ".$idflag.", NOW(), NOW(),'".$pid."', '".$timezone."', $mtpp)",true);
 
 $newuid=((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["conn"]))) ? false : $___mysqli_res);
 

@@ -236,8 +236,6 @@ $ntorrents=$btit_settings['max_torrents_per_page'];
 $PRIVATE_ANNOUNCE=$btit_settings['p_announce'];
 //private scrape (true/false), if set to true don't allow non register user to scrape (for stats)
 $PRIVATE_SCRAPE=$btit_settings['p_scrape'];
-// DT Database
-$DBDT=mysqli_connect($dbhost,$dbuser,$dbpass,$database);
 //Show uploaders nick on torrent listing
 $SHOW_UPLOADER=$btit_settings['show_uploader'];
 $GLOBALS['block_newslimit'] = $btit_settings['newslimit'];

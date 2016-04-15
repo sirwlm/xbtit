@@ -837,8 +837,7 @@ function test_my_cookie()
 }
 
 function sqlesc($x) {
- global $DBDT;
- return '\''.mysqli_real_escape_string($DBDT,$x).'\'';
+ return '\''.mysqli_real_escape_string($GLOBALS['conn'],$x).'\'';
 }
 
 ?>

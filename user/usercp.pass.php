@@ -49,7 +49,7 @@ switch ($action)
         $pattern1='#[a-z]#';
         $pattern2='#[A-Z]#';
         $pattern3='#[0-9]#';
-        $pattern4='/[¬!"£$%^&*()`{}\[\]:@~;\'#<>?,.\/\\-=_+\|]/';
+        $pattern4='/[ï¿½!"ï¿½$%^&*()`{}\[\]:@~;\'#<>?,.\/\\-=_+\|]/';
 
         for($pass_position=0;$pass_position<=$pass_end;$pass_position++)
         {
@@ -78,7 +78,7 @@ switch ($action)
         else
         {
             $testpass=hash_generate(array("salt" => $CURUSER["salt"]), $_POST["old_pwd"], $CURUSER["username"]);
-            $respwd = do_sqlquery("SELECT * FROM `{$TABLE_PREFIX}users` WHERE `id`=$uid AND `password`='".mysqli_real_escape_string($DBDT,$testpass[$CURUSER["pass_type"]]["hash"])."' AND username=".sqlesc($CURUSER["username"])."",true);
+            $respwd = do_sqlquery("SELECT * FROM `{$TABLE_PREFIX}users` WHERE `id`=$uid AND `password`='".mysqli_real_escape_string($GLOBALS['conn'],$testpass[$CURUSER["pass_type"]]["hash"])."' AND username=".sqlesc($CURUSER["username"])."",true);
             if (!$respwd || mysqli_num_rows($respwd)==0)
                 stderr($language["ERROR"],$language["ERR_RETR_DATA"]);
             else
@@ -86,7 +86,7 @@ switch ($action)
                 $arr=mysqli_fetch_assoc($respwd);
                 $multipass=hash_generate(array("salt" => ""), $_POST["new_pwd"], $CURUSER["username"]);
                 $i=$btit_settings["secsui_pass_type"];
-do_sqlquery("UPDATE {$TABLE_PREFIX}users SET `password`='".mysqli_real_escape_string($DBDT,$multipass[$i]["rehash"])."', `salt`='".mysqli_real_escape_string($DBDT,$multipass[$i]["salt"])."', `pass_type`='".$i."', `dupe_hash`='".mysqli_real_escape_string($DBDT,$multipass[$i]["dupehash"])."' WHERE id=$uid AND password='".mysqli_real_escape_string($DBDT,$testpass[$CURUSER["pass_type"]]["hash"])."' AND username=".sqlesc($CURUSER["username"])."",true);
+do_sqlquery("UPDATE {$TABLE_PREFIX}users SET `password`='".mysqli_real_escape_string($GLOBALS['conn'],$multipass[$i]["rehash"])."', `salt`='".mysqli_real_escape_string($GLOBALS['conn'],$multipass[$i]["salt"])."', `pass_type`='".$i."', `dupe_hash`='".mysqli_real_escape_string($GLOBALS['conn'],$multipass[$i]["dupehash"])."' WHERE id=$uid AND password='".mysqli_real_escape_string($GLOBALS['conn'],$testpass[$CURUSER["pass_type"]]["hash"])."' AND username=".sqlesc($CURUSER["username"])."",true);
                 if(substr($GLOBALS["FORUMLINK"],0,3)=="smf")
                 {
                     $passhash=smf_passgen($CURUSER["username"], $_POST["new_pwd"]);

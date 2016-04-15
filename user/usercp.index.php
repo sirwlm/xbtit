@@ -149,7 +149,7 @@ switch ($do)
            }
 
             // Update their tracker member record with the now verified email address
-            do_sqlquery("UPDATE {$TABLE_PREFIX}users SET email='".mysqli_real_escape_string($DBDT,$newmail)."' WHERE id='".$id."'",true);
+            do_sqlquery("UPDATE {$TABLE_PREFIX}users SET email='".mysqli_real_escape_string($GLOBALS['conn'],$newmail)."' WHERE id='".$id."'",true);
             // If using SMF, update their record on that too.            
             if(substr($GLOBALS["FORUMLINK"],0,3)=="smf")
             {
