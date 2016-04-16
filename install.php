@@ -57,14 +57,27 @@ echo ("<html xmlns=\"http://www.w3.org/1999/xhtml\">");
 echo ("<head>");
 echo ("<meta http-equiv=\"content-type\" content=\"text/html; charset=".(isset($install_lang["charset"])?$install_lang["charset"]:"ISO-8859-1")."\" />");
 echo ("<title>".$GLOBALS["btit_installer"]."&nbsp;".$GLOBALS["current_btit_version"]."</title>");
-echo ("<link rel=\"stylesheet\" href=\"style/xbtit_default/main.css\" type=\"text/css\" />");
+echo ("<link href=\"style/xbtit_default/css/bootstrap.css\" rel=\"stylesheet\">");
+echo ("<link href=\"style/xbtit_default/css/modern.css\" rel=\"stylesheet\">");
+echo ("<link href=\"style/xbtit_default/font-awesome/css/font-awesome.min.css\" rel=\"stylesheet\" type=\"text/css\">");
+echo ("<!--[if lt IE 9]> <script src=\"https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js\"></script><script src=\"https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js\"></script><![endif]-->");
 echo ("</head>");
 echo ("<body>");
-echo ("<div id=\"main\" />");
-echo ("<center><div id=\"logo\" />");
-echo ("<table width=\"750\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" />");
-echo ("<tr><td class=\"tracker_logo\" valign=\"top\"></td></tr>");
-echo ("</table></div></center>");
+echo ("<nav class=\"navbar navbar-inverse navbar-fixed-top\" role=\"navigation\">");
+echo ("<div class=\"container\">");
+echo ("<div class=\"navbar-header\">");
+echo ("<a class=\"navbar-brand\" href=\"index.php\">XBTIT</a>");
+echo ("</div>");
+echo ("<div class=\"container\">");
+echo ("</nav>");
+echo ("<div class=\"row\">");
+//echo ("<div class=\"col-md-8\">");
+echo ("<div class=\"panel panel-default\">");
+echo ("<div class=\"panel-heading\">");
+echo ("<h4><i class=\"fa fa-fw fa-cogs\"></i>XBTIT Installation</h4>");
+echo ("</div>");
+echo ("<div class=\"panel-body\" align=\"center\">");
+
 // now we can add the different pages for the installer
 
 // Getting wished install language
@@ -223,7 +236,7 @@ if ($action == 'welcome')
 
     echo ("".$install_lang["system_req"]."");
     // changelog
-    echo ("<p>".$install_lang["view_log"]."&nbsp;<a href=\"DT.txt\" target=\"_blank\">".$install_lang["here"]."</a></p>");
+    echo ("<p>".$install_lang["view_log"]."&nbsp;<a href=\"changelog.txt\" target=\"_blank\">".$install_lang["here"]."</a></p>");
     echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["start"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&amp;action=reqcheck'\" /></div>");
 }
 
@@ -938,6 +951,10 @@ elseif ($action == 'finished') {
     echo ("<div align=\"center\"><a href=\"index.php\" target=\"_self\">".$install_lang["go_to_tracker"]."</a>");
 }
 echo ("</td>\n</tr>\n</table>");
+echo ("</div>");
+echo ("</div>");
+echo ("</div>");
+echo ("</div>");
 echo ("</div>");
 echo ("</body>");
 echo ("</html>");
