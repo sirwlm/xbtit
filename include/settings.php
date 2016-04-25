@@ -4,7 +4,7 @@ $dbhost = "localhost";
 $dbuser = "";
 $dbpass = "";
 $database = "";
-$TABLE_PREFIX = "xbtit_";
+$TABLE_PREFIX = "";
 $mySecret  = "";
 
 ?>
