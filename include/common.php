@@ -411,6 +411,11 @@ function DecodeVersionString ($ver_data, $id_name) {
     return $id_name.' '.$version_str;
 }
 
+/**
+ * @param $httpagent
+ * @param string $peer_id
+ * @return string
+ */
 function getagent($httpagent, $peer_id='') {
     if($peer_id!='')
         $peer_id=hex2bin($peer_id);
@@ -630,8 +635,8 @@ function getagent($httpagent, $peer_id='') {
     # eXeem beta
     if(substr($peer_id,0,3)=='-eX') {
         $version_str = '';
-        $version_str .= ((int)$peer_id[3],16).'.';
-        $version_str .= ((int)$peer_id[4],16);
+        $version_str .= ((int)$peer_id[3]).'.';
+        $version_str .= ((int)$peer_id[4]);
         return "eXeem $version_str";
     }
     if(substr($peer_id,0,2)=='eX')
