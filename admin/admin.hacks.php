@@ -122,7 +122,7 @@ switch ($action)
 
 
         if (isset($_GET["id"]))
-            $hack_id=intval($_GET["id"]);
+            $hack_id=((int)$_GET["id"]);
         else
             $hack_id=0;
 
@@ -171,7 +171,7 @@ switch ($action)
     case 'uninstall':
 
         if (isset($_GET["id"]))
-            $hack_id=intval($_GET["id"]);
+            $hack_id=((int)$_GET["id"]);
         else
             $hack_id=0;
 

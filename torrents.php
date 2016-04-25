@@ -80,7 +80,7 @@ else
 
 $combo_categories=categories( $category[0] );
 
-(isset($_GET["active"]) && is_numeric($_GET["active"]) && $_GET["active"]>=0 && $_GET["active"]<=2) ? $active=intval($_GET["active"]) : $active=1;
+(isset($_GET["active"]) && is_numeric($_GET["active"]) && $_GET["active"]>=0 && $_GET["active"]<=2) ? $active=((int)$_GET["active"]) : $active=1;
 
 if($active==0)
 {
@@ -146,7 +146,7 @@ if ($count>0) {
           $addparam .= ""; //$scriptname . "?";
       }
 
-    $torrentperpage=intval($CURUSER["torrentsperpage"]);
+    $torrentperpage=((int)$CURUSER["torrentsperpage"]);
     if ($torrentperpage==0)
         $torrentperpage=($ntorrents==0?15:$ntorrents);
 
@@ -244,7 +244,7 @@ $torrenttpl->set("torrent_header_category","<a href=\"$scriptname&amp;$addparam"
 $torrenttpl->set("torrent_header_filename","<a href=\"$scriptname&amp;$addparam".(strlen($addparam)>0?"&amp;":"")."order=2&amp;by=".($order=="filename" && $by=="ASC"?"2":"1")."\">".$language["FILE"]."</a>".($order=="filename"?$mark:""));
 $torrenttpl->set("torrent_header_comments",$language["COMMENT"]);
 $torrenttpl->set("torrent_header_rating",$language["RATING"]);
-$torrenttpl->set("WT",intval($CURUSER["WT"])>0,TRUE);
+$torrenttpl->set("WT",((int)$CURUSER["WT"])>0,TRUE);
 $torrenttpl->set("torrent_header_waiting",$language["WT"]);
 $torrenttpl->set("torrent_header_download",$language["DOWN"]);
 $torrenttpl->set("torrent_header_added","<a href=\"$scriptname&amp;$addparam".(strlen($addparam)>0?"&amp;":"")."order=3&amp;by=".($order=="data" && $by=="ASC"?"2":"1")."\">".$language["ADDED"]."</a>".($order=="data"?$mark:""));
@@ -271,7 +271,7 @@ $i=0;
 if ($count>0) {
   foreach ($results as $tid=>$data) {
 
-   $torrenttpl->set("WT1",intval($CURUSER["WT"])>0,TRUE);
+   $torrenttpl->set("WT1",((int)$CURUSER["WT"])>0,TRUE);
    $torrenttpl->set("uploader1",$SHOW_UPLOADER,TRUE);
    $torrenttpl->set("XBTT1",$XBTT_USE,TRUE);
    if ($btit_settings["comment"]==false)
@@ -280,7 +280,7 @@ if ($btit_settings["rating"]==false)
 $torrenttpl->set("RAT",false,TRUE);
 
    $data["filename"]=unesc($data["filename"]);
-   $filename=cut_string($data["filename"],intval($btit_settings["cut_name"]));
+   $filename=cut_string($data["filename"],((int)$btit_settings["cut_name"]));
 
    $torrents[$i]["category"]="<a href=\"index.php?page=torrents&amp;category=$data[catid]\">".image_or_link(($data["image"]==""?"":"$STYLEPATH/images/categories/" . $data["image"]),"",$data["cname"])."</a>";
    if ($GLOBALS["usepopup"])
@@ -341,13 +341,13 @@ $torrenttpl->set("RAT",false,TRUE);
 
    //waitingtime
    // display only if the curuser have some WT restriction
-   if (intval($CURUSER["WT"])>0)
+   if (((int)$CURUSER["WT"])>0)
       {
       $wait=0;
       //$resuser=get_result("SELECT * FROM {$TABLE_PREFIX}users WHERE id=".$CURUSER["uid"],true,$CACHE_DURATION);
       //$rowuser=$resuser[0];
       $wait=0;
-      if (intval($CURUSER['downloaded'])>0) $ratio=number_format($CURUSER['uploaded']/$CURUSER['downloaded'],2);
+      if (((int)$CURUSER['downloaded'])>0) $ratio=number_format($CURUSER['uploaded']/$CURUSER['downloaded'],2);
       else $ratio=0.0;
       $vz = $data["added"];
       $timer = floor((time() - $vz) / 3600);

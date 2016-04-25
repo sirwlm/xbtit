@@ -61,7 +61,7 @@ if ($action=="prune")
          $smf_fid=array();
          foreach($_POST["smf_fid"] AS $v)
          {
-             $smf_fid[]=intval($v);
+             $smf_fid[]=((int)$v);
          }
          if (implode("", $smf_fid)!="")
              do_sqlquery("DELETE FROM `{$db_prefix}members` WHERE ".(($GLOBALS["FORUMLINK"]=="smf")?"`ID_MEMBER`":"`id_member`")." IN ('".implode(",", $smf_fid)."')",true);
@@ -73,7 +73,7 @@ if ($action=="prune")
         foreach($_POST["ipb_fid"] AS $v)
         {
             $ipb_counter++;
-            $ipb_fid[]=intval($v);
+            $ipb_fid[]=((int)$v);
         }
         if (implode("", $ipb_fid)!="")
         {

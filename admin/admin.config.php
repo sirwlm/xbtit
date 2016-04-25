@@ -173,7 +173,7 @@ switch ($action)
         }
         $btit_settings["xbtt_url"]=$_POST["xbtt_url"];
         $btit_settings["cache_duration"]=$_POST["cache_duration"];
-        $btit_settings["cut_name"]=intval($_POST["cut_name"]);
+        $btit_settings["cut_name"]=((int)$_POST["cut_name"]);
         
         $btit_settings["mail_type"]=$_POST["mail_type"];
         if ($btit_settings["mail_type"]=="smtp")
@@ -334,7 +334,7 @@ switch ($action)
                     </select>";
 
         // cut torrent's name
-        $btit_settings["cut_name"]=intval($btit_settings["cut_name"]);
+        $btit_settings["cut_name"]=((int)$btit_settings["cut_name"]);
         // mailer
         $btit_settings["mail_type_combo"]="\n<option value=\"php\"".($btit_settings["mail_type"]=="php"?"selected=\"selected\"":"").">PHP (default)</option>";
         $btit_settings["mail_type_combo"].="\n<option value=\"smtp\"".($btit_settings["mail_type"]=="smtp"?"selected=\"selected\"":"").">SMTP</option>";

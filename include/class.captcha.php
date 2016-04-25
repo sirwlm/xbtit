@@ -95,7 +95,7 @@ class ocr_captcha {
         imageline($image,$i,0,$i,$this->ly,$color);
       }
       for ($i=0;$i<$this->ly;$i+=10) {
-        $color=imagecolorallocate($image,intval(rand(160,224)),intval(rand(160,224)),intval(rand(160,224)));
+        $color=imagecolorallocate($image,((int)rand(160,224)),((int)rand(160,224)),((int)rand(160,224)));
         imageline($image,0,$i,$this->lx,$i,$color);
       }
     }

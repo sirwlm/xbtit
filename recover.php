@@ -69,7 +69,7 @@ if ($USE_IMAGECODE)
        else
          {
            include("$THIS_BASEPATH/include/security_code.php");
-           $scode_index=intval($_POST["security_index"]);
+           $scode_index=((int)$_POST["security_index"]);
            if ($security_code[$scode_index]["answer"]!=$_POST["scode_answer"])
               {
               err_msg($language["ERROR"],$language["ERR_IMAGE_CODE"]);
@@ -81,7 +81,7 @@ if ($USE_IMAGECODE)
     else
       {
         include("$THIS_BASEPATH/include/security_code.php");
-        $scode_index=intval($_POST["security_index"]);
+        $scode_index=((int)$_POST["security_index"]);
         if ($security_code[$scode_index]["answer"]!=$_POST["scode_answer"])
            {
            err_msg($language["ERROR"],$language["ERR_IMAGE_CODE"]);
@@ -93,7 +93,7 @@ if ($USE_IMAGECODE)
 else
   {
     include("$THIS_BASEPATH/include/security_code.php");
-    $scode_index=intval($_POST["security_index"]);
+    $scode_index=((int)$_POST["security_index"]);
     if ($security_code[$scode_index]["answer"]!=$_POST["scode_answer"])
        {
        err_msg($language["ERROR"],$language["ERR_IMAGE_CODE"]);
@@ -127,8 +127,8 @@ $body=sprintf($language["RECOVER_EMAIL_1"],$email,$_SERVER["REMOTE_ADDR"],"$BASE
 elseif ($act == "generate")
 {
 
-    $id = intval(0 + $_GET["id"]);
-    $random = intval($_GET["random"]);
+    $id = ((int)0 + $_GET["id"]);
+    $random = ((int)$_GET["random"]);
 
 if (!$id || !$random || empty($random) || $random==0)
     stderr($language["ERROR"],$language["ERR_UPDATE_USER"]);
@@ -182,8 +182,8 @@ $body=sprintf($language["RECOVER_EMAIL_2"],$arr["username"],$newpassword,"$BASEU
 }
 elseif ($act=="recover_ok")
 {
-  $id = intval(0 + $_GET["id"]);
-  $random = intval($_GET["random"]);
+  $id = ((int)0 + $_GET["id"]);
+  $random = ((int)$_GET["random"]);
                        
   if (!$id || !$random || empty($random) || $random==0)
        stderr($language["ERROR"],$language["ERR_UPDATE_USER"]);

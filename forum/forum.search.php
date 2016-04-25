@@ -49,13 +49,13 @@ if ($keywords != "")
     if (!$perpage) $perpage = 20;
 
     $pagemenu1="";
-    $page = (isset($_GET["page"])?max(1, intval(0 + $_GET["page"])):1);
+    $page = (isset($_GET["page"])?max(1, ((int)0 + $_GET["page"])):1);
 
     $ekeywords = sqlesc($keywords);
 
     $res = do_sqlquery("SELECT COUNT(*) FROM {$TABLE_PREFIX}posts WHERE MATCH (body) AGAINST ($ekeywords IN BOOLEAN MODE)",true);
     $arr = mysqli_fetch_row($res);
-    $hits = intval(0 + $arr[0]);
+    $hits = ((int)0 + $arr[0]);
     if ($hits == 0)
       {
         $forumtpl->set("NO_TOPICS",true, true);

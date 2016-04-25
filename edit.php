@@ -59,7 +59,7 @@ if ((isset($_POST["comment"])) && (isset($_POST["name"]))){
    $fname=htmlspecialchars(AddSlashes(unesc($_POST["name"])));
    $torhash=AddSlashes($_POST["info_hash"]);
    write_log("Modified torrent $fname ($torhash)","modify");
-   do_sqlquery("UPDATE {$TABLE_PREFIX}files SET filename='$fname', comment='" . AddSlashes($_POST["comment"]) . "', category=" . intval($_POST["category"]) . " WHERE info_hash='" . $torhash . "'",true);
+   do_sqlquery("UPDATE {$TABLE_PREFIX}files SET filename='$fname', comment='" . AddSlashes($_POST["comment"]) . "', category=" . ((int)$_POST["category"]) . " WHERE info_hash='" . $torhash . "'",true);
    redirect($link);
    exit();
    }

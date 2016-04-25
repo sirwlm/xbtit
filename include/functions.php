@@ -786,11 +786,11 @@ function pager($rpp, $count, $href, $opts = array()) {
   if (isset($opts['pagename'])) {
     $pagename=$opts['pagename'];
     if (isset($_GET[$opts['pagename']]))
-      $page = max(1 ,intval($_GET[$opts['pagename']]));
+      $page = max(1 ,((int)$_GET[$opts['pagename']]));
     else
       $page = $pagedefault;
   } elseif (isset($_GET['pages'])) {
-    $page = max(1,intval(0 + $_GET['pages']));
+    $page = max(1,((int)0 + $_GET['pages']));
     if ($page < 0)
       $page = $pagedefault;
   } else

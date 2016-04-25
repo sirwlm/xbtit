@@ -175,9 +175,9 @@ if (!isset($array["announce"]))
      exit();
 }
 
-      $categoria = intval(0+$_POST["category"]);
+      $categoria = ((int)0+$_POST["category"]);
       $anonyme=sqlesc($_POST["anonymous"]);
-      $curuid=intval($CURUSER["uid"]);
+      $curuid=((int)$CURUSER["uid"]);
 
       // category check
       $rc=do_sqlquery("SELECT id FROM {$TABLE_PREFIX}categories WHERE id=$categoria",true);

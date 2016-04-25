@@ -97,7 +97,7 @@ case "edit":
         if ($what!="new")
            {
             $block_title=$language["FORUM_EDIT"];
-            $id=intval($_GET["id"]);
+            $id=((int)$_GET["id"]);
             $resforums=mysqli_query($GLOBALS['conn'], "SELECT *,IF((SELECT COUNT(*) FROM {$TABLE_PREFIX}forums WHERE id_parent=$id)>0,1,0) as i_am_parent FROM {$TABLE_PREFIX}forums WHERE id=".$id);
            }
         if (isset($resforums) && $resforums)
@@ -172,7 +172,7 @@ case "edit":
             $name=sqlesc($_POST["name"]);
             if ($what!="new")
                {
-               $id=intval($_GET["id"]);
+               $id=((int)$_GET["id"]);
                do_sqlquery("UPDATE {$TABLE_PREFIX}forums SET sort=$sort,name=$name,description=$description,minclassread=$minclassread,minclasswrite=$minclasswrite,minclasscreate=$minclasscreate, id_parent=$parent_forum WHERE id=$id",true);
                }
              else
@@ -186,7 +186,7 @@ case "edit":
       break;
 
     case "delete":
-        $id=intval($_GET["id"]);
+        $id=((int)$_GET["id"]);
         // control if there are posts/topics
         $resforum=mysqli_query($GLOBALS['conn'], "SELECT *,IF((SELECT COUNT(*) FROM {$TABLE_PREFIX}forums WHERE id_parent=$id)>0,1,0) as i_am_parent FROM {$TABLE_PREFIX}forums WHERE id=$id");
 

@@ -62,8 +62,8 @@ switch ($action)
       break;
 
     case 'deletetopic':
-        $topicid = intval(0+$_GET["topicid"]);
-        $forumid = intval(0+$_GET["forumid"]);
+        $topicid = ((int)0+$_GET["topicid"]);
+        $forumid = ((int)0+$_GET["forumid"]);
 
         if (!is_valid_id($topicid) || $CURUSER["delete_forum"] != "yes")
             stderr($language["ERROR"],$language["BAD_TOPIC_ID"]);
@@ -94,8 +94,8 @@ switch ($action)
 
 
     case 'movetopic':
-        $forumid = intval(0 + $_POST["forumid"]);
-        $topicid = intval(0 + $_GET["topicid"]);
+        $forumid = ((int)0 + $_POST["forumid"]);
+        $topicid = ((int)0 + $_GET["topicid"]);
 
         if (!is_valid_id($forumid) || !is_valid_id($topicid) || $CURUSER["edit_forum"] != "yes")
             stderr($language["ERROR"],$language["BAD_TOPIC_ID"]);
@@ -135,7 +135,7 @@ switch ($action)
       break;
 
     case 'setlocked':
-        $topicid = intval(0 + $_POST["topicid"]);
+        $topicid = ((int)0 + $_POST["topicid"]);
 
         if (!$topicid || $CURUSER["edit_forum"] != "yes")
             stderr($language["ERROR"],$language["BAD_TOPIC_ID"]);
@@ -150,7 +150,7 @@ switch ($action)
       break;
 
     case 'setsticky':
-        $topicid = intval(0 + $_POST["topicid"]);
+        $topicid = ((int)0 + $_POST["topicid"]);
 
         if (!$topicid || $CURUSER["edit_forum"] != "yes")
             stderr($language["ERROR"],$language["BAD_TOPIC_ID"]);
@@ -168,7 +168,7 @@ switch ($action)
         if ($CURUSER["edit_forum"] != "yes")
           stderr($language["ERROR"],$language["ERR_NOT_AUTH"]);
 
-        $topicid = intval(0+$_POST['topicid']);
+        $topicid = ((int)0+$_POST['topicid']);
 
         if (!is_valid_id($topicid))
           stderr($language["ERROR"],$language["BAD_TOPIC_ID"]);
@@ -191,8 +191,8 @@ switch ($action)
       break;
 
     case 'deletepost':
-      $postid = intval(0+$_GET["postid"]);
-      $forumid = intval(0+$_GET["forumid"]);
+      $postid = ((int)0+$_GET["postid"]);
+      $forumid = ((int)0+$_GET["forumid"]);
 
       if (isset($_GET["sure"]) && $_GET["sure"])
           $sure = htmlspecialchars($_GET["sure"]);
@@ -206,7 +206,7 @@ switch ($action)
 
       $res = do_sqlquery("SELECT (SELECT COUNT(*) FROM {$TABLE_PREFIX}posts WHERE topicid=p.topicid) as total_posts,topicid FROM {$TABLE_PREFIX}posts p WHERE id=$postid",true);
       $arr = mysqli_fetch_assoc($res) or stderr($language["ERROR"],$language["ERR_POST_NOT_FOUND"]);
-      $topicid = intval($arr["topicid"]);
+      $topicid = ((int)$arr["topicid"]);
 
       if ($arr["total_posts"] < 2)
         information_msg($language["FRM_CONFIRM"]."?",$language["ERR_POST_UNIQUE"]."&nbsp;<a href=\"index.php?page=forum&amp;action=deletetopic&amp;topicid=$topicid&amp;sure=1&amp;forumid=$forumid\">".$language["ERR_POST_UNIQUE_2"]."</a>&nbsp;".$language["ERR_POST_UNIQUE_3"]);

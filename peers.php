@@ -137,7 +137,7 @@ else
     $peers[$i]["UPLOADED"]=$upld;
 
     //Peer Ratio
-      if (intval($row["downloaded"])>0) {
+      if (((int)$row["downloaded"])>0) {
          $ratio=number_format($row["uploaded"]/$row["downloaded"],2);}
       else {$ratio='&#8734;';}
       $peers[$i]["RATIO"]=$ratio;

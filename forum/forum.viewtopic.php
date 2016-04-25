@@ -44,14 +44,14 @@ if (!$postsperpage)
     $postsperpage = 15;
 
 
-$topicid = intval(0+$_GET["topicid"]);
+$topicid = ((int)0+$_GET["topicid"]);
 
 if (isset($_GET["pages"]))
     {
     if (substr($_GET["pages"],0,4)=="last")
         $page=htmlspecialchars($_GET["pages"]);
     else
-        $page = max(1,intval($_GET["pages"]));
+        $page = max(1,((int)$_GET["pages"]));
     }
 else $page = '';
 
@@ -65,7 +65,7 @@ if (isset($_GET["msg"]))
    if (substr($_GET["msg"],0,3)=="new")
      $msg_number=htmlspecialchars($_GET["msg"]);
    else
-     $msg_number=intval(0+$_GET["msg"]);
+     $msg_number=((int)0+$_GET["msg"]);
   }
 else
     $msg_number="";
@@ -74,7 +74,7 @@ else
 if (!is_valid_id($topicid))
     stderr($language["ERROR"],$language["ERR_FORUM_TOPIC"]);
 
-$userid = intval($CURUSER["uid"]);
+$userid = ((int)$CURUSER["uid"]);
 
 //------ Get topic info
 
@@ -112,7 +112,7 @@ if ($msg_number!="")
   if ($msg_number=="new")
     {
      // search last read by user
-     $newpost=get_result("SELECT MIN(id) as np FROM {$TABLE_PREFIX}posts WHERE topicid=$topicid AND id>IFNULL((SELECT lastpostread FROM {$TABLE_PREFIX}readposts WHERE topicid=$topicid AND userid=".intval($CURUSER["uid"])."),1)",true);
+     $newpost=get_result("SELECT MIN(id) as np FROM {$TABLE_PREFIX}posts WHERE topicid=$topicid AND id>IFNULL((SELECT lastpostread FROM {$TABLE_PREFIX}readposts WHERE topicid=$topicid AND userid=".((int)$CURUSER["uid"])."),1)",true);
      $new_id=($newpost[0]["np"]?$newpost[0]["np"]:"last");
      unset($newpost);
      $res = do_sqlquery("SELECT COUNT(*) FROM {$TABLE_PREFIX}posts WHERE topicid=$topicid".($new_id=="last"?"":" AND id<=$new_id"),true);
@@ -169,10 +169,10 @@ foreach($res as $id=>$arr)
   $posts[$pn]["avatar"]="<img onload=\"resize_avatar(this);\" src=\"".($arr["avatar"] && $arr["avatar"] != "" ? htmlspecialchars($arr["avatar"]): "$STYLEURL/images/default_avatar.gif" )."\" alt=\"\" />";
   $posts[$pn]["user_group"]=$arr["user_group"];
   $posts[$pn]["flag"]="<img src=\"images/flag/".($arr["flagpic"] && $arr["flagpic"]!=""?$arr["flagpic"]:"unknown.gif")."\" alt=\"".($arr["name"] && $arr["name"]!=""?$arr["name"]:"unknown")."\" />";
-  $posts[$pn]["ratio"]=(intval($arr['downloaded']) > 0?number_format($arr['uploaded'] / $arr['downloaded'], 2):"---");
+  $posts[$pn]["ratio"]=(((int)$arr['downloaded']) > 0?number_format($arr['uploaded'] / $arr['downloaded'], 2):"---");
 
   $sql = get_result("SELECT COUNT(*) as posts FROM {$TABLE_PREFIX}posts p INNER JOIN {$TABLE_PREFIX}users u ON p.userid = u.id WHERE u.id = " . $arr["userid"],true);
-  $posts[$pn]["posts"]=intval(0+$sql[0]["posts"]);
+  $posts[$pn]["posts"]=((int)0+$sql[0]["posts"]);
   $posts[$pn]["id"]=$arr["id"];
   $posts[$pn]["post_number"]=$post_number;
 
@@ -211,10 +211,10 @@ $forumtpl->set("posts",$posts);
 unset($posts);
 
 // set this topic as read (update the reaposts table with higher post id for this topic
-$ret=do_sqlquery("SELECT id FROM {$TABLE_PREFIX}readposts WHERE topicid=$topicid AND userid=".intval(0+$CURUSER["uid"]),true);
+$ret=do_sqlquery("SELECT id FROM {$TABLE_PREFIX}readposts WHERE topicid=$topicid AND userid=".((int)0+$CURUSER["uid"]),true);
 // first time this user
 if (mysqli_num_rows($ret)==0)
-    do_sqlquery("INSERT INTO {$TABLE_PREFIX}readposts SET lastpostread=(SELECT MAX(id) FROM {$TABLE_PREFIX}posts WHERE topicid=$topicid), topicid=$topicid, userid=".intval(0+$CURUSER["uid"]),true);
+    do_sqlquery("INSERT INTO {$TABLE_PREFIX}readposts SET lastpostread=(SELECT MAX(id) FROM {$TABLE_PREFIX}posts WHERE topicid=$topicid), topicid=$topicid, userid=".((int)0+$CURUSER["uid"]),true);
 else // update existing record
  {
    $rp_id=mysqli_fetch_row($ret);
@@ -239,7 +239,7 @@ if ($CURUSER["edit_forum"] == "yes")
     $forumtpl->set("locked_no",(!$locked?"checked=\"checked\"":""));
     $forumtpl->set("topic_subject",$subject);
     $forumtpl->set("forum_id",$forumid);
-    $f=get_result("SELECT id,name FROM {$TABLE_PREFIX}forums WHERE minclasswrite<=".intval($CURUSER["id_level"])." AND id<>$forumid",true, $btit_settings["cache_duration"]);
+    $f=get_result("SELECT id,name FROM {$TABLE_PREFIX}forums WHERE minclasswrite<=".((int)$CURUSER["id_level"])." AND id<>$forumid",true, $btit_settings["cache_duration"]);
     $forums="<select name=\"forumid\" size=\"1\">";
     foreach($f as $id=>$ff)
         $forums.="<option value=\"".$ff["id"]."\">".htmlspecialchars(unesc($ff["name"]))."</option>";

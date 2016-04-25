@@ -133,7 +133,7 @@ switch ($action)
     case 'delete':
             if(substr($FORUMLINK,0,3)=="smf")
                 redirect("index.php?page=forum&action=pm".(($_GET["type"]=="out")?";f=".(($FORUMLINK=="smf2")?"sent":"outbox"):""));
-            $id=intval($_GET["id"]);
+            $id=((int)$_GET["id"]);
             if($_GET["type"]=="out"){
 			do_sqlquery("UPDATE {$TABLE_PREFIX}messages SET deletedBySender=1 WHERE id='".$id."'",true);
             }else{
@@ -237,7 +237,7 @@ switch ($action)
 
            // if new pm will give id=0 and empty array
            if (isset($_GET['id']) && $_GET['id'])
-                $id=intval(0+$_GET['id']);
+                $id=((int)0+$_GET['id']);
            else $id=0;
            if (!isset($_GET['what'])) $_GET['what'] = '';
            if (!isset($_GET['to'])) $_GET['to'] = '';
@@ -272,7 +272,7 @@ switch ($action)
   {
    $usercptpl->set("MSG_READ",true,true);
 
-           $id=intval($_GET["id"]);
+           $id=((int)$_GET["id"]);
            if ($what=="inbox")
               $res=do_sqlquery("select m.*, IF(m.sender=0,'System',u.username) as sendername FROM {$TABLE_PREFIX}messages m LEFT JOIN {$TABLE_PREFIX}users u on u.id=m.sender WHERE receiver=$uid AND m.id=$id",true);
            elseif ($what=="outbox")

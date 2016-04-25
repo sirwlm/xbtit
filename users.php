@@ -71,7 +71,7 @@ else
          else
              $where="";
 
-         $level=intval(0+$_GET["level"]);
+         $level=((int)0+$_GET["level"]);
          if ($level>0)
             {
             $where.=" AND u.id_level=$level";
@@ -196,7 +196,7 @@ foreach ($rusers as $id=>$row_user)
   $users[$i]["flag"] = $row_user["flag"] == 0 ? "<img src='images/flag/unknown.gif' alt='".$language["UNKNOWN"]."' title='".$language["UNKNOWN"]."' />" : "<img src='images/flag/" . $row_user['flagpic'] . "' alt='" . $row_user['name'] . "' title='" . $row_user['name'] . "' />";
                        
 //user ratio
-if (intval($row_user["downloaded"])>0)
+if (((int)$row_user["downloaded"])>0)
   $ratio=number_format($row_user["uploaded"]/$row_user["downloaded"],2);
 else
   $ratio='&#8734;';

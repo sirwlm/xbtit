@@ -68,7 +68,7 @@ elseif ($action=="edit")
        {
        if ($CURUSER["edit_news"]=="yes")
           {
-              $rnews=get_result("SELECT * FROM {$TABLE_PREFIX}news WHERE id=".intval($_GET["id"]),true,$btit_settings['cache_duration']);
+              $rnews=get_result("SELECT * FROM {$TABLE_PREFIX}news WHERE id=".((int)$_GET["id"]),true,$btit_settings['cache_duration']);
               if (!$rnews)
                  {
                  stderr($language["ERROR"],$language["ERR_BAD_NEWS_ID"]);
@@ -150,7 +150,7 @@ if (!isset($_POST["conferma"])) ;
               {
                 $news=sqlesc($news);
                 $title=sqlesc($title);
-                $nid=intval($_POST["id"]);
+                $nid=((int)$_POST["id"]);
                 $action=$_POST['action'];
                 if ($action=="edit")
                    do_sqlquery("UPDATE {$TABLE_PREFIX}news SET news=$news, title=$title WHERE id=$nid",true);

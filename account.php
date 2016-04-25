@@ -37,25 +37,25 @@ if (!defined("IN_BTIT"))
 require_once(load_language("lang_account.php"));
 
 if (!isset($_POST["language"])) $_POST["language"] = max(1,$btit_settings["default_language"]);
-$idlang=intval($_POST["language"]);
+$idlang=((int)$_POST["language"]);
 
 
-if (isset($_GET["uid"])) $id=intval($_GET["uid"]);
+if (isset($_GET["uid"])) $id=((int)$_GET["uid"]);
  else $id="";
 if (isset($_GET["returnto"])) $link=urldecode($_GET["returnto"]);
  else $link="";
 if (isset($_GET["act"])) $act=$_GET["act"];
  else $act="signup";
-if (isset($_GET["language"])) $idlangue=intval($_GET["language"]);
+if (isset($_GET["language"])) $idlangue=((int)$_GET["language"]);
  else $idlangue=max(1,$btit_settings["default_language"]);
-if (isset($_GET["style"])) $idstyle=intval($_GET["style"]);
+if (isset($_GET["style"])) $idstyle=((int)$_GET["style"]);
  else $idstyle=max(1,$btit_settings["default_style"]);
-if (isset($_GET["flag"])) $idflag=intval($_GET["flag"]);
+if (isset($_GET["flag"])) $idflag=((int)$_GET["flag"]);
  else $idflag="";
 
 if (isset($_POST["uid"]) && isset($_POST["act"]))
   {
-if (isset($_POST["uid"])) $id=intval($_POST["uid"]);
+if (isset($_POST["uid"])) $id=((int)$_POST["uid"]);
  else $id="";
 if (isset($_POST["returnto"])) $link=urldecode($_POST["returnto"]);
  else $link="";
@@ -83,7 +83,7 @@ if ($act=="confirm") {
 
       global $FORUMLINK, $db_prefix;
 
-      $random=intval($_GET["confirm"]);
+      $random=((int)$_GET["confirm"]);
       $random2=rand(10000, 60000);
       $res=do_sqlquery("UPDATE `{$TABLE_PREFIX}users` SET `id_level`=3".((substr($FORUMLINK,0,3)=="smf" || $FORUMLINK=="ipb") ? ", `random`=$random2" : "")." WHERE `id_level`=2 AND `random`=$random",true);
       if (!$res)
@@ -364,10 +364,10 @@ $utente=mysqli_real_escape_string($GLOBALS['conn'],$_POST["user"]);
 $pwd=mysqli_real_escape_string($GLOBALS['conn'],$_POST["pwd"]);
 $pwd1=mysqli_real_escape_string($GLOBALS['conn'],$_POST["pwd1"]);
 $email=mysqli_real_escape_string($GLOBALS['conn'],$_POST["email"]);
-$idlangue=intval($_POST["language"]);
-$idstyle=intval($_POST["style"]);
-$idflag=intval($_POST["flag"]);
-$timezone=intval($_POST["timezone"]);
+$idlangue=((int)$_POST["language"]);
+$idstyle=((int)$_POST["style"]);
+$idflag=((int)$_POST["flag"]);
+$timezone=((int)$_POST["timezone"]);
 
 if (strtoupper($utente) == strtoupper("Guest")) {
         err_msg($language["ERROR"],$language["ERR_GUEST_EXISTS"]);
@@ -448,7 +448,7 @@ if ($USE_IMAGECODE)
        else
          {
            include("$THIS_BASEPATH/include/security_code.php");
-           $scode_index=intval($_POST["security_index"]);
+           $scode_index=((int)$_POST["security_index"]);
            if ($security_code[$scode_index]["answer"]!=$_POST["scode_answer"])
               {
               err_msg($language["ERROR"],$language["ERR_IMAGE_CODE"]);
@@ -460,7 +460,7 @@ if ($USE_IMAGECODE)
      else
        {
          include("$THIS_BASEPATH/include/security_code.php");
-         $scode_index=intval($_POST["security_index"]);
+         $scode_index=((int)$_POST["security_index"]);
          if ($security_code[$scode_index]["answer"]!=$_POST["scode_answer"])
             {
             err_msg($language["ERROR"],$language["ERR_IMAGE_CODE"]);
@@ -472,7 +472,7 @@ if ($USE_IMAGECODE)
 else
   {
     include("$THIS_BASEPATH/include/security_code.php");
-    $scode_index=intval($_POST["security_index"]);
+    $scode_index=((int)$_POST["security_index"]);
     if ($security_code[$scode_index]["answer"]!=$_POST["scode_answer"])
        {
        err_msg($language["ERROR"],$language["ERR_IMAGE_CODE"]);

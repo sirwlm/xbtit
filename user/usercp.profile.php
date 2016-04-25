@@ -37,12 +37,12 @@ if (!defined("IN_BTIT"))
 switch ($action)
 {
     case 'post':
-           $idlangue=intval(0+$_POST["language"]);
-           $idstyle=intval(0+$_POST["style"]);
+           $idlangue=((int)0+$_POST["language"]);
+           $idstyle=((int)0+$_POST["style"]);
            $email=AddSlashes($_POST["email"]);
            $avatar=str_replace(array('\t','%25','%00'), array('','',''), htmlspecialchars(AddSlashes($_POST["avatar"])));
-           $idflag=intval(0+$_POST["flag"]);
-           $timezone=intval($_POST["timezone"]);
+           $idflag=((int)0+$_POST["flag"]);
+           $timezone=((int)$_POST["timezone"]);
 
            // Password confirmation required to update user record
            (isset($_POST["passconf"])) ? $passcheck=hash_generate(array("salt" => $CURUSER["salt"]), $_POST["passconf"], $CURUSER["username"]) : $passcheck=array();
@@ -130,9 +130,9 @@ switch ($action)
 
                $set[]="time_offset='$timezone'";
                $set[]="avatar='$avatar'";
-               $set[]="topicsperpage=".intval(0+$_POST["topicsperpage"]);
-               $set[]="postsperpage=".intval(0+$_POST["postsperpage"]);
-               $set[]="torrentsperpage=".intval(0+$_POST["torrentsperpage"]);
+               $set[]="topicsperpage=".((int)0+$_POST["topicsperpage"]);
+               $set[]="postsperpage=".((int)0+$_POST["postsperpage"]);
+               $set[]="torrentsperpage=".((int)0+$_POST["torrentsperpage"]);
 
                $updateset=implode(",",$set);
 

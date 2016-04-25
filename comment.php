@@ -44,7 +44,7 @@ $comment = ($_POST["comment"]);
 
 $id = $_GET["id"];
 if (isset($_GET["cid"]))
-    $cid = intval($_GET["cid"]);
+    $cid = ((int)$_GET["cid"]);
 else
     $cid=0;
 

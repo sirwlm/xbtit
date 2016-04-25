@@ -38,7 +38,7 @@ if (!defined("IN_BTIT"))
 // load language file
 require(load_language("lang_userdetails.php"));
 
-$id=intval(0+$_GET["id"]);
+$id=((int)0+$_GET["id"]);
 if (!isset($_GET["returnto"])) $_GET["returnto"] = "";
 $link=rawurlencode($_GET["returnto"]);
 
@@ -101,7 +101,7 @@ else
 include("include/offset.php");
 
 // user's ratio
-if (intval($row["downloaded"])>0)
+if (((int)$row["downloaded"])>0)
  {
    $sr = $row["uploaded"]/$row["downloaded"];
    if ($sr >= 4)
@@ -121,7 +121,7 @@ if (intval($row["downloaded"])>0)
 else
    $ratio='&#8734;';
 
-$utorrents = intval($CURUSER["torrentsperpage"]);
+$utorrents = ((int)$CURUSER["torrentsperpage"]);
 
 $userdetailtpl= new bTemplate();
 $userdetailtpl-> set("language",$language);
@@ -208,7 +208,7 @@ if ($resuploaded && $numtorrent>0)
    foreach ($resuploaded as $ud_id=>$rest)
          {
            $rest["filename"]=unesc($rest["filename"]);
-           $filename=cut_string($rest["filename"],intval($btit_settings["cut_name"]));
+           $filename=cut_string($rest["filename"],((int)$btit_settings["cut_name"]));
            if ($GLOBALS["usepopup"])
            {
                $uptortpl[$i]["filename"]="<a href=\"javascript:popdetails('index.php?page=torrent-details&amp;id=".$rest{"info_hash"}."')\" title=\"".$language["VIEW_DETAILS"].": ".$rest["filename"]."\">".$filename."</a>";
@@ -292,7 +292,7 @@ if ($anq[0]['tp']>0)
          if ($torlist['ip'] !="")
            {
              $torlist['filename']=unesc($torlist['filename']);
-             $filename=cut_string($torlist['filename'],intval($btit_settings["cut_name"]));
+             $filename=cut_string($torlist['filename'],((int)$btit_settings["cut_name"]));
 
              if ($GLOBALS["usepopup"])
              {
@@ -364,7 +364,7 @@ if ($anq[0]['th']>0)
     foreach ($anq as $ud_id=>$torlist)
         {
             $torlist['filename']=unesc($torlist['filename']);
-            $filename=cut_string($torlist['filename'],intval($btit_settings["cut_name"]));
+            $filename=cut_string($torlist['filename'],((int)$btit_settings["cut_name"]));
 
             if ($GLOBALS["usepopup"])
             {

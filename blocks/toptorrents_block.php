@@ -86,7 +86,7 @@ if (max(0,$CURUSER["WT"])>0)
       echo "</td>";
 
      $data["filename"]=unesc($data["filename"]);
-     $filename=cut_string($data["filename"],intval($btit_settings["cut_name"]));
+     $filename=cut_string($data["filename"],((int)$btit_settings["cut_name"]));
 
      if ($GLOBALS["usepopup"])
         echo "\t<td width=\"55%\" class=\"lista\" style=\"padding-left:10px;\"><a class=\"toptor\" href=\"javascript:popdetails('index.php?page=torrent-details&amp;id=" . $data['hash'] . "');\" title=\"" . $language["VIEW_DETAILS"] . ": " . $data["filename"] . "\">" . $filename . "</a>".($data["external"]=="no"?"":" (<span style=\"color:red\">EXT</span>)")."</td>";

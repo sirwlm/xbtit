@@ -105,9 +105,9 @@ if($files_present==$lang[0])
 }
 (isset($_GET["act"]) ? $act=$_GET["act"] : $act="");
 (isset($_GET["confirm"]) ? $confirm=$_GET["confirm"] : $confirm="");
-(isset($_GET["start"]) ? $start=intval($_GET["start"]) : $start=2);
-(isset($_GET["counter"]) ? $counter=intval($_GET["counter"]) : $counter=0);
-(isset($_GET["lastacc"]) ? $lastacc=intval($_GET["lastacc"]) : $lastacc=0);
+(isset($_GET["start"]) ? $start=((int)$_GET["start"]) : $start=2);
+(isset($_GET["counter"]) ? $counter=((int)$_GET["counter"]) : $counter=0);
+(isset($_GET["lastacc"]) ? $lastacc=((int)$_GET["lastacc"]) : $lastacc=0);
 
 if($act=="")
 {

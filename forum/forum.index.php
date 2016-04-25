@@ -79,9 +79,9 @@ if (substr($btit_settings["forum"],0,3)=="smf")
      err_msg($language["ERROR"], "Resizable window will not work without Javascript.<br />Please enable Javascript or view the forum in a new window <a target='_new' href='$BASEURL/$FORUMLINK'>Here</a>")
      ."</noscript>";
     
-     $topic=intval($_GET["topicid"]);
+     $topic=((int)$_GET["topicid"]);
      $action=htmlspecialchars($_GET["action"]);
-     $user=intval($_GET["userid"]);
+     $user=((int)$_GET["userid"]);
 
      if ($action=="viewtopic")
        {
@@ -159,9 +159,9 @@ elseif ($btit_settings["forum"]=="ipb")
      err_msg($language["ERROR"], "Resizable window will not work without Javascript.<br />Please enable Javascript or view the forum in a new window <a target='_new' href='$BASEURL/$FORUMLINK'>Here</a>")
      ."</noscript>";
     
-     $topic=intval($_GET["topicid"]);;
+     $topic=((int)$_GET["topicid"]);;
      $action=htmlspecialchars($_GET["action"]);
-     $user=intval($_GET["userid"]);
+     $user=((int)$_GET["userid"]);
      
      if ($action=="viewtopic")
        {
@@ -251,12 +251,12 @@ else
           {
            $pagename=$opts["pagename"];
            if (isset($_GET[$opts["pagename"]]))
-              $page = max(1 ,intval($_GET[$opts["pagename"]]));
+              $page = max(1 ,((int)$_GET[$opts["pagename"]]));
            else
               $page = $pagedefault;
           }
         elseif (isset($_GET["pages"])) {
-            $page = max(1,intval(0 + $_GET["pages"]));
+            $page = max(1,((int)0 + $_GET["pages"]));
             if ($page < 0)
                 $page = $pagedefault;
         }

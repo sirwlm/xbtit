@@ -51,7 +51,7 @@ switch ($action)
    {
 
    case 'editpost':
-      $postid = intval(0+$_GET["postid"]);
+      $postid = ((int)0+$_GET["postid"]);
       if (!is_valid_id($postid))
          stderr($language["ERROR"],$language["ERR_POST_ID_NA"]);
 
@@ -77,7 +77,7 @@ switch ($action)
              stderr($language["ERROR"],$language["ERR_BODY_EMPTY"]);
           $body = sqlesc($body);
           $editedat = sqlesc(time());
-          do_sqlquery("UPDATE {$TABLE_PREFIX}posts SET body=$body, editedat=$editedat, editedby=".intval($CURUSER["uid"])." WHERE id=$postid",true);
+          do_sqlquery("UPDATE {$TABLE_PREFIX}posts SET body=$body, editedat=$editedat, editedby=".((int)$CURUSER["uid"])." WHERE id=$postid",true);
 
           $returnto = urldecode($_POST["returnto"]);
             if ($returnto != "")
@@ -111,7 +111,7 @@ switch ($action)
           $quote=false;
 
 
-      $topicid=intval(0+$_GET["topicid"]);
+      $topicid=((int)0+$_GET["topicid"]);
       // current user has create acces to this forum ?
       $aut=get_result("SELECT id,subject FROM {$TABLE_PREFIX}topics WHERE id=$topicid LIMIT 1",true);
       if (count($aut)<1)
@@ -153,10 +153,10 @@ switch ($action)
         $posts[$pn]["avatar"]="<img onload=\"resize_avatar(this);\" src=\"".($arr["avatar"] && $arr["avatar"] != "" ? htmlspecialchars($arr["avatar"]): "$STYLEURL/images/default_avatar.gif" )."\" alt=\"\" />";
         $posts[$pn]["user_group"]=$arr["user_group"];
         $posts[$pn]["flag"]="<img src=\"images/flag/".($arr["flagpic"] && $arr["flagpic"]!=""?$arr["flagpic"]:"unknown.gif")."\" alt=\"".($arr["name"] && $arr["name"]!=""?$arr["name"]:"unknown")."\" />";
-        $posts[$pn]["ratio"]=(intval($arr['downloaded']) > 0?number_format($arr['uploaded'] / $arr['downloaded'], 2):"---");
+        $posts[$pn]["ratio"]=(((int)$arr['downloaded']) > 0?number_format($arr['uploaded'] / $arr['downloaded'], 2):"---");
 
         $sql = get_result("SELECT COUNT(*) as posts FROM {$TABLE_PREFIX}posts p INNER JOIN {$TABLE_PREFIX}users u ON p.userid = u.id WHERE u.id = " . $arr["userid"],true);
-        $posts[$pn]["posts"]=intval(0+$sql[0]["posts"]);
+        $posts[$pn]["posts"]=((int)0+$sql[0]["posts"]);
         $posts[$pn]["id"]=$arr["id"];
 
         $posts[$pn]["actions"]="";
@@ -193,7 +193,7 @@ switch ($action)
       $forumtpl->set("post_subject","");
       if ($quote)
         {
-          $postid=intval(0+$_GET["postid"]);
+          $postid=((int)0+$_GET["postid"]);
           $arr=get_result("SELECT p.*, u.username FROM {$TABLE_PREFIX}posts p LEFT JOIN {$TABLE_PREFIX}users u ON p.userid = u.id WHERE p.id=$postid LIMIT 1",true);
           if (count($arr)<1)
             stderr($language["ERROR"],$language["ERR_NO_POST_WITH_ID"]."&nbsp;$postid.");
@@ -207,7 +207,7 @@ switch ($action)
 
 
    case 'newtopic':
-      $forumid=intval(0+$_GET["forumid"]);
+      $forumid=((int)0+$_GET["forumid"]);
       // current user has create acces to this forum ?
       $aut=get_result("SELECT id,name FROM {$TABLE_PREFIX}forums WHERE id=$forumid AND minclasscreate<=".$CURUSER["id_level"]." LIMIT 1",true, $btit_settings["cache_duration"]);
       if (count($aut)<1)
@@ -230,8 +230,8 @@ switch ($action)
       break;
 
     case 'post':
-      $forumid = isset($_POST["forumid"])?intval($_POST["forumid"]):false;
-      $topicid = isset($_POST["topicid"])?intval($_POST["topicid"]):false;
+      $forumid = isset($_POST["forumid"])?((int)$_POST["forumid"]):false;
+      $topicid = isset($_POST["topicid"])?((int)$_POST["topicid"]):false;
 
       if (!is_valid_id($forumid) && !is_valid_id($topicid))
         stderr($language["ERROR"],$language["ERR_FORUM_TOPIC"]);
@@ -268,7 +268,7 @@ switch ($action)
           if ($body == "''")
             stderr($language["ERROR"],$language["ERR_NO_BODY"]);
 
-          $userid = intval($CURUSER["uid"]);
+          $userid = ((int)$CURUSER["uid"]);
 
           if ($newtopic)
           {

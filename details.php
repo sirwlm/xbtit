@@ -62,7 +62,7 @@ if (isset($_GET["vote"]) && $_GET["vote"]==$language["VOTE"])
         exit();
    }
    else {
-      do_sqlquery("INSERT INTO {$TABLE_PREFIX}ratings SET infohash='$id',userid=$CURUSER[uid],rating=".intval($_GET["rating"]).",added='".time()."'",true);
+      do_sqlquery("INSERT INTO {$TABLE_PREFIX}ratings SET infohash='$id',userid=$CURUSER[uid],rating=".((int)$_GET["rating"]).",added='".time()."'",true);
       redirect("index.php?page=torrent-details&id=$id");
       exit();
    }

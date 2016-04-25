@@ -59,7 +59,7 @@ else
     }
 
 
-$idlang=intval($_GET["language"]);
+$idlang=((int)$_GET["language"]);
 
 // getting user language
 if ($idlang==0)

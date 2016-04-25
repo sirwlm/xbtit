@@ -231,7 +231,7 @@ if ($PRIVATE_ANNOUNCE) {
       //waittime
       elseif ($rowpid["WT"]>0) {
         $wait=0;
-        if (intval($rowpid['downloaded'])>0)
+        if (((int)$rowpid['downloaded'])>0)
            $ratio=number_format($rowpid['uploaded']/$rowpid['downloaded'],2);
         else
             $ratio=0.0;
@@ -267,7 +267,7 @@ if ($PRIVATE_ANNOUNCE) {
       //waittime
       elseif ($rowpid["WT"]>0) {
         $wait=0;
-        if (intval($rowpid['downloaded'])>0)
+        if (((int)$rowpid['downloaded'])>0)
            $ratio=number_format($rowpid['uploaded']/$rowpid['downloaded'],2);
         else
             $ratio=0.0;

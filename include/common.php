@@ -405,9 +405,9 @@ function MainlineDecodePeerId($id_data, $id_name) {
 
 function DecodeVersionString ($ver_data, $id_name) {
     $version_str='';
-    $version_str.=intval(ord($ver_data[0]) + 0).'.';
-    $version_str.=intval(ord($ver_data[1])/10 + 0);
-    $version_str.=intval(ord($ver_data[1])%10 + 0);
+    $version_str.=((int)ord($ver_data[0]) + 0).'.';
+    $version_str.=((int)ord($ver_data[1])/10 + 0);
+    $version_str.=((int)ord($ver_data[1])%10 + 0);
     return $id_name.' '.$version_str;
 }
 
@@ -630,8 +630,8 @@ function getagent($httpagent, $peer_id='') {
     # eXeem beta
     if(substr($peer_id,0,3)=='-eX') {
         $version_str = '';
-        $version_str .= intval($peer_id[3],16).'.';
-        $version_str .= intval($peer_id[4],16);
+        $version_str .= ((int)$peer_id[3],16).'.';
+        $version_str .= ((int)$peer_id[4],16);
         return "eXeem $version_str";
     }
     if(substr($peer_id,0,2)=='eX')

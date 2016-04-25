@@ -88,12 +88,12 @@ clearstatcache();
 $style_css=load_css("main.css");
 
 if (isset($_GET['language'])) {
-    $idlang = intval($_GET["language"]);
+    $idlang = ((int)$_GET["language"]);
 }
 
 $pageID=(isset($_GET["page"])?$_GET["page"]:"");
 
-$no_columns=(isset($_GET["nocolumns"]) && intval($_GET["nocolumns"])==1?true:false);
+$no_columns=(isset($_GET["nocolumns"]) && ((int)$_GET["nocolumns"])==1?true:false);
 
 //which module by cooly
 if($pageID=="modules")

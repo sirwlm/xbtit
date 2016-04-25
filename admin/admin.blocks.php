@@ -372,13 +372,13 @@ switch ($action)
       case 'confirm':
         if ($_POST["confirm"]==$language["FRM_CONFIRM"])
           {
-            $id=(isset($_GET["id"])?intval($_GET["id"]):0);
+            $id=(isset($_GET["id"])?((int)$_GET["id"]):0);
             $block_name=sqlesc($_POST["block_name"]);
             $block_position=sqlesc($_POST["block_position"]);
             $block_title=sqlesc($_POST["block_title"]);
             $block_cache=isset($_POST["use_cache"])?"'yes'":"'no'";
-            $block_minview=sqlesc(intval($_POST["minclassview"]));
-            $block_maxview=sqlesc(intval($_POST["maxclassview"]));
+            $block_minview=sqlesc(((int)$_POST["minclassview"]));
+            $block_maxview=sqlesc(((int)$_POST["maxclassview"]));
             if ($block_name=="''")
                 stderr($language["ERROR"],$language["ERR_BLOCK_NAME"]);
             if ($id>0) // update existing block
@@ -400,7 +400,7 @@ switch ($action)
         while($reslevel=mysqli_fetch_assoc($rlevel))
             $alevel[]=$reslevel;
 
-        $id=(isset($_GET["id"])?intval($_GET["id"]):0);
+        $id=(isset($_GET["id"])?((int)$_GET["id"]):0);
         if ($id>0)
           {
             $cb=get_result("SELECT * FROM {$TABLE_PREFIX}blocks WHERE blockid=$id",true);
@@ -458,8 +458,8 @@ switch ($action)
                   $active=(isset($_POST["status_".$block["blockid"]])?1:0);
                   $position=sqlesc($_POST["position_".$block["blockid"]]);
                   $sort=max(0,$_POST["sort_".$block["blockid"]]);
-                  $block_minview=sqlesc(intval($_POST["minclassview_".$block["blockid"]]));
-                  $block_maxview=sqlesc(intval($_POST["maxclassview_".$block["blockid"]]));
+                  $block_minview=sqlesc(((int)$_POST["minclassview_".$block["blockid"]]));
+                  $block_maxview=sqlesc(((int)$_POST["maxclassview_".$block["blockid"]]));
                   $id=$block["blockid"];
                   do_sqlquery("UPDATE {$TABLE_PREFIX}blocks SET position=$position, sortid=$sort, status=$active, minclassview=$block_minview, maxclassview=$block_maxview WHERE blockid=$id",true);
             }

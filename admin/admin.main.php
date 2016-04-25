@@ -58,9 +58,9 @@ if ($res)
     while ($result=mysqli_fetch_array($res))
           {
           if ($result["task"]=="sanity")
-             $admin["lastsanity"]=$language["LAST_SANITY"]."<br />\n".get_date_time($result["last_time"])."<br />\n(".$language["NEXT"].": ".get_date_time($result["last_time"]+intval($GLOBALS["clean_interval"])).")<br />\n<a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=sanity&amp;action=now\">Do it now!</a><br />";
+             $admin["lastsanity"]=$language["LAST_SANITY"]."<br />\n".get_date_time($result["last_time"])."<br />\n(".$language["NEXT"].": ".get_date_time($result["last_time"]+((int)$GLOBALS["clean_interval"])).")<br />\n<a href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=sanity&amp;action=now\">Do it now!</a><br />";
           elseif ($result["task"]=="update")
-             $admin["lastscrape"]="<br />\n".$language["LAST_EXTERNAL"]."<br />\n".get_date_time($result["last_time"])."<br />\n(".$language["NEXT"].": ".get_date_time($result["last_time"]+intval($GLOBALS["update_interval"])).")<br />";
+             $admin["lastscrape"]="<br />\n".$language["LAST_EXTERNAL"]."<br />\n".get_date_time($result["last_time"])."<br />\n(".$language["NEXT"].": ".get_date_time($result["last_time"]+((int)$GLOBALS["update_interval"])).")<br />";
        }
    }
 

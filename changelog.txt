@@ -178,7 +178,7 @@ FIXES:
 ------
 - customized groups assignement (account.php) (https://sourceforge.net/tracker/index.php?func=detail&aid=1723234&group_id=146822&atid=766508)
 - editing torrent with apostrophes names (https://sourceforge.net/tracker/index.php?func=detail&aid=1720513&group_id=146822&atid=766508)
-- changed all max() functions with intval() function which is more secure.
+- changed all max() functions with ((int)) function which is more secure.
 
 LIST OF CHANGED FILES:
 ----------------------

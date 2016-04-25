@@ -34,7 +34,7 @@ if (!defined("IN_BTIT"))
       die("non direct access!");
 
 
-    $uid = intval($CURUSER["uid"]);
+    $uid = ((int)$CURUSER["uid"]);
     //$res=do_sqlquery("SELECT u.lip,u.username, $udownloaded as downloaded,$uuploaded as uploaded, UNIX_TIMESTAMP(u.joined) as joined, u.flag, c.name, c.flagpic FROM $utables LEFT JOIN {$TABLE_PREFIX}countries c ON u.flag=c.id WHERE u.id=$uid",true);
     $res=get_result("SELECT c.name, c.flagpic FROM {$TABLE_PREFIX}countries c WHERE id=".$CURUSER["flag"],true,$btit_settings['cache_duration']);
     $row = $res[0];
@@ -130,7 +130,7 @@ if (!defined("IN_BTIT"))
   $numtorrent=$resuploaded[0]['tf'];
   unset($resuploaded);
 
-  $utorrents = intval($CURUSER["torrentsperpage"]);
+  $utorrents = ((int)$CURUSER["torrentsperpage"]);
 
   if ($numtorrent>0)
      {
@@ -148,7 +148,7 @@ if (!defined("IN_BTIT"))
          $i=0;
          foreach ($resuploaded as $id=>$rest)
                  {
-                  $uptortpl[$i]["filename"]=cut_string(unesc($rest["filename"]),intval($btit_settings["cut_name"]));
+                  $uptortpl[$i]["filename"]=cut_string(unesc($rest["filename"]),((int)$btit_settings["cut_name"]));
                   $uptortpl[$i]["added"]=date("d/m/Y",$rest["added"]-$offset);
                   $uptortpl[$i]["size"]=makesize($rest["size"]);
                   $uptortpl[$i]["seedcolor"]=linkcolor($rest["seeds"]);

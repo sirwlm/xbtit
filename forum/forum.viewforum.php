@@ -38,7 +38,7 @@ if (!defined("IN_BTIT_FORUM"))
       die("non direct access!");
 
 
-$forumid = intval(0+$_GET["forumid"]);
+$forumid = ((int)0+$_GET["forumid"]);
 
 
 if (!is_valid_id($forumid))
@@ -47,14 +47,14 @@ if (!is_valid_id($forumid))
 
 
 if (isset($_GET["page"]) && $_GET["page"])
-$page = max(1,intval(0+$_GET["page"]));
+$page = max(1,((int)0+$_GET["page"]));
 else $page = '';
 
-$userid = intval(0+$CURUSER["uid"]);
+$userid = ((int)0+$CURUSER["uid"]);
 
 //------ Get forum name + create quickjump dropdown
 
-$res = get_result("SELECT id, name, minclassread, minclasscreate FROM {$TABLE_PREFIX}forums WHERE minclassread<=".intval($CURUSER["id_level"]),true,$btit_settings["cache_duration"]);
+$res = get_result("SELECT id, name, minclassread, minclasscreate FROM {$TABLE_PREFIX}forums WHERE minclassread<=".((int)$CURUSER["id_level"]),true,$btit_settings["cache_duration"]);
 $quickjmp="\n<form method=\"get\" action=\"index.php?page=forum\" name=\"quickjump\">";
 $quickjmp.="\n<select name=\"forumid\" onchange=\"location.href=this.options[this.selectedIndex].value\" size=\"1\">";
 
@@ -100,7 +100,7 @@ list($pagertop, $pagerbottom, $limit)=forum_pager($perpage,$numtopics, "index.ph
 
 $topicsres = do_sqlquery("SELECT t.*,(SELECT COUNT(*) FROM {$TABLE_PREFIX}posts WHERE topicid=t.id) as num_posts,".
                          " ulp.username as lastposter, ulp.id as lastposter_uid, p.added as start_date, us.username as starter,".
-                         " IF(t.lastpost<=(SELECT lastpostread FROM {$TABLE_PREFIX}readposts rp WHERE rp.userid=".intval($CURUSER["uid"]).
+                         " IF(t.lastpost<=(SELECT lastpostread FROM {$TABLE_PREFIX}readposts rp WHERE rp.userid=".((int)$CURUSER["uid"]).
                          " AND rp.topicid=t.id) OR t.lastpost IS NULL,'unlocked','unlockednew') as img".
                          " FROM {$TABLE_PREFIX}topics t LEFT JOIN {$TABLE_PREFIX}users us ON t.userid=us.id".
                          " LEFT JOIN {$TABLE_PREFIX}posts p ON t.lastpost=p.id LEFT JOIN {$TABLE_PREFIX}users ulp ON p.userid=ulp.id".
@@ -122,9 +122,9 @@ if ($numtopics > 0)
       $topic_views = $topicarr["views"];
       $locked = $topicarr["locked"] == "yes";
       $sticky = $topicarr["sticky"] == "yes";
-      $tpages = floor(intval($topicarr["num_posts"]) / $postsperpage);
+      $tpages = floor(((int)$topicarr["num_posts"]) / $postsperpage);
 
-      if (($tpages * $postsperpage) != intval($topicarr["num_posts"]))
+      if (($tpages * $postsperpage) != ((int)$topicarr["num_posts"]))
         ++$tpages;
 
       if ($tpages > 1)
@@ -152,7 +152,7 @@ if ($numtopics > 0)
       ($new?"&nbsp;<a href=\"index.php?page=forum&amp;action=viewtopic&amp;topicid=$topicid&amp;msg=new#new\">".image_or_link("$STYLEPATH/images/new.gif","",$language["NEW"])."</a>":"")."$topicpages";
 
       $topics[$i]["view"]=number_format($topic_views);
-      $topics[$i]["replies"]=intval($topicarr["num_posts"]) - 1;
+      $topics[$i]["replies"]=((int)$topicarr["num_posts"]) - 1;
       if ($topic_userid>1)
          $topics[$i]["starter"]=($topicarr["starter"]?"<a href=\"index.php?page=userdetails&amp;id=$topic_userid\"><b>".unesc($topicarr["starter"])."</b></a>":$language["MEMBER"]."[$topic_userid]");
       else
@@ -175,11 +175,11 @@ $forumtpl->set("forum_pager",$pagertop);
 
 
 $sub_forums = get_result("SELECT f.*, t.lastpost, t.subject, t.locked, p.userid as uid, u.username, p.added as date, p.topicid,".
-                          " IF(t.lastpost<=(SELECT lastpostread FROM {$TABLE_PREFIX}readposts rp WHERE rp.userid=".intval($CURUSER["uid"]).
+                          " IF(t.lastpost<=(SELECT lastpostread FROM {$TABLE_PREFIX}readposts rp WHERE rp.userid=".((int)$CURUSER["uid"]).
                           " AND rp.topicid=t.id) OR t.lastpost IS NULL,'unlocked','unlockednew') as img FROM {$TABLE_PREFIX}forums f LEFT JOIN {$TABLE_PREFIX}topics t ON f.id=t.forumid".
                           " LEFT JOIN {$TABLE_PREFIX}posts p ON t.lastpost=p.id".
                           " LEFT JOIN {$TABLE_PREFIX}users u ON p.userid=u.id WHERE (t.lastpost IS NULL OR t.lastpost=(SELECT MAX(lastpost)".
-                          " FROM {$TABLE_PREFIX}topics WHERE forumid=f.id)) AND f.minclassread<=".intval($CURUSER["id_level"]).
+                          " FROM {$TABLE_PREFIX}topics WHERE forumid=f.id)) AND f.minclassread<=".((int)$CURUSER["id_level"]).
                           " AND f.id_parent=$forumid ORDER BY sort,name",true);
 
 if (count($sub_forums)>0)

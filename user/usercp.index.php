@@ -49,7 +49,7 @@ if (isset($_GET["preview"]) && $_GET["preview"])
       $preview=$_GET["preview"];
 else $preview = "";
 
-$uid=(isset($_GET["uid"])?intval($_GET["uid"]):1);
+$uid=(isset($_GET["uid"])?((int)$_GET["uid"]):1);
 
 if ($CURUSER["uid"]!=$uid || $CURUSER["uid"]==1)
    {

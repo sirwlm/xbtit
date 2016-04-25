@@ -39,7 +39,7 @@ if (!defined("IN_BTIT_FORUM"))
 
 
 if (isset($_GET["page"]) && $_GET["page"])
-$page = max(1,intval(0+$_GET["page"]));
+$page = max(1,((int)0+$_GET["page"]));
 else $page = '';
 
 $block_title=$language["TOPIC_UNREAD_POSTS"];
@@ -52,7 +52,7 @@ $perpage = $CURUSER["topicsperpage"];
 if (!$perpage) $perpage = 20;
 
 //$res = do_sqlquery("SELECT COUNT(*) FROM {$TABLE_PREFIX}topics t LEFT JOIN {$TABLE_PREFIX}readposts r ON t.id=r.topicid WHERE t.lastpost>IF(r.lastpostread IS NULL,0, r.lastpostread)",true);
-$res = do_sqlquery("SELECT COUNT(*) FROM {$TABLE_PREFIX}topics t LEFT JOIN {$TABLE_PREFIX}readposts rp ON t.id=rp.topicid AND rp.userid=".intval($CURUSER["uid"]).
+$res = do_sqlquery("SELECT COUNT(*) FROM {$TABLE_PREFIX}topics t LEFT JOIN {$TABLE_PREFIX}readposts rp ON t.id=rp.topicid AND rp.userid=".((int)$CURUSER["uid"]).
                          " LEFT JOIN {$TABLE_PREFIX}users us ON t.userid=us.id LEFT JOIN {$TABLE_PREFIX}forums f ON t.forumid=f.id".
                          " LEFT JOIN {$TABLE_PREFIX}posts p ON t.lastpost=p.id LEFT JOIN {$TABLE_PREFIX}users ulp ON p.userid=ulp.id".
                          " WHERE t.lastpost>IF(rp.lastpostread IS NULL,0, rp.lastpostread) AND IFNULL(f.minclassread,999)<=".$CURUSER["id_level"].
@@ -70,7 +70,7 @@ list($pagertop, $pagerbottom, $limit)=forum_pager($perpage,$numtopics, "index.ph
 $topicsres = do_sqlquery("SELECT DISTINCT t.*,(SELECT COUNT(*) FROM {$TABLE_PREFIX}posts WHERE topicid=t.id) as num_posts,".
                          " ulp.username as lastposter, ulp.id as lastposter_uid, p.added as start_date, us.username as starter,".
                          " IF(t.lastpost<rp.lastpostread OR t.lastpost IS NULL,'unlocked','unlockednew') as img".
-                         " FROM {$TABLE_PREFIX}topics t LEFT JOIN {$TABLE_PREFIX}readposts rp ON t.id=rp.topicid AND rp.userid=".intval($CURUSER["uid"]).
+                         " FROM {$TABLE_PREFIX}topics t LEFT JOIN {$TABLE_PREFIX}readposts rp ON t.id=rp.topicid AND rp.userid=".((int)$CURUSER["uid"]).
                          " LEFT JOIN {$TABLE_PREFIX}users us ON t.userid=us.id LEFT JOIN {$TABLE_PREFIX}forums f ON t.forumid=f.id".
                          " LEFT JOIN {$TABLE_PREFIX}posts p ON t.lastpost=p.id LEFT JOIN {$TABLE_PREFIX}users ulp ON p.userid=ulp.id".
                          " WHERE t.lastpost>IF(rp.lastpostread IS NULL,0, rp.lastpostread) AND IFNULL(f.minclassread,999)<=".$CURUSER["id_level"].
@@ -93,9 +93,9 @@ if ($numtopics > 0)
       $topic_views = $topicarr["views"];
       $locked = $topicarr["locked"] == "yes";
       $sticky = $topicarr["sticky"] == "yes";
-      $tpages = floor(intval($topicarr["num_posts"]) / $postsperpage);
+      $tpages = floor(((int)$topicarr["num_posts"]) / $postsperpage);
 
-      if (($tpages * $postsperpage) != intval($topicarr["num_posts"]))
+      if (($tpages * $postsperpage) != ((int)$topicarr["num_posts"]))
         ++$tpages;
 
       if ($tpages > 1)
@@ -125,7 +125,7 @@ if ($numtopics > 0)
       "</b></a>$topicpages";
 
       $topics[$i]["view"]=number_format($topic_views);
-      $topics[$i]["replies"]=intval($topicarr["num_posts"]) - 1;
+      $topics[$i]["replies"]=((int)$topicarr["num_posts"]) - 1;
       if ($topic_userid>1)
           $topics[$i]["starter"]=($topicarr["starter"]?"<a href=\"index.php?page=userdetails&amp;id=$topic_userid\"><b>".unesc($topicarr["starter"])."</b></a>":$language["MEMBER"]."[$topic_userid]");
       else

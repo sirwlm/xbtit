@@ -40,19 +40,19 @@ if (!defined("IN_BTIT_FORUM"))
 
 
 $forums_res = do_sqlquery("SELECT f.*, t.lastpost, t.subject, t.locked, p.userid as uid, u.username, p.added as date, p.topicid,".
-                          " IF(t.lastpost<=(SELECT lastpostread FROM {$TABLE_PREFIX}readposts rp WHERE rp.userid=".intval($CURUSER["uid"]).
+                          " IF(t.lastpost<=(SELECT lastpostread FROM {$TABLE_PREFIX}readposts rp WHERE rp.userid=".((int)$CURUSER["uid"]).
                           " AND rp.topicid=t.id) OR t.lastpost IS NULL,'unlocked','unlockednew') as img FROM {$TABLE_PREFIX}forums f LEFT JOIN {$TABLE_PREFIX}topics t ON f.id=t.forumid".
                           " LEFT JOIN {$TABLE_PREFIX}posts p ON t.lastpost=p.id".
                           " LEFT JOIN {$TABLE_PREFIX}users u ON p.userid=u.id WHERE (t.lastpost IS NULL OR t.lastpost=(SELECT MAX(lastpost)".
-                          " FROM {$TABLE_PREFIX}topics WHERE forumid=f.id)) AND f.minclassread<=".intval($CURUSER["id_level"]).
+                          " FROM {$TABLE_PREFIX}topics WHERE forumid=f.id)) AND f.minclassread<=".((int)$CURUSER["id_level"]).
                           " AND f.id_parent=0 ORDER BY sort,name",true);
 
 $sub_forums = get_result("SELECT f.*, t.lastpost, t.subject, t.locked, p.userid as uid, u.username, p.added as date, p.topicid,".
-                          " IF(t.lastpost<=(SELECT lastpostread FROM {$TABLE_PREFIX}readposts rp WHERE rp.userid=".intval($CURUSER["uid"]).
+                          " IF(t.lastpost<=(SELECT lastpostread FROM {$TABLE_PREFIX}readposts rp WHERE rp.userid=".((int)$CURUSER["uid"]).
                           " AND rp.topicid=t.id) OR t.lastpost IS NULL,'unlocked','unlockednew') as img FROM {$TABLE_PREFIX}forums f LEFT JOIN {$TABLE_PREFIX}topics t ON f.id=t.forumid".
                           " LEFT JOIN {$TABLE_PREFIX}posts p ON t.lastpost=p.id".
                           " LEFT JOIN {$TABLE_PREFIX}users u ON p.userid=u.id WHERE (t.lastpost IS NULL OR t.lastpost=(SELECT MAX(lastpost)".
-                          " FROM {$TABLE_PREFIX}topics WHERE forumid=f.id)) AND f.minclassread<=".intval($CURUSER["id_level"]).
+                          " FROM {$TABLE_PREFIX}topics WHERE forumid=f.id)) AND f.minclassread<=".((int)$CURUSER["id_level"]).
                           " AND f.id_parent<>0 ORDER BY sort,name",true);
 
 
