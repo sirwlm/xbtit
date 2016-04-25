@@ -1,9 +1,9 @@
 <?php
 
 $dbhost = "localhost";
-$dbuser = "xbtit_master";
-$dbpass = "domains007$";
-$database = "xbtit_master";
+$dbuser = "";
+$dbpass = "";
+$database = "";
 $TABLE_PREFIX = "";
 $mySecret = "";
 
