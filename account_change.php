@@ -30,8 +30,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-require_once(dirname(__FILE__)."/include/functions.php");
-include(dirname(__FILE__)."/btemplate/bTemplate.php");
+require_once(__DIR__."/include/functions.php");
+include(__DIR__."/btemplate/bTemplate.php");
 
 if (isset($_GET["style"]))
     $style=intval($_GET["style"]);

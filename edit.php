@@ -124,7 +124,7 @@ if (isset($_GET["info_hash"])) {
     $torrent["description"]=textbbcode("edit","comment",unesc($results["comment"]));
     $torrent["size"]=makesize($results["size"]);
 
-    include(dirname(__FILE__)."/include/offset.php");
+    include(__DIR__."/include/offset.php");
 
     $torrent["date"]=date("d/m/Y",$results["data"]-$offset);
     $torrent["complete"]=$results["finished"]." ".$language["X_TIMES"];

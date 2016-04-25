@@ -34,7 +34,7 @@
 define("IN_BTIT",true);
 
 
-$THIS_BASEPATH=dirname(__FILE__);
+$THIS_BASEPATH=__DIR__;
 require("$THIS_BASEPATH/include/functions.php");
 
 dbconn();
@@ -122,7 +122,7 @@ if ($action!="find")
 }
 else
 {
-$res=get_result("SELECT username FROM {$TABLE_PREFIX}users WHERE id>1 AND username LIKE '%".mysqli_query($GLOBALS["conn"],$_POST["user"])."%' ORDER BY username",true,$btit_settings['cache_duration']);
+$res=get_result("SELECT username FROM {$TABLE_PREFIX}users WHERE id>1 AND username LIKE '%".mysqli_query($GLOBALS['conn'],$_POST["user"])."%' ORDER BY username",true,$btit_settings['cache_duration']);
   if (!$res or count($res)==0)
      {
          print("<center>".$language["NO_USERS_FOUND"]."!<br />");

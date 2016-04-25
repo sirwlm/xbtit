@@ -102,7 +102,7 @@ if ($act=="confirm") {
                         define('IPB_THIS_SCRIPT', 'public');
 
                     if(!isset($THIS_BASEPATH) || empty($THIS_BASEPATH))
-                        $THIS_BASEPATH=dirname(__FILE__);
+                        $THIS_BASEPATH= __DIR__;
                     require_once($THIS_BASEPATH. '/ipb/initdata.php' );
                     require_once( IPS_ROOT_PATH . 'sources/base/ipsRegistry.php' );
                     require_once( IPS_ROOT_PATH . 'sources/base/ipsController.php' );
@@ -532,7 +532,7 @@ $i=$btit_settings["secsui_pass_type"];
 $pid=md5(uniqid(rand(),true));
 do_sqlquery("INSERT INTO `{$TABLE_PREFIX}users` (`username`, `password`, `salt`, `pass_type`, `dupe_hash`, `random`, `id_level`, `email`, `style`, `language`, `flag`, `joined`, `lastconnect`, `pid`, `time_offset`, `torrentsperpage`) VALUES ('".$utente."', '".mysqli_real_escape_string($GLOBALS['conn'],$multipass[$i]["rehash"])."', '".mysqli_real_escape_string($GLOBALS['conn'],$multipass[$i]["salt"])."', '".$i."', '".mysqli_real_escape_string($GLOBALS['conn'],$multipass[$i]["dupehash"])."', ".$random.", ".$idlevel.", '".$email."', ".$idstyle.", ".$idlangue.", ".$idflag.", NOW(), NOW(),'".$pid."', '".$timezone."', $mtpp)",true);
 
-$newuid=((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["conn"]))) ? false : $___mysqli_res);
+$newuid=((is_null($___mysqli_res = mysqli_insert_id($GLOBALS['conn']))) ? false : $___mysqli_res);
 
 // Continue to create smf members if they disable smf mode
 $test=do_sqlquery("SHOW TABLES LIKE '{$db_prefix}members'",true);
@@ -548,7 +548,7 @@ if (substr($FORUMLINK,0,3)=="smf" || mysqli_num_rows($test))
     else
         do_sqlquery("INSERT INTO `{$db_prefix}members` (`member_name`, `date_registered`, `id_group`, `real_name`, `passwd`, `email_address`, `member_ip`, `member_ip2`, `is_activated`, `password_salt`) VALUES ('$utente', UNIX_TIMESTAMP(), $flevel, '$utente', '$smfpass[0]', '$email', '".getip()."', '".getip()."', 1, '$smfpass[1]')",true);
 
-    $fid=((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["conn"]))) ? false : $___mysqli_res);
+    $fid=((is_null($___mysqli_res = mysqli_insert_id($GLOBALS['conn']))) ? false : $___mysqli_res);
     do_sqlquery("UPDATE `{$db_prefix}settings` SET `value` = $fid WHERE `variable` = 'latestMember'",true);
     do_sqlquery("UPDATE `{$db_prefix}settings` SET `value` = '$utente' WHERE `variable` = 'latestRealName'",true);
     do_sqlquery("UPDATE `{$db_prefix}settings` SET `value` = UNIX_TIMESTAMP() WHERE `variable` = 'memberlist_updated'",true);
@@ -572,7 +572,7 @@ if ($XBTT_USE)
 if ($VALIDATION=="user")
    {
    ini_set("sendmail_from","");
-   if (((is_object($GLOBALS["conn"])) ? mysqli_errno($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false))==0)
+   if (((is_object($GLOBALS['conn'])) ? mysqli_errno($GLOBALS['conn']) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false))==0)
      {
       send_mail($email,$language["ACCOUNT_CONFIRM"],$language["ACCOUNT_MSG"]."\n\n".$BASEURL."/index.php?page=account&act=confirm&confirm=$random&language=$idlangue");
       write_log("Signup new user $utente ($email)","add");
@@ -581,7 +581,7 @@ if ($VALIDATION=="user")
    	die("ERROR: ".mysqli_error($GLOBALS['conn'])."\n");
    }
 
-return ((is_object($GLOBALS["conn"])) ? mysqli_errno($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false));
+return ((is_object($GLOBALS['conn'])) ? mysqli_errno($GLOBALS['conn']) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false));
 }
 
 ?>

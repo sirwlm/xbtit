@@ -75,7 +75,7 @@ if (isset($_GET["do"])) $do=$_GET["do"];
 if (isset($_GET["action"]))
    $action=$_GET["action"];
 
-$ADMIN_PATH=dirname(__FILE__);
+$ADMIN_PATH=__DIR__;
 
 include(load_language("lang_admin.php"));
 

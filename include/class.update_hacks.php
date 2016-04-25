@@ -50,7 +50,7 @@ class update_hacks
       function update_hacks()
             {
             
-            include(dirname(__FILE__)."/class.archive.php");
+            include(__DIR__."/class.archive.php");
 
             // reset all var
             $this->file=array();
@@ -496,7 +496,7 @@ class update_hacks
         global $j;
 
         //$this->errors[]["message"]=mysql_error();
-        $this->_err_message(((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)),"Sql","Check the query");
+        $this->_err_message(((is_object($GLOBALS['conn'])) ? mysqli_error($GLOBALS['conn']) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)),"Sql","Check the query");
         $this->file[$j]["status"]="<span style=\"font-weight: bold; color:red;\">Failed</span>";
         $this->file[$j]["operation"]="Sql";
 
@@ -640,13 +640,13 @@ class update_hacks
                           case 'sql':
                               $this->file[$j]["status"]="<span style=\"font-weight: bold; color:green;\">OK</span>";
 
-                              require_once(dirname(__FILE__)."/settings.php");
-                              @($GLOBALS["conn"] = mysqli_connect($dbhost, $dbuser, $dbpass)) or die("Error connecting to $dbhost!");
-                              @((bool)mysqli_query($GLOBALS["conn"], "USE $database")) or ($this->db_error());
+                              require_once(__DIR__."/settings.php");
+                              @($GLOBALS['conn'] = mysqli_connect($dbhost, $dbuser, $dbpass)) or die("Error connecting to $dbhost!");
+                              @((bool)mysqli_query($GLOBALS['conn'], "USE $database")) or ($this->db_error());
                               // if we just test then that's all, else we will run the query
                               $thequery=str_replace("\"","\\\"",$hack_array[$i]["file"][$j]["operations"][$k]["data"]);
                               if (!$test)
-                                 @mysqli_query($GLOBALS["conn"], str_replace("{\$db_prefix}","$TABLE_PREFIX",$thequery));
+                                 @mysqli_query($GLOBALS['conn'], str_replace("{\$db_prefix}","$TABLE_PREFIX",$thequery));
                             break;
 
                           case 'copy':

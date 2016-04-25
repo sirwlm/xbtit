@@ -27,8 +27,8 @@
 		}
 	*/
 	
-	require_once(dirname(__FILE__) . '/tscraper.php');
-	require_once(dirname(__FILE__) . '/lightbenc.php');
+	require_once(__DIR__ . '/tscraper.php');
+	require_once(__DIR__ . '/lightbenc.php');
 	
 	class httptscraper extends tscraper{
 		protected $maxreadsize;

@@ -30,7 +30,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-require_once(dirname(__FILE__).'/config.php');
+require_once(__DIR__.'/config.php');
 
 if (!function_exists('bcsub')) {
     function bcsub($first_num, $second_num) {
@@ -67,7 +67,7 @@ function send_pm($sender,$recepient,$subject,$msg) {
         # insert message
         quickQuery("INSERT INTO `{$db_prefix}personal_messages` (".(($FORUMLINK=="smf")?"`ID_MEMBER_FROM`, `fromName`":"`id_member_from`, `from_name`").", `msgtime`, `subject`, `body`) VALUES (".$sender['smf_fid'].", ".sqlesc($sender['username']).", UNIX_TIMESTAMP(), ".$subject.", ".$msg.")");
         # get id of message
-        $pm_id=((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["conn"]))) ? false : $___mysqli_res);
+        $pm_id=((is_null($___mysqli_res = mysqli_insert_id($GLOBALS['conn']))) ? false : $___mysqli_res);
         # insert recepient for message
         quickQuery("INSERT INTO `{$db_prefix}pm_recipients` (".(($FORUMLINK=="smf")?"`ID_PM`, `ID_MEMBER`":"`id_pm`, `id_member`").") VALUES (".$pm_id.", ".$recepient.")");
         # notify recepient
@@ -182,7 +182,7 @@ function get_remote_file($http_url,$mode='r') {
 
 function get_fresh_config($qrystr) {
     global $mySecret;
-    $cache_file=realpath(dirname(__FILE__).'/..').'/cache/'.md5($qrystr." -- ".$mySecret).'.txt';
+    $cache_file=realpath(__DIR__.'/..').'/cache/'.md5($qrystr." -- ".$mySecret).'.txt';
 
     $mr=do_sqlquery($qrystr." -- ".$mySecret,true);
     while ($mz=mysqli_fetch_assoc($mr)) {
@@ -208,9 +208,9 @@ function do_sqlquery($qrystr,$display_error=false) {
     global $num_queries;
 
     $num_queries++;
-    $ret=mysqli_query($GLOBALS["conn"], $qrystr);
-    if ($display_error && mysqli_errno($GLOBALS["conn"])!=0)
-        stderr('MySQL query error!',"<br />\nError: ".mysqli_error($GLOBALS["conn"])."<br />\nQuery: $qrystr<br />\n");
+    $ret=mysqli_query($GLOBALS['conn'], $qrystr);
+    if ($display_error && mysqli_errno($GLOBALS['conn'])!=0)
+        stderr('MySQL query error!',"<br />\nError: ".mysqli_error($GLOBALS['conn'])."<br />\nQuery: $qrystr<br />\n");
     return $ret;
 }
 
@@ -220,7 +220,7 @@ function write_cached_version($page, $content='') {
     if ($CACHE_DURATION==0)
         return false;
 
-    $cache_file=realpath(dirname(__FILE__).'/..').'/cache/'.md5($page).'.txt';
+    $cache_file=realpath(__DIR__.'/..').'/cache/'.md5($page).'.txt';
     if ($content=='')
         $content=ob_get_contents();
 
@@ -235,7 +235,7 @@ function get_cached_version($page) {
     if ($CACHE_DURATION==0)
         return false;
 
-    $cache_file=realpath(dirname(__FILE__).'/..').'/cache/'.md5($page).'.txt';
+    $cache_file=realpath(__DIR__.'/..').'/cache/'.md5($page).'.txt';
 
     if (file_exists($cache_file) && (time()-$CACHE_DURATION) < filemtime($cache_file))
         return file_get_contents($cache_file);
@@ -248,7 +248,7 @@ function get_cached_version($page) {
 function get_result($qrystr,$display_error=false,$cachetime=0) { 
     global $num_queries, $cached_querys;
 
-    $cache_file=realpath(dirname(__FILE__).'/..').'/cache/'.md5($qrystr).'.txt';
+    $cache_file=realpath(__DIR__.'/..').'/cache/'.md5($qrystr).'.txt';
 
     if ($cachetime>0)
         if (file_exists($cache_file) && (time()-$cachetime) < filemtime($cache_file)) {

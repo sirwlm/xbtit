@@ -48,7 +48,7 @@ function main_menu() {
   $blocks=get_result('SELECT content FROM '.$TABLE_PREFIX.'blocks WHERE position="t" AND status=1 AND '.$CURUSER['id_level'].'>=minclassview  AND '.$CURUSER['id_level'].'<=maxclassview '.(($FORUMLINK==''||$FORUMLINK=='internal'||substr($FORUMLINK,0,3)=='smf'||$FORUMLINK=='ipb')?'':' AND content!="forum"').' ORDER BY sortid',true, $CACHE_DURATION);
   $return='';
   foreach ($blocks as $entry)
-    $return.=get_content(realpath(dirname(__FILE__).'/..').'/blocks/'.$entry['content'].'_block.php');
+    $return.=get_content(realpath(__DIR__.'/..').'/blocks/'.$entry['content'].'_block.php');
 
   return set_block('','justify',$return);
 }

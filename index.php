@@ -43,7 +43,7 @@ if (file_exists("install.unlock") && file_exists("install.php"))
 define("IN_BTIT",true);
 
 
-$THIS_BASEPATH=dirname(__FILE__);
+$THIS_BASEPATH=__DIR__;
 
 include("$THIS_BASEPATH/btemplate/bTemplate.php");
 

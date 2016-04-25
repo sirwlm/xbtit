@@ -113,7 +113,7 @@ $torrent["info_hash"]=$row["info_hash"];
 $torrent["description"]=format_comment($row["comment"]);
 $torrent["catname"]=$row["cat_name"];
 $torrent["size"]=makesize($row["size"]);
-include(dirname(__FILE__)."/include/offset.php");
+include(__DIR__."/include/offset.php");
 $torrent["date"]=date("d/m/Y",$row["data"]-$offset);
 if (!$XBTT_USE)
 {

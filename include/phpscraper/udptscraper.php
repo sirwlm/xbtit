@@ -25,7 +25,7 @@
 		}
 	*/
 	
-	require_once(dirname(__FILE__) . '/tscraper.php');
+	require_once(__DIR__ . '/tscraper.php');
 	
 	class udptscraper extends tscraper{
 		

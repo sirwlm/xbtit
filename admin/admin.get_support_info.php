@@ -39,12 +39,12 @@ if (isset($_POST["in_admin"]) && $_POST["in_xbtit"]=='1')
 session_name("xbtit");
 session_start();
 
-require_once(dirname(dirname(__FILE__)).'/include/functions.php');
-require_once(dirname(dirname(__FILE__)).'/btemplate/bTemplate.php');
+require_once(dirname(__DIR__).'/include/functions.php');
+require_once(dirname(__DIR__).'/btemplate/bTemplate.php');
 
 @date_default_timezone_set(@date_default_timezone_get());
 
-$THIS_BASEPATH=dirname(dirname(__FILE__));
+$THIS_BASEPATH=dirname(__DIR__);
 
 if (!empty($_SESSION['CURUSER']['style_url']))
 {

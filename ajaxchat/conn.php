@@ -33,14 +33,14 @@
 # establishes a connection to a mySQL Database accroding to the details specified in settings.php
 function getDBConnection () {
 
-    $dir=explode("/",str_replace("\\", "/", dirname(__FILE__)));
+    $dir=explode("/",str_replace("\\", "/", __DIR__));
     unset($dir[(count($dir)-1)]);
     $INC_PATH=implode("/",$dir)."/include";
 
     include($INC_PATH."/settings.php"); # contains the given DB setup $database, $dbhost, $dbuser, $dbpass
     //include($INC_PATH."/config.php");
     
-    $conn = ($GLOBALS["conn"] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
+    $conn = ($GLOBALS['conn'] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
     if (!$conn) {
             echo "Connection to DB was not possible!";
             end;
@@ -51,7 +51,7 @@ function getDBConnection () {
         }
         
         if($GLOBALS["charset"]=="UTF-8")
-            mysqli_query($GLOBALS["conn"], "SET NAMES utf8");
+            mysqli_query($GLOBALS['conn'], "SET NAMES utf8");
         
         return $conn;
 }
@@ -59,13 +59,13 @@ function getDBConnection () {
 # establishes a connection to a mySQL Database accroding to the details specified in settings.php
 function his_getDBConnection () {
 
-    $dir=explode("/",str_replace("\\", "/", dirname(__FILE__)));
+    $dir=explode("/",str_replace("\\", "/", __DIR__));
     unset($dir[(count($dir)-1)]);
     $INC_PATH=implode("/",$dir)."/include";
 
     include($INC_PATH."/settings.php"); # contains the given DB setup $database, $dbhost, $dbuser, $dbpass
     //include($INC_PATH."/config.php");
-    $conn = ($GLOBALS["conn"] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
+    $conn = ($GLOBALS['conn'] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
     if (!$conn) {
             echo "Connection to DB was not possible!";
             end;
@@ -75,7 +75,7 @@ function his_getDBConnection () {
             end;
         }
         if($GLOBALS["charset"]=="UTF-8")
-            mysqli_query($GLOBALS["conn"], "SET NAMES utf8");
+            mysqli_query($GLOBALS['conn'], "SET NAMES utf8");
             
         return $conn;
 }

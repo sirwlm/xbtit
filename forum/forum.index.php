@@ -321,7 +321,7 @@ else
     }
 
 
-    $FORUM_PATH=dirname(__FILE__);
+    $FORUM_PATH=__DIR__;
 
     include(load_language("lang_forum.php"));
 

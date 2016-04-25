@@ -43,7 +43,7 @@ if (!$CURUSER || $CURUSER["view_news"]=="no")
 else{
     global $USERLANG,$THIS_BASEPATH,$BASEURL;
     $limit=$GLOBALS["block_newslimit"];
-    $root_path=realpath(dirname(__FILE__)."/../");
+    $root_path=realpath(__DIR__."/../");
     require("$root_path/viewnews.php");
     echo $viewnewstpl->fetch(load_template("viewnews.tpl"));
 }

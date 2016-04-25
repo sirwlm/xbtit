@@ -65,7 +65,7 @@ else
     if (isset($_GET["action"]))
        $action=$_GET["action"];
 
-$USER_PATH=dirname(__FILE__);
+$USER_PATH=__DIR__;
 
 require_once("$USER_PATH/usercp.menu.php");
 $menucptpl=new bTemplate();
@@ -153,11 +153,11 @@ switch ($do)
             // If using SMF, update their record on that too.            
             if(substr($GLOBALS["FORUMLINK"],0,3)=="smf")
             {
-                $basedir=substr(str_replace("\\", "/", dirname(__FILE__)), 0, strrpos(str_replace("\\", "/", dirname(__FILE__)), '/'));
+                $basedir=substr(str_replace("\\", "/", __DIR__), 0, strrpos(str_replace("\\", "/", __DIR__), '/'));
                 $language2=$language;
                 require_once($basedir."/smf/Settings.php");
                 $language=$language2;
-                do_sqlquery("UPDATE `{$db_prefix}members` SET `email".(($GLOBALS["FORUMLINK"]=="smf")?"A":"_a")."ddress`='".((isset($GLOBALS["conn"]) && is_object($GLOBALS["conn"])) ? mysqli_real_escape_string($GLOBALS["conn"], $newmail) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""))."' WHERE ".(($GLOBALS["FORUMLINK"]=="smf")?"`ID_MEMBER`":"`id_member`")."=".$getacc["smf_fid"],true);
+                do_sqlquery("UPDATE `{$db_prefix}members` SET `email".(($GLOBALS["FORUMLINK"]=="smf")?"A":"_a")."ddress`='".((isset($GLOBALS['conn']) && is_object($GLOBALS['conn'])) ? mysqli_real_escape_string($GLOBALS['conn'], $newmail) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""))."' WHERE ".(($GLOBALS["FORUMLINK"]=="smf")?"`ID_MEMBER`":"`id_member`")."=".$getacc["smf_fid"],true);
             }
             elseif($GLOBALS["FORUMLINK"]=="ipb")
                 IPSMember::save($getacc["ipb_fid"], array("members" => array("email" => "$newmail")));

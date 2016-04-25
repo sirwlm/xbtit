@@ -96,7 +96,7 @@ if (!$CURUSER || $CURUSER["uid"]==1)
                 if($row["pass_type"]!=$btit_settings["secsui_pass_type"])
                 {
                     // We need to update the password
-                    do_sqlquery("UPDATE `{$TABLE_PREFIX}users` SET `password`='".mysqli_query($GLOBALS["conn"],$passtype[$btit_settings["secsui_pass_type"]]["rehash"])."', `salt`='".mysqli_query($GLOBALS["conn"],$passtype[$btit_settings["secsui_pass_type"]]["salt"])."', `pass_type`='".mysqli_query($GLOBALS["conn"],$btit_settings["secsui_pass_type"])."', `dupe_hash`='".mysqli_query($GLOBALS["conn"],$passtype[$btit_settings["secsui_pass_type"]]["dupehash"])."' WHERE `id`=".$row["id"],true);
+                    do_sqlquery("UPDATE `{$TABLE_PREFIX}users` SET `password`='".mysqli_query($GLOBALS['conn'],$passtype[$btit_settings["secsui_pass_type"]]["rehash"])."', `salt`='".mysqli_query($GLOBALS['conn'],$passtype[$btit_settings["secsui_pass_type"]]["salt"])."', `pass_type`='".mysqli_query($GLOBALS['conn'],$btit_settings["secsui_pass_type"])."', `dupe_hash`='".mysqli_query($GLOBALS['conn'],$passtype[$btit_settings["secsui_pass_type"]]["dupehash"])."' WHERE `id`=".$row["id"],true);
                     // And update the values we got from the database earlier
                     $row["pass_type"]=$btit_settings["secsui_pass_type"];
                     $row["password"]=$passtype[$btit_settings["secsui_pass_type"]]["rehash"];
@@ -137,7 +137,7 @@ if (!$CURUSER || $CURUSER["uid"]==1)
                             define('IPB_THIS_SCRIPT', 'public');
 
                         if(!isset($THIS_BASEPATH) || empty($THIS_BASEPATH))
-                            $THIS_BASEPATH=dirname(__FILE__);
+                            $THIS_BASEPATH=__DIR__;
                         require_once($THIS_BASEPATH. '/ipb/initdata.php' );
                         require_once( IPS_ROOT_PATH . 'sources/base/ipsRegistry.php' );
                         require_once( IPS_ROOT_PATH . 'sources/base/ipsController.php' );

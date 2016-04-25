@@ -120,7 +120,7 @@ function format_shout($text)
 
 $msg = array();
 
-include(dirname(__FILE__)."/chat.php");
+include(__DIR__."/chat.php");
 
 while (count($msg) >= 100)
       array_shift($msg);

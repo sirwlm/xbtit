@@ -44,7 +44,7 @@ require_once(load_language("lang_torrents.php"));
 if (isset($_GET["act"]) && $_GET["act"]=="update")
    {
        //die("<center>".$language["TORRENT_UPDATE"]."</center>");
-       require_once(dirname(__FILE__)."/include/getscrape.php");
+       require_once(__DIR__."/include/getscrape.php");
 
        scrape(urldecode($_GET["surl"]),$id);
 
@@ -202,7 +202,7 @@ $row["rating"]=$s;
 $row["size"]=makesize($row["size"]);
 // files in torrent - by Lupin 20/10/05
 
-require_once(dirname(__FILE__)."/include/BDecode.php");
+require_once(__DIR__."/include/BDecode.php");
 if (file_exists($row["url"]))
   {
     $torrenttpl->set("DISPLAY_FILES",TRUE,TRUE);
@@ -243,7 +243,7 @@ else
 $torrenttpl->set("files",$dfiles);
 
 // end files in torrents
-include(dirname(__FILE__)."/include/offset.php");
+include(__DIR__."/include/offset.php");
 $row["date"]=date("d/m/Y",$row["data"]-$offset);
 
 if ($row["anonymous"]=="true")

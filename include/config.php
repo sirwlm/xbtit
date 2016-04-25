@@ -30,14 +30,14 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-require(dirname(__FILE__).'/settings.php');
+require(__DIR__.'/settings.php');
 
 // cache interval for cfg read again (it's mysql based now, we don't want overload only for cfg read!)
 $reload_cfg_interval=60;
 
 function get_cached_config($qrystr, $cachetime=0) {
   global $dbhost, $dbuser, $dbpass, $database, $num_queries, $cached_querys, $mySecret;
-  $cache_file=realpath(dirname(__FILE__).'/..').'/cache/'.md5($qrystr." -- ".$mySecret).'.txt';
+  $cache_file=realpath(__DIR__.'/..').'/cache/'.md5($qrystr." -- ".$mySecret).'.txt';
   $num_queries++;
   if ($cachetime>0)
     if (file_exists($cache_file) && (time()-$cachetime) < filemtime($cache_file)) {
@@ -45,9 +45,9 @@ function get_cached_config($qrystr, $cachetime=0) {
       return unserialize(file_get_contents($cache_file));
         }
 
-  ($GLOBALS["conn"] = mysqli_connect($dbhost,  $dbuser,  $dbpass)) or die(((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
-  ((bool)mysqli_query($GLOBALS["conn"], "USE $database")) or die(((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
-  $mr=mysqli_query($GLOBALS["conn"], $qrystr." -- ".$mySecret) or die(((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+  ($GLOBALS['conn'] = mysqli_connect($dbhost,  $dbuser,  $dbpass)) or die(((is_object($GLOBALS['conn'])) ? mysqli_error($GLOBALS['conn']) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+  ((bool)mysqli_query($GLOBALS['conn'], "USE $database")) or die(((is_object($GLOBALS['conn'])) ? mysqli_error($GLOBALS['conn']) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+  $mr=mysqli_query($GLOBALS['conn'], $qrystr." -- ".$mySecret) or die(((is_object($GLOBALS['conn'])) ? mysqli_error($GLOBALS['conn']) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
   while ($mz=mysqli_fetch_assoc($mr)) {
     if ($mz['value']=='true')
       $return[$mz['key']]= true;
@@ -61,11 +61,11 @@ function get_cached_config($qrystr, $cachetime=0) {
 
   unset($mz);
   ((mysqli_free_result($mr) || (is_object($mr) && (get_class($mr) == "mysqli_result"))) ? true : false);
-  ((is_null($___mysqli_res = mysqli_close($GLOBALS["conn"]))) ? false : $___mysqli_res);
+  ((is_null($___mysqli_res = mysqli_close($GLOBALS['conn']))) ? false : $___mysqli_res);
 
   if ($cachetime>0) {
     $fp=fopen($cache_file,'w');
-    fputs($fp,serialize($return));
+    fwrite($fp,serialize($return));
     fclose($fp);
   }
   return $return;

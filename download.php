@@ -30,7 +30,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-$THIS_BASEPATH=dirname(__FILE__);
+$THIS_BASEPATH=__DIR__;
 
 require_once("$THIS_BASEPATH/include/functions.php");
 require_once ("$THIS_BASEPATH/include/BDecode.php");
@@ -47,7 +47,7 @@ if (!$CURUSER || $CURUSER["can_download"]=="no")
 if(ini_get('zlib.output_compression'))
   ini_set('zlib.output_compression','Off');
 
-$infohash=mysqli_query($GLOBALS["conn"],$_GET["id"]);
+$infohash=mysqli_query($GLOBALS['conn'],$_GET["id"]);
 $filepath=$TORRENTSDIR."/".$infohash . ".btf";
 
 if (!is_file($filepath) || !is_readable($filepath))
