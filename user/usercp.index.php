@@ -150,7 +150,7 @@ switch ($do)
 
             // Update their tracker member record with the now verified email address
             do_sqlquery("UPDATE {$TABLE_PREFIX}users SET email='".mysqli_real_escape_string($GLOBALS['conn'],$newmail)."' WHERE id='".$id."'",true);
-            // If using SMF, update their record on that too.            
+            // If using SMF, update their record on that too.
             if(substr($GLOBALS["FORUMLINK"],0,3)=="smf")
             {
                 $basedir=substr(str_replace("\\", "/", __DIR__), 0, strrpos(str_replace("\\", "/", __DIR__), '/'));
@@ -161,7 +161,7 @@ switch ($do)
             }
             elseif($GLOBALS["FORUMLINK"]=="ipb")
                 IPSMember::save($getacc["ipb_fid"], array("members" => array("email" => "$newmail")));
-            
+
             // Print a message stating that their email has been successfully changed
             success_msg($language["SUCCESS"],$language["REVERIFY_CONGRATS1"]." ".$oldmail." ".$language["REVERIFY_CONGRATS2"]." ".$newmail." ".$language["REVERIFY_CONGRATS3"]."<a href=\"".$BASEURL."\">".$language["MNU_INDEX"]."</a>");
             stdfoot(true,false);
