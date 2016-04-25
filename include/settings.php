@@ -1,10 +1,10 @@
 <?php
 
 $dbhost = "localhost";
-$dbuser = "root";
-$dbpass = "domains007$";
-$database = "xbtit2";
+$dbuser = "";
+$dbpass = "";
+$database = "";
 $TABLE_PREFIX = "xbtit_";
-$mySecret  = "2888742003";
+$mySecret  = "";
 
 ?>
