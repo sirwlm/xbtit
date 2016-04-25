@@ -770,7 +770,7 @@ switch ($event)
                   quickQuery("INSERT INTO {$TABLE_PREFIX}history (uid,infohash,date,active,agent) VALUES (".$curuid["id"].",'$info_hash',UNIX_TIMESTAMP(),'yes','".getagent($agent,$peer_id)."')");
 
              }
-           ((mysqli_free_result($resu) || (is_object($resu) && (get_class($resu) == "mysqli_result"))) ? true : false);
+           ((mysqli_free_result($resu) || (is_object($resu) && (get_class($resu) === "mysqli_result"))) ? true : false);
         }
         // end history
     break;
@@ -807,12 +807,12 @@ switch ($event)
 
     // not valid event
     default:
-        show_error("Invalid event from client.");
+        show_error('Invalid event from client.');
 
 }
 
 
-if ($GLOBALS["countbytes"])
+if ($GLOBALS['countbytes'])
 {
     // Once every minute or so, we run the speed update checker.
     $query = @mysqli_query($GLOBALS['conn'], "SELECT UNIX_TIMESTAMP() - lastSpeedCycle FROM {$TABLE_PREFIX}files WHERE info_hash=\"$info_hash\"");
