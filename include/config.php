@@ -49,9 +49,9 @@ function get_cached_config($qrystr, $cachetime=0) {
   ((bool)mysqli_query($GLOBALS['conn'], "USE $database")) or die(((is_object($GLOBALS['conn'])) ? mysqli_error($GLOBALS['conn']) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
   $mr=mysqli_query($GLOBALS['conn'], $qrystr." -- ".$mySecret) or die(((is_object($GLOBALS['conn'])) ? mysqli_error($GLOBALS['conn']) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
   while ($mz=mysqli_fetch_assoc($mr)) {
-    if ($mz['value']=='true')
+    if ($mz['value']==='true')
       $return[$mz['key']]= true;
-    elseif ($mz['value']=='false')
+    elseif ($mz['value']==='false')
       $return[$mz['key']]= false;
     elseif (is_numeric($mz['value']))
       $return[$mz['key']]= max(0,$mz['value']);

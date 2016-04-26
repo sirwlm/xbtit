@@ -45,11 +45,11 @@ function scrape($url,$infohash='')
         if(!isset($url_c["port"]) || empty($url_c["port"]))
             $url_c["port"]=80;
 
-        require_once($BASEDIR."/phpscraper/".$url_c["scheme"]."tscraper.php");
+        require_once($BASEDIR.'/phpscraper/'.$url_c['scheme'].'tscraper.php');
         try
         {
             $timeout = 5;
-            if($url_c["scheme"]=="udp")
+            if($url_c['scheme']==='udp')
                 $scraper = new udptscraper($timeout);
             else
                 $scraper = new httptscraper($timeout);
