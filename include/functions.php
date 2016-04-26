@@ -33,7 +33,7 @@
 $CURRENTPATH = __DIR__;
 
 global $btit_settings;
-if ($btit_settings["error"]==true)
+if ($btit_settings["error"]===true)
 {
 if(version_compare(PHP_VERSION, '5.3.0', '<=')) 
 error_reporting(E_ALL&~E_NOTICE&~E_WARNING&~E_STRICT&~'E_DEPRECATED'); 

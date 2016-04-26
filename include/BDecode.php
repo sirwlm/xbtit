@@ -38,15 +38,15 @@ class BDecode {
 	function numberdecode($wholefile, $offset) {
 		// Funky handling of negative numbers and zero
 		$negative = false;
-		if ($wholefile[$offset] == '-') {
+		if ($wholefile[$offset] === '-') {
 			$negative = true;
 			$offset++;
 		}
-		if ($wholefile[$offset] == '0') {
+		if ($wholefile[$offset] === '0') {
 			$offset++;
 			if ($negative)
 				return array(false);
-			if ($wholefile[$offset] == ':' || $wholefile[$offset] == 'e'){
+			if ($wholefile[$offset] === ':' || $wholefile[$offset] === 'e'){
 			 
              return array(0, ++$offset);
 			}

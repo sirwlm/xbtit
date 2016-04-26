@@ -41,7 +41,7 @@ if (!function_exists('bcsub')) {
 function send_pm($sender,$recepient,$subject,$msg) {
     global $FORUMLINK, $TABLE_PREFIX, $db_prefix, $CACHE_DURATION, $ipb_prefix;
 
-    if($FORUMLINK=="ipb")
+    if($FORUMLINK==='ipb')
     {
         ipb_send_pm($sender,$recepient,$subject,$msg);
     }
