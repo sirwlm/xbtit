@@ -47,15 +47,15 @@ if (!$CURUSER || $CURUSER["can_download"]=="no")
 if(ini_get('zlib.output_compression'))
   ini_set('zlib.output_compression','Off');
 
-$infohash=mysqli_query($GLOBALS['conn'],$_GET["id"]);
-$filepath=$TORRENTSDIR."/".$infohash . ".btf";
+$infohash=mysqli_real_escape_string($GLOBALS['conn'],$_GET['id']);
+$filepath=$TORRENTSDIR.'/'.$infohash.'.btf';
 
-if (!is_file($filepath) || !is_readable($filepath))
-   {
+//if (!is_file($filepath) || !is_readable($filepath))
+ //  {
 
-       require(load_language("lang_main.php"));
-       die($language["CANT_FIND_TORRENT"]);
-    }
+//       require(load_language("lang_main.php"));
+//       die($language["CANT_FIND_TORRENT"]);
+//   }
 
 $f=rawurlencode(html_entity_decode($_GET["f"]));
 
