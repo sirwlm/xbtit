@@ -87,7 +87,7 @@ else
 {
     $fd = fopen($filepath, "rb");
     $alltorrent = fread($fd, filesize($filepath));
-    $array = bencdec::decode($alltorrent);
+    $array = BDecode($alltorrent);
     fclose($fd);
 
     if ($XBTT_USE)
@@ -112,7 +112,7 @@ else
         }
     }
 
-    $alltorrent = bencdec::encode($array);
+    $alltorrent = BEncode($array);
 
     header("Content-Type: application/x-bittorrent");
     header('Content-Disposition: attachment; filename="'.$f.'"');
