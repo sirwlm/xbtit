@@ -379,29 +379,29 @@ function getPeerInfo($user, $hash)
 // Any section of code might need to make a new peer, so this is a function here.
 // I don't want to put it into funcsv2, even though it should, just for consistency's sake.
 
-function start($info_hash, $ip, $port, $peer_id, $left, $downloaded=0, $uploaded=0, $upid="")
+function start($info_hash, $ip, $port, $peer_id, $left, $downloaded=0, $uploaded=0, $upid= '')
 {
   global $BASEURL, $TABLE_PREFIX ;
 
-    if (isset($_GET["ip"]) && $GLOBALS["ip_override"])
+    if (isset($_GET['ip']) && $GLOBALS['ip_override'])
     {
         // compact check: valid IP address:
-        if ($_GET["ip"]!=long2ip(ip2long($_GET["ip"])))
-            show_error("Invalid IP address. Must be standard dotted decimal (hostnames not allowed)");
+        if ($_GET['ip'] !== long2ip(ip2long($_GET['ip'])))
+            show_error('Invalid IP address. Must be standard dotted decimal (hostnames not allowed)');
 
-         $ip =  mysqli_query($GLOBALS['conn'],$_GET["ip"]);
+         $ip =  mysqli_query($GLOBALS['conn'],$_GET['ip']);
     }
     else
         $ip = getip();
 
     $ip =  mysqli_query($GLOBALS['conn'],$ip);
-    $agent =  mysqli_query($GLOBALS['conn'],$_SERVER["HTTP_USER_AGENT"]);
+    $agent =  mysqli_query($GLOBALS['conn'],$_SERVER['HTTP_USER_AGENT']);
     $remotedns = gethostbyaddr($ip);
 
-    if (isset($_GET["ip"])) $nuIP = $_GET["ip"];
-      else $nuIP = "";
-    if ($remotedns == $nuIP)
-      $remotedns = "AA";
+    if ($_GET['ip']) $nuIP = $_GET['ip'];
+      else $nuIP = '';
+    if ($remotedns === $nuIP)
+      $remotedns = 'AA';
     else
         {
         $remotedns = strtoupper($remotedns);
@@ -409,18 +409,18 @@ function start($info_hash, $ip, $port, $peer_id, $left, $downloaded=0, $uploaded
     if (!empty($tldm[2]))
           $remotedns =  mysqli_query($GLOBALS['conn'],$tldm[2]);
     else
-      $remotedns = "AA";
+      $remotedns = 'AA';
       }
 
-    if ($left == 0)
-        $status = "seeder";
+    if ($left === 0)
+        $status = 'seeder';
     else
-        $status = "leecher";
+        $status = 'leecher';
 
     if (@isFireWalled($info_hash, $peer_id, $ip, $port))
-        $nat = "Y";
+        $nat = 'Y';
     else
-        $nat = "N";
+        $nat = 'N';
 
 
 
