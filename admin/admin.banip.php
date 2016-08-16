@@ -68,7 +68,7 @@ switch ($action)
             else{
                  $comment = sqlesc($comment);
                  $added = sqlesc(time());
-                 do_sqlquery('INSERT INTO {$TABLE_PREFIX}bannedip (added, addedby, first, last, comment) VALUES($added, $CURUSER[uid], $firstip, $lastip, $comment)',true);
+                 do_sqlquery("INSERT INTO {$TABLE_PREFIX}bannedip (added, addedby, first, last, comment) VALUES($added, $CURUSER[uid], $firstip, $lastip, $comment)",true);
             }
           }
     // don't break, so now we read directly ;)
@@ -77,7 +77,7 @@ switch ($action)
     case 'read':
     default:
         $banned=array();
-        $getbanned = do_sqlquery('SELECT b.*, u.username FROM {$TABLE_PREFIX}bannedip b LEFT JOIN {$TABLE_PREFIX}users u ON u.id=b.addedby ORDER BY b.added DESC',true);
+        $getbanned = do_sqlquery("SELECT b.*, u.username FROM {$TABLE_PREFIX}bannedip b LEFT JOIN {$TABLE_PREFIX}users u ON u.id=b.addedby ORDER BY b.added DESC",true);
         $rowsbanned = @mysqli_num_rows($getbanned);
         $admintpl->set('frm_action','index.php?page=admin&amp;user='.$CURUSER['uid'].'&amp;code='.$CURUSER['random'].'&amp;do=banip&amp;action=write');
         $i=0;
