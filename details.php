@@ -298,31 +298,31 @@ else
 
 // comments...
 $subres = get_result("SELECT c.id, text, UNIX_TIMESTAMP(added) as data, user, u.id as uid FROM {$TABLE_PREFIX}comments c LEFT JOIN {$TABLE_PREFIX}users u ON c.user=u.username WHERE info_hash = '" . $id . "' ORDER BY added DESC",true,$btit_settings['cache_duration']);
-if (!$subres || count($subres)==0) {
-     if($CURUSER["uid"]>1)
-       $torrenttpl->set("INSERT_COMMENT",TRUE,TRUE);
+if (!$subres || count($subres)===0) {
+     if($CURUSER['uid']>1)
+       $torrenttpl->set('INSERT_COMMENT',TRUE,TRUE);
      else
-       $torrenttpl->set("INSERT_COMMENT",false,TRUE);
+       $torrenttpl->set('INSERT_COMMENT',false,TRUE);
 
-    $torrenttpl->set("NO_COMMENTS",true,TRUE);
+    $torrenttpl->set('NO_COMMENTS',true,TRUE);
 }
 else {
 
-     $torrenttpl->set("NO_COMMENTS",false,TRUE);
+     $torrenttpl->set('NO_COMMENTS',false,TRUE);
 
-     if($CURUSER["uid"]>1)
-       $torrenttpl->set("INSERT_COMMENT",TRUE,TRUE);
+     if($CURUSER['uid']>1)
+       $torrenttpl->set('INSERT_COMMENT',TRUE,TRUE);
      else
-       $torrenttpl->set("INSERT_COMMENT",false,TRUE);
+       $torrenttpl->set('INSERT_COMMENT',false,TRUE);
      $comments=array();
      $count=0;
      foreach ($subres as $subrow) {
-       $comments[$count]["user"]="<a href=\"index.php?page=userdetails&amp;id=".$subrow["uid"]."\">" . unesc($subrow["user"]);
-       $comments[$count]["date"]=date("d/m/Y H.i.s",$subrow["data"]-$offset);
+       $comments[$count]['user']="<a href=\"index.php?page=userdetails&amp;id=".$subrow["uid"]."\">" . unesc($subrow['user']);
+       $comments[$count]['date']=date("d/m/Y H.i.s",$subrow["data"]-$offset);
        // only users able to delete torrents can delete comments...
-       if ($CURUSER["delete_torrents"]=="yes")
-         $comments[$count]["delete"]="<a onclick=\"return confirm('". str_replace("'","\'",$language["DELETE_CONFIRM"])."')\" href=\"index.php?page=comment&amp;id=$id&amp;cid=" . $subrow["id"] . "&amp;action=delete\">".image_or_link("$STYLEPATH/images/delete.png","",$language["DELETE"])."</a>";
-       $comments[$count]["comment"]=format_comment($subrow["text"]);
+       if ($CURUSER['delete_torrents']==="yes")
+         $comments[$count]['delete']="<a onclick=\"return confirm('". str_replace("'","\'",$language["DELETE_CONFIRM"])."')\" href=\"index.php?page=comment&amp;id=$id&amp;cid=" . $subrow["id"] . "&amp;action=delete\">".image_or_link("$STYLEPATH/images/delete.png","",$language["DELETE"])."</a>";
+       $comments[$count]['comment']=format_comment($subrow["text"]);
        $count++;
         }
      unset($subrow);
@@ -337,8 +337,8 @@ else
     $torrenttpl->set("torrent_footer","<a href=\"javascript: history.go(-1);\">".$language["BACK"]."</a>");
 
 
-$torrenttpl->set("torrent",$row);
-$torrenttpl->set("comments",$comments);
-$torrenttpl->set("files",$dfiles);
+$torrenttpl->set('torrent',$row);
+$torrenttpl->set('comments',$comments);
+$torrenttpl->set('files',$dfiles);
 
 ?>

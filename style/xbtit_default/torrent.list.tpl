@@ -79,7 +79,7 @@
           <td align="center" width="30" class="lista <tag:torrents[].classe_leechers />" style="text-align: center;"><tag:torrents[].leechers /></td>
           <td align="center" width="30" class="lista" style="text-align: center;"><tag:torrents[].complete /></td>
            <if:COM1>
-          <td align="center" width="30" class="lista" style="text-align: center;"><tag:torrents[].coments /></td>
+          <td align="center" width="30" class="lista" style="text-align: center;"><tag:torrents[].comments /></td>
           </if:COM1>
           <else:COM1>
            <if:RAT1>
