@@ -58,7 +58,7 @@ function windowunder(link)
         </tr>
         <if:DISPLAY_FILES>
         <tr>
-        <td align="right" class="header" valign="top"><a name="expand" href="#expand" onclick="javascript:ShowHide('files','msgfile');"><tag:language.SHOW_HIDE /></a></td>
+        <td align="right" class="header" valign="top"><a name="expand" onclick="javascript:ShowHide('files','msgfile');"><tag:language.SHOW_HIDE /></a></td>
         <td align="left" class="lista">
         <div style="display:none" id="files">
           <table class="lista">
