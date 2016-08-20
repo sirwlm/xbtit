@@ -58,9 +58,9 @@ break;
 
 case 'save':
     
-	(isset($_POST["php_log_path"]) && !empty($_POST["php_log_path"])) ? $log_settings["php_log_path"]=mysqli_query($GLOBALS['conn'],str_replace("\\", "/", $_POST["php_log_path"])) : $log_settings["php_log_path"]="";
-	$log_settings["php_log_name"]=isset($_POST["php_log_name"])?mysqli_query($GLOBALS['conn'],htmlentities($_POST["php_log_name"])):$log_settings["php_log_name"]="";
-	$log_settings["php_log_lines"]=isset($_POST["php_log_lines"])?mysqli_query($GLOBALS['conn'],((int)0+$_POST["php_log_lines"])):$log_settings["php_log_lines"]="";
+	(isset($_POST["php_log_path"]) && !empty($_POST["php_log_path"])) ? $log_settings["php_log_path"]=mysqli_real_escape_string($GLOBALS['conn'],str_replace("\\", "/", $_POST["php_log_path"])) : $log_settings["php_log_path"]="";
+	$log_settings["php_log_name"]=isset($_POST["php_log_name"])?mysqli_real_escape_string($GLOBALS['conn'],htmlentities($_POST["php_log_name"])):$log_settings["php_log_name"]="";
+	$log_settings["php_log_lines"]=isset($_POST["php_log_lines"])?mysqli_real_escape_string($GLOBALS['conn'],((int)0+$_POST["php_log_lines"])):$log_settings["php_log_lines"]="";
 	
 	foreach($log_settings as $key=>$value)
           {
