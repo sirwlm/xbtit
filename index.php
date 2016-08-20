@@ -50,6 +50,7 @@ include("$THIS_BASEPATH/btemplate/bTemplate.php");
 require("$THIS_BASEPATH/include/functions.php");
 
 session_name("xbtit");
+session_start();
 
 dbconn(true);
 
