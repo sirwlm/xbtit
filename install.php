@@ -823,9 +823,6 @@ elseif ($action === 'save_owner') {
         @mysqli_query($GLOBALS['conn'], "INSERT INTO `{$db_prefix}members` (`ID_MEMBER`, `memberName`, `dateRegistered`, `ID_GROUP`, `realName`, `passwd`, `emailAddress`, `memberIP`, `memberIP2`, `is_activated`, `passwordSalt`) VALUES (2 ,'$username', UNIX_TIMESTAMP(), 18, '$username', '$smfpass[0]', '$email', '".$_SERVER["REMOTE_ADDR"]."', '".$_SERVER["REMOTE_ADDR"]."', 1, '$smfpass[1]')");
     else
         @mysqli_query($GLOBALS['conn'], "INSERT INTO `{$db_prefix}members` (`id_member`, `member_name`, `date_registered`, `id_group`, `real_name`, `passwd`, `email_address`, `member_ip`, `member_ip2`, `is_activated`, `password_salt`) VALUES (2 ,'$username', UNIX_TIMESTAMP(), 18, '$username', '$smfpass[0]', '$email', '".$_SERVER["REMOTE_ADDR"]."', '".$_SERVER["REMOTE_ADDR"]."', 1, '$smfpass[1]')");
-        @mysqli_query($GLOBALS['conn'], "UPDATE `{$db_prefix}settings` SET `value` = 2 WHERE `variable` = 'latestMember'");
-        @mysqli_query($GLOBALS['conn'], "UPDATE `{$db_prefix}settings` SET `value` = '$username' WHERE `variable` = 'latestRealName'");
-        @mysqli_query($GLOBALS['conn'], "UPDATE `{$db_prefix}settings` SET `value` = UNIX_TIMESTAMP() WHERE `variable` = 'memberlist_updated'");
         @mysqli_query($GLOBALS['conn'], "UPDATE `{$TABLE_PREFIX}users_level` SET `smf_group_mirror`=`id`+10");
     
     $smf_lang= 'smf/Themes/default/languages/Errors.english.php';
@@ -932,6 +929,16 @@ elseif ($action === 'save_owner') {
     }
 
     mysqli_query($GLOBALS['conn'], "INSERT INTO {$TABLE_PREFIX}users (id, username, password, random, id_level, email, joined, lastconnect, pid, time_offset, smf_fid, ipb_fid) VALUES (2, '$username', '" . md5($password) . "', $random, 8, '$email', NOW(), NOW(), '".md5(uniqid(rand(),true))."', 0, $smf_fid, $ipb_fid)");
+    
+    $host = empty($_SERVER['HTTP_HOST']) ? $_SERVER['SERVER_NAME'] . (empty($_SERVER['SERVER_PORT']) || $_SERVER['SERVER_PORT'] == '80' ? '' : ':' . $_SERVER['SERVER_PORT']) : $_SERVER['HTTP_HOST'];
+    $baseurl = 'http://' . $host . substr($_SERVER['PHP_SELF'], 0, strrpos($_SERVER['PHP_SELF'], '/'));
+    mysqli_query($GLOBALS['conn'], "UPDATE `{$TABLE_PREFIX}settings` SET `value` = 2 WHERE `variable` = 'latestMember'");
+	mysqli_query($GLOBALS['conn'], "UPDATE `{$TABLE_PREFIX}settings` SET `value` = '$username' WHERE `variable` = 'latestRealName'");
+    mysqli_query($GLOBALS['conn'], "UPDATE `{$TABLE_PREFIX}settings` SET `value` = UNIX_TIMESTAMP() WHERE `variable` = 'memberlist_updated'");
+    mysqli_query($GLOBALS["conn"], "UPDATE {$TABLE_PREFIX}settings SET `value` = 'a:2:{i:0;s:30:\"".$baseurl."/announce.php\r\";i:1;s:30:\"http://".$host.":2710/announce\";}' WHERE `key` = 'announce'");
+    mysqli_query($GLOBALS["conn"], "UPDATE {$TABLE_PREFIX}settings SET `value` = 'http://".$host.":2710/announce' WHERE `key` = 'xbtt_url'");
+    mysqli_query($GLOBALS["conn"], "UPDATE {$TABLE_PREFIX}settings SET `value` = '".$email."' WHERE `key` = 'email'");
+    mysqli_query($GLOBALS["conn"], "UPDATE {$TABLE_PREFIX}settings SET `value` = '".$INSTALLPATH."/include/logs' WHERE `key` = 'php_log_path'");
     echo ($install_lang['create_owner_account']. '&nbsp;' .$install_lang['is_succes']);
     echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&amp;action=finished'\" /></div>");
 }
