@@ -242,11 +242,11 @@ function check_online($session_id, $location)
 
     if($locationHasChanged || $overOneMinute)
     {
-        @quickQuery("UPDATE {$TABLE_PREFIX}online SET session_id='$session_id', user_name=$uname, user_group=$ugroup, prefixcolor=$prefix, suffixcolor=$suffix, location=$location, user_id=$uid, lastaction=UNIX_TIMESTAMP() $where");
+        @quickQuery("UPDATE {$TABLE_PREFIX}online SET session_id='$session_id', user_name=$uname, user_group=$ugroup, prefixcolor=$prefix, suffixcolor=$suffix, location=$location, user_id=$uid, lastaction=UNIX_TIMESTAMP(), user_ip='$ip' $where");
         // record don't already exist, then insert it
         if (mysqli_affected_rows($GLOBALS['conn'])==0)
         { 
-            @quickQuery("UPDATE {$TABLE_PREFIX}users SET lastconnect=NOW() WHERE id=$uid AND id>1");
+            @quickQuery("UPDATE {$TABLE_PREFIX}users SET lastconnect=NOW(), cip='$ip' WHERE id=$uid AND id>1");
             @quickQuery("INSERT INTO {$TABLE_PREFIX}online SET session_id='$session_id', user_name=$uname, user_group=$ugroup, prefixcolor=$prefix, suffixcolor=$suffix, user_id=$uid, user_ip='$ip', location=$location, lastaction=UNIX_TIMESTAMP()");
         }
     }
