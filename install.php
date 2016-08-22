@@ -935,7 +935,7 @@ elseif ($action === 'save_owner') {
     mysqli_query($GLOBALS['conn'], "UPDATE `{$TABLE_PREFIX}settings` SET `value` = 2 WHERE `variable` = 'latestMember'");
 	mysqli_query($GLOBALS['conn'], "UPDATE `{$TABLE_PREFIX}settings` SET `value` = '$username' WHERE `variable` = 'latestRealName'");
     mysqli_query($GLOBALS['conn'], "UPDATE `{$TABLE_PREFIX}settings` SET `value` = UNIX_TIMESTAMP() WHERE `variable` = 'memberlist_updated'");
-    mysqli_query($GLOBALS["conn"], "UPDATE {$TABLE_PREFIX}settings SET `value` = 'a:2:{i:0;s:30:\"".$baseurl."/announce.php\r\";i:1;s:30:\"http://".$host.":2710/announce\";}' WHERE `key` = 'announce'");
+    mysqli_query($GLOBALS["conn"], "UPDATE {$TABLE_PREFIX}settings SET `value` = '".$baseurl."/announce.php ' WHERE `key` = 'announce'");
     mysqli_query($GLOBALS["conn"], "UPDATE {$TABLE_PREFIX}settings SET `value` = 'http://".$host.":2710/announce' WHERE `key` = 'xbtt_url'");
     mysqli_query($GLOBALS["conn"], "UPDATE {$TABLE_PREFIX}settings SET `value` = '".$email."' WHERE `key` = 'email'");
     mysqli_query($GLOBALS["conn"], "UPDATE {$TABLE_PREFIX}settings SET `value` = '".$INSTALLPATH."/include/logs' WHERE `key` = 'php_log_path'");
