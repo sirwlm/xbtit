@@ -70,7 +70,7 @@ We aimed to make a nice user interface and a good admin tool at the same time. S
 The rest has been coded, designed, and thought up from scratch
 
 Thanks to coder addons/hacks (many are included in this version): 
-Ripper, cobracrk, JBoy, Liroy, Petr1fied, miskotes, gAndo, Fireworx, Freelancer, Sktoch, Nimrod, HMD
+Ripper, cobracrk, JBoy, Liroy, Petr1fied, miskotes, gAndo, Fireworx, Freelancer, Sktoch, Nimrod, Q8Hma
 
 Thanks to style maker: 
 TreeTopClimber
