@@ -95,7 +95,7 @@ function load_lang_file()
         while ($entry = $dir->read())
         {
             if (substr($entry, 0, 8) === 'install.' && substr($entry, -4) === '.php')
-                $GLOBALS['find_install_lang'][$entry] = ucfirst(substr($entry, 8, - 12));
+                $GLOBALS['find_install_lang'][$entry] = ucfirst(substr($entry, 8, -4));
         }
         $dir->close();
     }
