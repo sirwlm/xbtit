@@ -29,17 +29,16 @@
 // EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 ////////////////////////////////////////////////////////////////////////////////////
-
 $dbfile= 'database.sql';
 // declaration of variables
-$INSTALLPATH = __DIR__;
+$INSTALLPATH = dirname(__FILE__);
 $action = isset($_POST['action']) ? $_POST['action'] : (isset($_GET['action']) ? $_GET['action'] : 'welcome');
 $allowed_actions = array('save_owner','welcome','reqcheck','settings','sql_import','save_mysql','owner','site_config', 'save_tracker','finished');
 if (!in_array($action, $allowed_actions))
     $action = 'welcome';
 define('BTIT_INSTALL', TRUE);
 
-require_once('include/xbtit_version.php');
+require_once('include'.DIRECTORY_SEPARATOR.'xbtit_version.php');
 
 global $tracker_version, $tracker_revision;
 
@@ -88,10 +87,10 @@ function load_lang_file()
     $GLOBALS['find_install_lang'] = array();
 
     // Make sure the languages directory actually exists.
-    if (file_exists(__DIR__ . '/language/install_lang/'))
+    if (file_exists(__DIR__ . DIRECTORY_SEPARATOR.'language'.DIRECTORY_SEPARATOR.'install_lang'.DIRECTORY_SEPARATOR))
     {
         // Find all the "Install" language files in the directory.
-        $dir = dir(__DIR__ . '/language/install_lang/');
+        $dir = dir(__DIR__ . DIRECTORY_SEPARATOR.'language'.DIRECTORY_SEPARATOR.'install_lang'.DIRECTORY_SEPARATOR);
         while ($entry = $dir->read())
         {
             if (substr($entry, 0, 8) === 'install.' && substr($entry, -4) === '.php')
@@ -130,7 +129,7 @@ function load_lang_file()
     else $_SESSION['install_lang'] = 'install.english.php';
 
     // Make sure it exists, if it doesn't reset it.
-    if (!isset($_SESSION['install_lang']) || !file_exists(__DIR__ . '/language/install_lang/' . $_SESSION['install_lang']))
+    if (!isset($_SESSION['install_lang']) || !file_exists(__DIR__ . DIRECTORY_SEPARATOR.'language'.DIRECTORY_SEPARATOR.'install_lang'.DIRECTORY_SEPARATOR . $_SESSION['install_lang']))
     {
         // Use the first one...
         list ($_SESSION["install_lang"]) = array_keys($GLOBALS['find_install_lang']);
@@ -141,7 +140,7 @@ function load_lang_file()
     }
 
     // And now include the actual language file itself.
-    require_once(__DIR__ . '/language/install_lang/' . $_SESSION['install_lang']);
+    require_once(__DIR__ . DIRECTORY_SEPARATOR.'language'.DIRECTORY_SEPARATOR.'install_lang'.DIRECTORY_SEPARATOR . $_SESSION['install_lang']);
 }
 
 function language_list()
@@ -192,7 +191,7 @@ function step ($text = '', $stepname = '', $stepnumber = '') {
   }
 
 // check if the installation is not locked
-if (file_exists(__DIR__ ."/install.lock"))
+if (file_exists(__DIR__ .DIRECTORY_SEPARATOR."install.lock"))
 {
     step ('Installation Error!', 'ERROR!', '*');
     echo ("<p>For security reasons, this installer is locked!<br>Please (via FTP) remove or change the 'install.lock' file before continue.</p>");
@@ -245,9 +244,9 @@ elseif ($action === 'reqcheck') {
     step ($install_lang['requirements_check'],$install_lang['step']. '&nbsp;' .$install_lang['reqcheck'], '1');
 
 // check access_code folder
-if(file_exists(dirname(__file__). '/access_code'))
+if(file_exists(dirname(__file__). DIRECTORY_SEPARATOR.'access_code'))
   {
-  if(is_writable(dirname(__file__). '/access_code'))
+  if(is_writable(dirname(__file__). DIRECTORY_SEPARATOR.'access_code'))
         $accesscode = $install_lang['write_succes'];
   else
         $accesscode = $install_lang['write_fail']. '&nbsp;' .$install_lang['not_continue_settings3'];
@@ -255,9 +254,9 @@ if(file_exists(dirname(__file__). '/access_code'))
   else
         $accesscode = $install_lang['write_file_not_found'];
 // check cache folder
-if (file_exists(__DIR__ . '/cache'))
+if (file_exists(__DIR__ . DIRECTORY_SEPARATOR.'cache'))
   {
-  if (is_writable(__DIR__ . '/cache'))
+  if (is_writable(__DIR__ . DIRECTORY_SEPARATOR.'cache'))
         $cache=$install_lang['write_succes'];
   else
         $cache=$install_lang['write_fail']. '&nbsp;&nbsp;&nbsp;' .$install_lang['can_continue'];
@@ -266,9 +265,9 @@ else
   $cache=$install_lang['write_file_not_found'];
 
 // check torrents folder
-if (file_exists(__DIR__ . '/torrents'))
+if (file_exists(__DIR__ . DIRECTORY_SEPARATOR.'torrents'))
   {
-  if (is_writable(__DIR__ . '/torrents'))
+  if (is_writable(__DIR__ . DIRECTORY_SEPARATOR.'torrents'))
         $torrents=$install_lang['write_succes'];
   else
         $torrents=$install_lang['write_fail']. '&nbsp;&nbsp;&nbsp;' .$install_lang['can_continue'];
@@ -276,9 +275,9 @@ if (file_exists(__DIR__ . '/torrents'))
 else
   $torrents=$install_lang['write_file_not_found'];
 // check badwords.txt
-if (file_exists(__DIR__ . '/badwords.txt'))
+if (file_exists(__DIR__ . DIRECTORY_SEPARATOR.'badwords.txt'))
   {
-  if (is_writable(__DIR__ . '/badwords.txt'))
+  if (is_writable(__DIR__ . DIRECTORY_SEPARATOR.'badwords.txt'))
         $badwords=$install_lang['write_succes'];
   else
         $badwords=$install_lang['write_fail']. '&nbsp;&nbsp;&nbsp;' .$install_lang['can_continue'];
@@ -286,9 +285,9 @@ if (file_exists(__DIR__ . '/badwords.txt'))
 else
   $badwords=$install_lang['write_file_not_found'];
 // check include/settings.php
-if (file_exists(__DIR__ . '/include/settings.php'))
+if (file_exists(__DIR__ . DIRECTORY_SEPARATOR . 'include'.DIRECTORY_SEPARATOR.'settings.php'))
   {
-  if (is_writable(__DIR__ . '/include/settings.php'))
+  if (is_writable(__DIR__ . DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'settings.php'))
         $settings=$install_lang['write_succes'];
   else
         $settings=$install_lang['write_fail']. '&nbsp;' .$install_lang['not_continue_settings'];
@@ -311,9 +310,9 @@ else
     echo ("<tr><td width=\"40%\" valign=\"top\">".$install_lang['allow_url_fopen'].":</td><td>".$allow_url_fopen."</td></tr>");
     echo ('</table>');
     // don't continue if this file doesn't exists
-    if (file_exists(__DIR__ . '/include/settings.php'))
+    if (file_exists(__DIR__ . DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'settings.php'))
         {
-        if (is_writable(__DIR__ . '/include/settings.php'))
+        if (is_writable(__DIR__ . DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'settings.php'))
             echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION['install_lang']."&amp;action=settings'\" /></div>");
         }
 
@@ -350,11 +349,11 @@ if (empty($_POST['db_server']) || empty($_POST['db_user']) || empty($_POST['db_p
 }
 // check settings.php file
 $random = substr(number_format(time() * rand(),0,'',''),0,10);
-if (file_exists(__DIR__ . '/include/settings.php'))
+if (file_exists(__DIR__ . DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'settings.php'))
   {
-  if (is_writable(__DIR__ . '/include/settings.php'))
+  if (is_writable(__DIR__ . DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'settings.php'))
      {
-     $fd = fopen('include/settings.php', 'w');
+     $fd = fopen('include'.DIRECTORY_SEPARATOR.'settings.php', 'w');
      $foutput = "<?php\n\n";
      $foutput.= "\$dbhost = \"".$_POST['db_server']."\";\n";
      $foutput.= "\$dbuser = \"".$_POST['db_user']."\";\n";
@@ -381,7 +380,7 @@ elseif($action === 'sql_import')
 {
     step($install_lang['mysql_import'], $install_lang['step']. '&nbsp;' .$install_lang['mysql_import_step'], '3');
     // Make sure it works.
-    require (dirname(__file__).'/include/settings.php');
+    require (dirname(__file__).DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'settings.php');
     // Attempt a connection.
     $GLOBALS['conn'] = mysqli_connect($dbhost, $dbuser, $dbpass);
     // No dice?  Let's try adding the prefix they specified, just in case they misread the instructions ;).
@@ -443,7 +442,7 @@ elseif($action === 'sql_import')
         $replaces['{$default_reserved_names}'] = strtr($replaces['{$default_reserved_names}'], array('\\\\n' => '\\n'));
     $replaces['); -- TABLEOPT --'] = ') DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ENGINE=MyISAM;';
     // Read in the SQL.  Turn this on and that off... internationalize... etc.
-    $sql_lines = explode("\n", strtr(implode(' ', file(dirname(__file__).'/sql/database.sql')), $replaces));
+    $sql_lines = explode("\n", strtr(implode(' ', file(dirname(__file__).DIRECTORY_SEPARATOR.'sql'.DIRECTORY_SEPARATOR.'database.sql')), $replaces));
     // Execute the SQL.
     $current_statement = '';
     $failures = array();
@@ -482,7 +481,7 @@ elseif ($action === 'site_config') {
     step ($install_lang["site_config"],$install_lang["step"]."&nbsp;".$install_lang["site_config_step"],"4");
 
     // getting started
-    require (__DIR__ ."/include/settings.php");
+    require (__DIR__ .DIRECTORY_SEPARATOR."include".DIRECTORY_SEPARATOR."settings.php");
 
     ($GLOBALS["conn"] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
     ((bool)mysqli_query($GLOBALS["conn"], "USE $database"));
@@ -491,8 +490,8 @@ elseif ($action === 'site_config') {
     $host = empty($_SERVER['HTTP_HOST']) ? $_SERVER['SERVER_NAME'] . (empty($_SERVER['SERVER_PORT']) || $_SERVER['SERVER_PORT'] == '80' ? '' : ':' . $_SERVER['SERVER_PORT']) : $_SERVER['HTTP_HOST'];
     // finding the base path.
     $baseurl = 'http://' . $host . substr($_SERVER['PHP_SELF'], 0, strrpos($_SERVER['PHP_SELF'], '/'));
-    $smf_lang=str_replace("\\", "/", __DIR__)."/smf/Themes/default/languages/Errors.english.php";
-    $ipb_lang=str_replace("\\", "/", __DIR__)."/ipb/cache/lang_cache/1/core_public_error.php";
+    $smf_lang=str_replace(array("\\", "/"),DIRECTORY_SEPARATOR, __DIR__).DIRECTORY_SEPARATOR."smf".DIRECTORY_SEPARATOR."Themes".DIRECTORY_SEPARATOR."default".DIRECTORY_SEPARATOR."languages".DIRECTORY_SEPARATOR."Errors.english.php";
+    $ipb_lang=str_replace(array("\\", "/"),DIRECTORY_SEPARATOR, __DIR__).DIRECTORY_SEPARATOR."ipb".DIRECTORY_SEPARATOR."cache".DIRECTORY_SEPARATOR."lang_cache".DIRECTORY_SEPARATOR."1".DIRECTORY_SEPARATOR."core_public_error.php";
     
     echo ("<form action=\"".$_SERVER['PHP_SELF']."?lang_file=".$_SESSION["install_lang"]."&amp;action=save_tracker\" method=\"post\">");
     echo ("<h2>".$install_lang["site_config"]."</h2>");
@@ -555,21 +554,21 @@ elseif ($action === 'save_tracker') {
     elseif($forum_type==4) $_POST["externalforum"];
 
     // getting started
-    require (__DIR__ ."/include/settings.php");
+    require (__DIR__ .DIRECTORY_SEPARATOR."include".DIRECTORY_SEPARATOR."settings.php");
 
     @($GLOBALS["conn"] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
     @((bool)mysqli_query($GLOBALS["conn"], "USE $database"));
     
     if($forum === "smf")
     {
-        $smf_lang=str_replace("\\", "/", __DIR__)."/smf/Themes/default/languages/Errors.english.php";
+        $smf_lang=str_replace(array("\\", "/"),DIRECTORY_SEPARATOR, __DIR__).DIRECTORY_SEPARATOR."smf".DIRECTORY_SEPARATOR."Themes".DIRECTORY_SEPARATOR."default".DIRECTORY_SEPARATOR."languages".DIRECTORY_SEPARATOR."Errors.english.php";
         
         // Lets check the main SMF Settings file is present
-        if (!file_exists(__DIR__ ."/smf/Settings.php"))
+        if (!file_exists(__DIR__ .DIRECTORY_SEPARATOR."smf".DIRECTORY_SEPARATOR."Settings.php"))
             die($install_lang["smf_err_1"]);
 
         // Now to check they've actually installed it by checking the database
-        require (__DIR__ ."/smf/Settings.php");
+        require (__DIR__ .DIRECTORY_SEPARATOR."smf".DIRECTORY_SEPARATOR."Settings.php");
         
         $smf=mysqli_query($GLOBALS["conn"], "SELECT `value` FROM `{$db_prefix}settings` WHERE variable='smfVersion'");
         if(mysqli_num_rows($smf)===0)
@@ -584,7 +583,7 @@ elseif ($action === 'save_tracker') {
         if(!is_writable($smf_lang))
             die($install_lang['smf_err_3a'] . $smf_lang . $install_lang['smf_err_3b']);
 
-        $filename= __DIR__ . '/include/settings.php';
+        $filename= __DIR__ . DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'settings.php';
         if (file_exists($filename))
         {
             if (is_writable($filename))
@@ -606,15 +605,15 @@ elseif ($action === 'save_tracker') {
     }
     elseif($forum === 'ipb')
     {
-        $BASEDIR=str_replace("\\", '/', __DIR__);
-        $ipb_lang=$BASEDIR."/ipb/cache/lang_cache/1/core_public_error.php";
+        $BASEDIR=str_replace(array("\\", '/'),DIRECTORY_SEPARATOR, __DIR__);
+        $ipb_lang=$BASEDIR.DIRECTORY_SEPARATOR."ipb".DIRECTORY_SEPARATOR."cache".DIRECTORY_SEPARATOR."lang_cache".DIRECTORY_SEPARATOR."1".DIRECTORY_SEPARATOR."core_public_error.php";
         
         // Lets check the main IPB Config file is present
-        if (!file_exists($BASEDIR. '/ipb/conf_global.php'))
+        if (!file_exists($BASEDIR. DIRECTORY_SEPARATOR.'ipb'.DIRECTORY_SEPARATOR.'conf_global.php'))
             die($install_lang['ipb_err_1']);
 
         // Now to check they've actually installed it by checking the database
-        require ($BASEDIR. '/ipb/conf_global.php');
+        require ($BASEDIR. DIRECTORY_SEPARATOR.'ipb'.DIRECTORY_SEPARATOR.'conf_global.php');
         
         $ipb=mysqli_query($GLOBALS['conn'], "SELECT `name` FROM `".$INFO["sql_tbl_prefix"]."members` LIMIT 1;");
         if(@mysqli_num_rows($ipb)===0)
@@ -628,11 +627,11 @@ elseif ($action === 'save_tracker') {
         if(!is_writable($ipb_lang))
             die($install_lang['ipb_err_3a'] . $ipb_lang . $install_lang['ipb_err_3b']);
 
-        $ipb_conf_writable=(is_writable($BASEDIR. '/ipb/conf_global.php') ?true:false);
+        $ipb_conf_writable=(is_writable($BASEDIR. DIRECTORY_SEPARATOR.'ipb'.DIRECTORY_SEPARATOR.'conf_global.php') ?true:false);
 
         if($ipb_conf_writable===true)
         {
-            $filename=$BASEDIR. '/ipb/conf_global.php';
+            $filename=$BASEDIR. DIRECTORY_SEPARATOR.'ipb'.DIRECTORY_SEPARATOR.'conf_global.php';
             $fd=fopen($filename, 'r+');
             $data=fread($fd,filesize($filename));
             ftruncate($fd,0);
@@ -648,7 +647,7 @@ elseif ($action === 'save_tracker') {
             $data=str_replace(array("\$INFO['sql_tbl_prefix']", "\t","'"), array("\$ipb_prefix", '',"\""),$data2);
             $data=str_replace("x=\"", "x = \"", $data);
 
-            $filename=$BASEDIR. '/include/settings.php';
+            $filename=$BASEDIR. DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'settings.php';
             if (file_exists($filename))
             {
                 if (is_writable($filename))
@@ -671,7 +670,7 @@ elseif ($action === 'save_tracker') {
             }
         }
         else
-            die($install_lang['ipb_err_5'] . $BASEDIR. '/ipb/conf_global.php' . $install_lang['ipb_err_3b']);
+            die($install_lang['ipb_err_5'] . $BASEDIR. DIRECTORY_SEPARATOR.'ipb'.DIRECTORY_SEPARATOR.'conf_global.php' . $install_lang['ipb_err_3b']);
     }
     
     @mysqli_query($GLOBALS['conn'], "ALTER TABLE {$TABLE_PREFIX}users CHANGE `language` `language` TINYINT( 4 ) NOT NULL DEFAULT '$default_lang'") or (is_object($GLOBALS['conn']) ? mysqli_error($GLOBALS['conn']) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
@@ -711,7 +710,7 @@ elseif ($action === 'save_owner') {
     step ($install_lang['create_owner_account'],$install_lang['step']. '&nbsp;' .$install_lang['create_owner_account_step'],"5");
     
     // getting started
-    require (__DIR__ . '/include/settings.php');
+    require (__DIR__ . DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'settings.php');
 
     @($GLOBALS['conn'] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
     @((bool)mysqli_query($GLOBALS['conn'], "USE $database"));
@@ -804,9 +803,9 @@ elseif ($action === 'save_owner') {
 
     if(substr($forum,0,3) === 'smf')
     {
-        require (__DIR__ . '/smf/Settings.php');
+        require (__DIR__ . DIRECTORY_SEPARATOR.'smf'.DIRECTORY_SEPARATOR.'Settings.php');
 
-        $filename= __DIR__ . '/sql/'.$forum.'.sql';
+        $filename= __DIR__ . DIRECTORY_SEPARATOR.'sql'.DIRECTORY_SEPARATOR.$forum.'.sql';
         $fd=fopen($filename, 'r');
         $sql=fread($fd, filesize($filename));
 
@@ -853,11 +852,11 @@ elseif ($action === 'save_owner') {
     }
     elseif($forum === 'ipb')
     {
-        $BASEDIR=str_replace("\\", "/", __DIR__);
+        $BASEDIR=str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, __DIR__);
 
-        require ($BASEDIR. '/include/settings.php');
+        require ($BASEDIR. DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'settings.php');
 
-        $filename= __DIR__ . '/sql/ipb.sql';
+        $filename= __DIR__ . DIRECTORY_SEPARATOR.'sql'.DIRECTORY_SEPARATOR.'ipb.sql';
         $fd=fopen($filename, 'r');
         $sql=fread($fd, filesize($filename));
 
@@ -883,7 +882,7 @@ elseif ($action === 'save_owner') {
     // finding the base path. 
         $baseurl = 'http://' . $host . substr($_SERVER['PHP_SELF'], 0, strrpos($_SERVER['PHP_SELF'], '/'));
 
-        $ipb_lang=$BASEDIR. '/ipb/cache/lang_cache/1/core_public_error.php';
+        $ipb_lang=$BASEDIR. DIRECTORY_SEPARATOR.'ipb'.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR.'lang_cache'.DIRECTORY_SEPARATOR.'1'.DIRECTORY_SEPARATOR.'core_public_error.php';
         $fd=fopen($ipb_lang, 'r+');
         $lang_data=fread($fd, filesize($ipb_lang));
         ftruncate($fd,0);
@@ -899,9 +898,9 @@ elseif ($action === 'save_owner') {
         if(!defined('IPB_THIS_SCRIPT'))
             define( 'IPB_THIS_SCRIPT', 'public' );
 
-        require_once( __DIR__ .'/ipb/initdata.php' );
-        require_once( IPS_ROOT_PATH . 'sources/base/ipsRegistry.php' );
-        require_once( IPS_ROOT_PATH . 'sources/base/ipsController.php' );
+        require_once( __DIR__ .DIRECTORY_SEPARATOR.'ipb'.DIRECTORY_SEPARATOR.'initdata.php' );
+        require_once( IPS_ROOT_PATH . 'sources'.DIRECTORY_SEPARATOR.'base'.DIRECTORY_SEPARATOR.'ipsRegistry.php' );
+        require_once( IPS_ROOT_PATH . 'sources'.DIRECTORY_SEPARATOR.'base'.DIRECTORY_SEPARATOR.'ipsController.php' );
         $registry = ipsRegistry::instance(); 
         $registry->init();
 
@@ -938,7 +937,7 @@ elseif ($action === 'save_owner') {
     mysqli_query($GLOBALS["conn"], "UPDATE {$TABLE_PREFIX}settings SET `value` = '".$baseurl."/announce.php ' WHERE `key` = 'announce'");
     mysqli_query($GLOBALS["conn"], "UPDATE {$TABLE_PREFIX}settings SET `value` = 'http://".$host.":2710/announce' WHERE `key` = 'xbtt_url'");
     mysqli_query($GLOBALS["conn"], "UPDATE {$TABLE_PREFIX}settings SET `value` = '".$email."' WHERE `key` = 'email'");
-    mysqli_query($GLOBALS["conn"], "UPDATE {$TABLE_PREFIX}settings SET `value` = '".$INSTALLPATH."/include/logs' WHERE `key` = 'php_log_path'");
+    mysqli_query($GLOBALS["conn"], "UPDATE {$TABLE_PREFIX}settings SET `value` = '".$INSTALLPATH.DIRECTORY_SEPARATOR."include".DIRECTORY_SEPARATOR."logs' WHERE `key` = 'php_log_path'");
     echo ($install_lang['create_owner_account']. '&nbsp;' .$install_lang['is_succes']);
     echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&amp;action=finished'\" /></div>");
 }
