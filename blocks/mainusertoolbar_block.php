@@ -96,6 +96,7 @@ print("</select></td>");
 else
 {
     session_name("xbtit");
+    if (!isset($_SESSION))
     session_start();
     $_SESSION=array();
     setcookie("xbtit", "", time()-3600, "/");
