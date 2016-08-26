@@ -49,7 +49,7 @@ switch ($action)
         //$btit_settings=array();
         $btit_settings["name"]=$_POST["trackername"];
         $btit_settings["url"]=$_POST["trackerurl"];
-        $btit_settings["announce"]=serialize(explode("\n",$_POST["tracker_announceurl"]));
+        $btit_settings["announce"]=base64_encode(serialize(explode("\n",$_POST["tracker_announceurl"])));
         $btit_settings["email"]=$_POST["trackeremail"];
         $btit_settings["torrentdir"]=$_POST["torrentdir"];
         $btit_settings["external"]=isset($_POST["exttorrents"])?"true":"false";
@@ -224,8 +224,8 @@ switch ($action)
 
         // some $btit_settings are stored in database, some other not like in template
         // we will convert and set to correct value in the array.
-        if (is_array(unserialize($btit_settings["announce"])))
-        $btit_settings["announce"]=implode("\n",unserialize($btit_settings["announce"]));
+        if (is_array(unserialize(base64_decode($btit_settings["announce"]))))
+        $btit_settings["announce"]=implode("\n",unserialize(base64_decode($btit_settings["announce"])));
         $btit_settings["external"]=($btit_settings["external"]=="true"?"checked=\"checked\"":"");
         $btit_settings["gzip"]=($btit_settings["gzip"]=="true"?"checked=\"checked\"":"");
         $btit_settings["debug"]=($btit_settings["debug"]=="true"?"checked=\"checked\"":"");
