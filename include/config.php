@@ -88,7 +88,7 @@ function apply_default_settings() {
     if (!array_key_exists('maxpid_leech',$btit_settings)) $btit_settings['maxpid_leech']=2;
     if (!array_key_exists('name',$btit_settings)) $btit_settings['name']='BtiTracker Test Site';
     if (!array_key_exists('url',$btit_settings)) $btit_settings['url']='http://localhost';
-    if (!array_key_exists('announce',$btit_settings)) $btit_settings['announce']=serialize(array('http://localhost/announce.php'));
+    if (!array_key_exists('announce',$btit_settings)) $btit_settings['announce']=base64_encode(serialize(array('http://localhost/announce.php')));
     if (!array_key_exists('email',$btit_settings)) $btit_settings['email']='tracker@localhost';
     if (!array_key_exists('torrentdir',$btit_settings)) $btit_settings['torrentdir']='torrents';
     if (!array_key_exists('validation',$btit_settings)) $btit_settings['validation']='user';
@@ -185,7 +185,7 @@ $BASEURL=$btit_settings['url'];
 // tracker's announce urls, can be more than one
 $TRACKER_ANNOUNCE_URL=array();
 $TRACKER_ANNOUNCEURLS=array();
-$TRACKER_ANNOUNCE_URL=unserialize($btit_settings['announce']);
+$TRACKER_ANNOUNCE_URL=unserialize(base64_decode($btit_settings['announce']));
 for($i=0,$count=count($TRACKER_ANNOUNCE_URL); $i<$count; $i++)
   {
   if (trim($TRACKER_ANNOUNCE_URL[$i])!='')
