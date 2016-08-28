@@ -1,3 +1,3 @@
 <?php
-$tracker_version='2.5.2'; # version
+$tracker_version='2.5.3'; # version
 ?>
