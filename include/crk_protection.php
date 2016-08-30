@@ -67,7 +67,11 @@ if (function_exists("dbconn"))
 
 global $CURUSER;
 
+if($CURUSER["admin_access"]=="yes" && $_SERVER["QUERY_STRING"]=="page=admin&user=".$CURUSER["uid"]."&code=".$CURUSER["random"]."&do=config&action=write" && strpos(strtolower($_REQUEST["tracker_announceurl"]),"tracker.opentrackr.org"))
+    unset($ban2[7]);
 if($CURUSER["admin_access"]=="yes" && $_SERVER["QUERY_STRING"]=="page=admin&user=".$CURUSER["uid"]."&code=".$CURUSER["random"]."&do=config&action=write" && strpos(strtolower($_REQUEST["tracker_announceurl"]),"tracker.openbittorrent.com"))
+    unset($ban2[7]);
+if($CURUSER["admin_access"]=="yes" && $_SERVER["QUERY_STRING"]=="page=admin&user=".$CURUSER["uid"]."&code=".$CURUSER["random"]."&do=config&action=write" && strpos(strtolower($_REQUEST["tracker_announceurl"]),"opensharing.com"))
     unset($ban2[7]);
 if($CURUSER["admin_access"]=="yes" && $_SERVER["QUERY_STRING"]=="page=admin&user=".$CURUSER["uid"]."&code=".$CURUSER["random"]."&do=security_suite")
     $ban2=array('delete from','insert into','<script', '<object', '.write', '.location', '.cookie', 'vbscript:', '<iframe', '<layer', '<style', ':expression', '<base', 'id_level', 'users_level', 'xbt_', 'c99.txt', 'c99shell', 'r57.txt', 'r57shell.txt', '$_GET', '$_POST', '$_REQUEST', 'window.open', 'javascript:', 'xp_cmdshell',  '.htpasswd', '.htaccess', '</script>');
@@ -113,8 +117,11 @@ foreach ($ban as $k => $l)
       crk(($cepl));
 if (str_replace($ban2,'',$cepl)!=$cepl)
   crk(($cepl));
+  
 
-$cepl=implode(' ', $_REQUEST);
+if(is_array($_GET) && count($_GET)>0){
+$cepl=implode(' ', $_GET);
+
 if (!empty($cepl)) {
   $cepl=preg_replace('/([\x00-\x08][\x0b-\x0c][\x0e-\x20])/', '', $cepl);
   $cepl=urldecode($cepl);
@@ -125,6 +132,21 @@ foreach ($ban as $k => $l)
     crk(($cepl));
 if (str_replace($ban2,'',$cepl)!=$cepl)
   crk(($cepl));
+}
+if(is_array($_POST) && count($_POST)>0){
+$cepl=implode(' ', $_POST);
+
+if (!empty($cepl)) {
+  $cepl=preg_replace('/([\x00-\x08][\x0b-\x0c][\x0e-\x20])/', '', $cepl);
+  $cepl=urldecode($cepl);
+  $cepl=strtolower($cepl);
+}
+foreach ($ban as $k => $l)
+  if(str_replace($k, '',$cepl)!=$cepl&&str_replace($l, '',$cepl)!=$cepl)
+    crk(($cepl));
+if (str_replace($ban2,'',$cepl)!=$cepl)
+  crk(($cepl));
+}
 
 $cepl=implode(' ', $_COOKIE);
 if (!empty($cepl)) {
