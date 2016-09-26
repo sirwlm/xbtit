@@ -35,7 +35,7 @@ class poll {
   var $pollerTitle;
   var $table_prefix;
 
-  function  __construct() {
+  function __construct() {
     global $TABLE_PREFIX;
     $this->ID='';
     $this->pollerTitle='';
