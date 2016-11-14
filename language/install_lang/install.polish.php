@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2015  Btiteam
+// Copyright (C) 2004 - 2015  DPWS Media LTD
 //
 //    This file is part of xbtit.
 //
@@ -111,7 +111,7 @@ $install_lang["finished_step"]          = "Kończenie";
 $install_lang["succes_install1"]        = "Instalacja zakończona!";
 $install_lang["succes_install2a"]       = "<p>Właśnie pomyślnie zainstalowałeś ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." jako swój tracker.</p><p>Instalacja została pomyślnie zablokowana. Aby zapobiec użyciu jej ponownie, radzimy, abyś usunął <b>install.php</b> dla dodatkowej ochrony.</p>";
 $install_lang["succes_install2b"]       = "<p>Właśnie pomyślnie zainstalowałeś ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." jako swój tracker.</p><p>Zalecamy zablokować proces instalacji. Możesz to zrobić poprzez zmianę nazwy pliku <b>install.unlock</b> na <b>install.lock</b> lub usunięcie pliku <b>install.php</b> .</p>";
-$install_lang["succes_install3"]        = "<p>My z BTITeam mamy nadzieję, że będziesz zadowolony używając tego skryptu i zobaczymy się na naszym <a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">forum</a>.</p>";
+$install_lang["succes_install3"]        = "<p>My z DPWS Media LTD mamy nadzieję, że będziesz zadowolony używając tego skryptu i zobaczymy się na naszym <a href=\"http://dpwsmedia.com/smf/index.php\" target=\"_blank\">forum</a>.</p>";
 $install_lang["go_to_tracker"]          = "Przejdź do swojego trackera";
 $install_lang["forum_type"]             = "Rodzaj forum";
 $install_lang["forum_internal"]         = "Wewnętrzne xbtit Forum";
@@ -129,7 +129,7 @@ $install_lang["allow_url_fopen_OFF"]        = "<span style=\"color:#FF0000; font
 $install_lang["succes_upgrade1"]        = "Uaktualnienie zakończone!";
 $install_lang["succes_upgrade2a"]       = "<p>Właśnie uaktualniłeś ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." na twoim trackerze.</p><p>Uaktualnienie zostało zablokowane, aby zapobiec ponownemu jego wykonaniu, ale radzimy usunąć także <b>upgrade.php+install.php</b> dla dodatkowej ochrony.</p>";
 $install_lang["succes_upgrade2b"]       = "<p>Właśnie uaktualniłeś ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." na twoim trackerze.</p><p> Radzimy zablokować instalację. Możesz to zrobić zamieniając rozszerzenie <b>install.unlock</b> na <b>install.lock</b> lub usunąć te pliki <b>upgrade.php+install.php</b> .</p>";
-$install_lang["succes_upgrade3"]        = "<p>My z BTITeam mamy nadzieje, że będziesz zadowolony z używania tego produktu i zobaczymy się ponownie na naszym <a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">forum</a>.</p>";
+$install_lang["succes_upgrade3"]        = "<p>My z DPWS Media LTD mamy nadzieje, że będziesz zadowolony z używania tego produktu i zobaczymy się ponownie na naszym <a href=\"http://dpwsmedia.com/smf/index.php\" target=\"_blank\">forum</a>.</p>";
 $install_lang["error_mysql_database"]   = "Instalator nie mógł połączyć sie z bazą danych &quot;<i>%s</i>&quot; . Na niektórych hostingach trzeba najpierw utworzyć bazę danych w panelu administracyjnym hostingu przed instalacją xBtit.";
 $install_lang["error_message_click"]    = "Kliknij tutaj";
 $install_lang["error_message_try_again"]= ", aby spróbować ponownie";

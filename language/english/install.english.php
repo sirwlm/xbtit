@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2007  Btiteam
+// Copyright (C) 2004 - 2007  DPWS Media LTD
 //
 //    This file is part of xbtit.
 //
@@ -112,7 +112,7 @@ $install_lang["finished_step"]          = "Rounding up";
 $install_lang["succes_install1"]        = "The installation is completed!";
 $install_lang["succes_install2a"]       = "<p>You succesfully installed ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"].".</p><p>The installation has been successfully locked and <b>install.php</b> deleted to prevent being used again.</p>";
 $install_lang["succes_install2b"]       = "<p>You succesfully installed ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"].".</p><p>We advise you to lock the installation. You can do this by changing <b>install.unlock</b> to <b>install.lock</b> and to delete this <b>install.php</b> file.</p>";
-$install_lang["succes_install3"]        = "<p>We of BTITeam hope you enjoy use of this product and that we will see you again on our <a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">forum</a>.</p>";
+$install_lang["succes_install3"]        = "<p>We of DPWS Media LTD hope you enjoy use of this product and that we will see you again on our <a href=\"http://dpwsmedia.com/smf/index.php\" target=\"_blank\">forum</a>.</p>";
 $install_lang["go_to_tracker"]          = "Go to your tracker";
 $install_lang["forum_type"]             = "Forum Type";
 $install_lang["forum_internal"]         = "xbtit Internal Forum";
@@ -130,7 +130,7 @@ $install_lang["allow_url_fopen_OFF"]        = "<span style=\"color:#FF0000; font
 $install_lang["succes_upgrade1"]        = "The upgrade is completed!";
 $install_lang["succes_upgrade2a"]       = "<p>You succesfully upgraded ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." on your tracker.</p><p>The upgrade has been successfully locked to prevent being used again but we advise you to also delete <b>upgrade.php+install.php</b> for extra protection.</p>";
 $install_lang["succes_upgrade2b"]       = "<p>You succesfully upgraded ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." on your tracker.</p><p>We advise you to lock the installation. You can do this by changing <b>install.unlock</b> to <b>install.lock</b> or to delete this <b>upgrade.php+install.php</b> file.</p>";
-$install_lang["succes_upgrade3"]        = "<p>We of BTITeam hope you enjoy use of this product and that we will see you again on our <a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">forum</a>.</p>";
+$install_lang["succes_upgrade3"]        = "<p>We of DPWS Media LTD hope you enjoy use of this product and that we will see you again on our <a href=\"http://dpwsmedia.com/smf/index.php\" target=\"_blank\">forum</a>.</p>";
 $install_lang['error_mysql_database']   = 'The installer was unable to access the &quot;<i>%s</i>&quot; database.  With some hosts, you have to create the database in your administration panel before xBtit can use it.  Some also add prefixes - like your username - to your database names.';
 $install_lang['error_message_click']    = 'Click here';
 $install_lang['error_message_try_again']= 'to try again';

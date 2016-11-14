@@ -1,7 +1,7 @@
 <?php
 // Traduzione eseguita da mOOn, con il QCheck di Laurianti.
 //Un grazie anche a Confe, e a chi si è prodigato nel testare il Tracker
-// Per qualsiasi info ci trovate su http://www.btiteam.org
+// Per qualsiasi info ci trovate su http://dpwsmedia.com
 $language["BLOCK_USER"]="Informazioni Utente";
 $language["BLOCK_INFO"]="Informazioni Tracker";
 $language["BLOCK_MENU"]="Menu Principale";

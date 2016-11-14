@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2015  Btiteam
+// Copyright (C) 2004 - 2015  DPWS Media LTD
 //
 //    This file is part of xbtit.
 //
@@ -111,7 +111,7 @@ $install_lang["finished_step"]          = "انهاء";
 $install_lang["succes_install1"]        = "تم الانتها من تنصيب المتتبع";
 $install_lang["succes_install2a"]       = "<p>لقد قمت بتنصيب ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"].".</p><p>لقد تم اقفال ملف التنصيب لتجنب اعادة التنصيب من جديد</p>";
 $install_lang["succes_install2b"]       = "<p> لقد قمت بتنصيب".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"].".</p><p>ننصحك بقفل ملف التنصيب يمكنك فعل ذلك عن طريق تغيير اسم <b>install.unlock</b> الى <b>install.lock</b> والغاء هذا الملف <b>install.php</b> f</p>";
-$install_lang["succes_install3"]        = "<p>فريق BTITeam يتمنى ان تستمتع بهذا المنتج المجاني <a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">منتدى الدعم</a>.</p>";
+$install_lang["succes_install3"]        = "<p>فريق DPWS Media LTD يتمنى ان تستمتع بهذا المنتج المجاني <a href=\"http://dpwsmedia.com/smf/index.php\" target=\"_blank\">منتدى الدعم</a>.</p>";
 $install_lang["go_to_tracker"]          = "الذهاب الى متتبعك";
 $install_lang["forum_type"]             = "نوع المنتدى";
 $install_lang["forum_internal"]         = "xbtit منتدى اصلي";
@@ -129,7 +129,7 @@ $install_lang["allow_url_fopen_OFF"]        = "<span style=\"color:#FF0000; font
 $install_lang["succes_upgrade1"]        = "تم الانتها من التحديث";
 $install_lang["succes_upgrade2a"]       = "<p>لقد قمت بالتحديث بنجاح ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." لمتتبعك</p><p>لقد تم اغلاق التحديث ولكن ننصحب بحذف ملفات <b>upgrade.php+install.php</b> للمزيد من الحماية</p>";
 $install_lang["succes_upgrade2b"]       = "<p>لقد قمت بالتحديث بنجاح ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." في متتبعك</p><p>ننصحك بقفل ملف التحديث عن طريق تغيير اسم <b>install.unlock</b> الى <b>install.lock</b> او الغاء ملفات <b>upgrade.php+install.php</b> </p>";
-$install_lang["succes_upgrade3"]        = "<p>قريق BTITeam يرجوا ان تستمتع بهذا المنتج المجاني <a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">منتديات الدعم</a>.</p>";
+$install_lang["succes_upgrade3"]        = "<p>قريق DPWS Media LTD يرجوا ان تستمتع بهذا المنتج المجاني <a href=\"http://dpwsmedia.com/smf/index.php\" target=\"_blank\">منتديات الدعم</a>.</p>";
 $install_lang['error_mysql_database']   = 'لم يستطع برناج التنصيب الوصول الى<i>%s</i>&quot; قاعدة البيانات.  في بعض الاستضافات عليك انشاء قاعدة بينانات في لوحة تحكم الموقع لتستعملها في المتتبع.';
 $install_lang['error_message_click']    = 'اكبس هنا';
 $install_lang['error_message_try_again']= 'للمحاولة مرة اخرى';

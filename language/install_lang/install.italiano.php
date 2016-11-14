@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2015  Btiteam
+// Copyright (C) 2004 - 2015  DPWS Media LTD
 //
 //    This file is part of xbtit.
 //
@@ -110,7 +110,7 @@ $install_lang["finished_step"]          = "Fine";
 $install_lang["succes_install1"]        = "L'installazione &egrave; stata completata!";
 $install_lang["succes_install2a"]       = "<p>Hai installato con successo ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." sul tuo server.</p><p>L'installazione &egrave; stata conclusa con successo, per prevenire che l'installer possa essere riutilizzato ti consigliamo di rimuovere anche il file <b>install.php</b> per maggiore sicurezza.</p>";
 $install_lang["succes_install2b"]       = "<p>Hai installato con successo ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." sul tuo server.</p><p>Ti consigliamo di bloccare l'installer. Lo puoi fare rinominando <b>install.unlock</b> in <b>install.lock</b> oppure cancellando il file <b>install.php</b> </p>";
-$install_lang["succes_install3"]        = "<p>Noi del BTITeam speriamo che usufruirai di questo prodotto, e che ci rivedremo di nuovo nel nostro <a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">forum</a>.</p>";
+$install_lang["succes_install3"]        = "<p>Noi del DPWS Media LTD speriamo che usufruirai di questo prodotto, e che ci rivedremo di nuovo nel nostro <a href=\"http://dpwsmedia.com/smf/index.php\" target=\"_blank\">forum</a>.</p>";
 $install_lang["go_to_tracker"]          = "Vai al tuo tracker";
 $install_lang["forum_type"]             = "Tipo Forum";
 $install_lang["forum_internal"]         = "xbtit Forum Interno";

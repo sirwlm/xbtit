@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2016  Btiteam
+// Copyright (C) 2004 - 2016  DPWS Media LTD
 //
 //    This file is part of xbtit.
 //
@@ -65,10 +65,10 @@ else
 $btit_url_last="";
 $btit_url_rss="";
 
-if(get_remote_file("http://www.btiteam.org"))
+if(get_remote_file("http://dpwsmedia.com"))
 {
-    $btit_url_rss="http://www.btiteam.org/smf/index.php?type=rss;action=.xml;board=83;sa=news";
-    $btit_url_last="http://www.btiteam.org/last_version.txt";
+    $btit_url_rss="http://dpwsmedia.com/smf/index.php?type=rss;action=.xml;board=83;sa=news";
+    $btit_url_last="http://dpwsmedia.com/last_version.txt";
 }
 
 // check last version on btiteam.org site
@@ -91,7 +91,7 @@ if ((implode(" ",$current_version)!=implode(" ",$last_version)))
   {
   $your_version.="<table width=\"100%\"><tr><td align=\"left\">Installed version:</td><td align=\"left\">".implode(" ",$current_version)."</td></tr>\n";
   $your_version.="<tr><td align=\"left\">Current version:</td><td align=\"left\">".implode(" ",$last_version)."</td></tr>\n";
-  $your_version.="<tr><td colspan=\"2\" align=\"center\">Get Latest Release <a href=\"http://www.btiteam.org\" target=\"_blank\">here</a>!</td></tr>\n</table>";
+  $your_version.="<tr><td colspan=\"2\" align=\"center\">Get Latest Release <a href=\"http://dpwsmedia.com\" target=\"_blank\">here</a>!</td></tr>\n</table>";
 }
 else
   {
@@ -103,7 +103,7 @@ else
 if (!empty($your_version))
    $your_version=set_block("Version","center",$your_version);
 
-// check for news on btiteam site (read rss from comunication forum)
+// check for news on DPWS Media LTD site (read rss from comunication forum)
 
 if($btit_url_rss!="")
 {
@@ -116,7 +116,7 @@ if($btit_url_rss!="")
         $frss=get_remote_file($btit_url_rss);
 
         if (!$frss)
-            $btit_news="<div class=\"blocklist\" style=\"padding:5px; align:center;\">Unable to contact Btiteam's site</div>";
+            $btit_news="<div class=\"blocklist\" style=\"padding:5px; align:center;\">Unable to contact DPWS Media LTD's site</div>";
         else
         {
             $nrss=new rss_reader();
@@ -124,7 +124,7 @@ if($btit_url_rss!="")
 
             $btit_news="<div class=\"blocklist\" style=\"padding:5px;\">";
             if (!$rss_array)
-                $btit_news="<div class=\"blocklist\" style=\"padding:5px;\">Unable to contact Btiteam's site</div>";
+                $btit_news="<div class=\"blocklist\" style=\"padding:5px;\">Unable to contact DPWS Media LTD's site</div>";
             else
             {
                 foreach($rss_array[0]["item"] as $id=>$rss)
@@ -139,9 +139,9 @@ if($btit_url_rss!="")
     }
 }
 else
-    $btit_news="<div class=\"blocklist\" style=\"padding:5px; align:center;\">Unable to contact Btiteam's site</div>";
+    $btit_news="<div class=\"blocklist\" style=\"padding:5px; align:center;\">Unable to contact DPWS Media LTD's site</div>";
 
-$btit_news=set_block("Btiteam Latest News","center",$btit_news);
+$btit_news=set_block("DPWS Media LTD Latest News","center",$btit_news);
 
 echo $your_version . $btit_news;
 

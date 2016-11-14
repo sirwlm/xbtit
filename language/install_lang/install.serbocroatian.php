@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2015  Btiteam
+// Copyright (C) 2004 - 2015  DPWS Media LTD
 //
 //    This file is part of xbtit.
 //
@@ -110,7 +110,7 @@ $install_lang["finished_step"]          = "Obradjujemo info";
 $install_lang["succes_install1"]        = "Instalacija je uspjesno zavrsena!";
 $install_lang["succes_install2a"]       = "<p>Vi ste uspjesno instalirali ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." kao vas tracker.</p><p>Savjetujemo vam sada da zakljucate vas instalacijski panel. To mozete uraditi promjenom <b>install.unlock</b> u <b>install.lock</b> ili da obrisete ovaj <b>install.php</b> fajl.</p>";
 $install_lang["succes_install2b"]       = "<p>Vi ste uspjesno instalirali ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"].".</p><p>savjetujemo vam da zakljucate instalaciju. Mozete to uraditi tako sto ce te preimenovati <b>install.unlock</b> u <b>install.lock</b> i da obrisete <b>install.php</b> fajl.</p>";
-$install_lang["succes_install3"]        = "<p>Mi iz BTIT se nadamo da ce te uzivati u nasem proizvodu i da vas vidimo nasem oficijalnom forumu <a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">BTIT Forum</a>.</p>";
+$install_lang["succes_install3"]        = "<p>Mi iz BTIT se nadamo da ce te uzivati u nasem proizvodu i da vas vidimo nasem oficijalnom forumu <a href=\"http://dpwsmedia.com/smf/index.php\" target=\"_blank\">BTIT Forum</a>.</p>";
 $install_lang["go_to_tracker"]          = "Posjetite vas novi bittorrent tracker >>>";
 $install_lang["forum_type"]             = "Forum Type";
 $install_lang["forum_internal"]         = "XBTI-Tracker Integrisani Forum";
@@ -128,7 +128,7 @@ $install_lang["allow_url_fopen_OFF"]        = "<span style=\"color:#FF0000; font
 $install_lang["succes_upgrade1"]        = "Upgrade je kompletiran!";
 $install_lang["succes_upgrade2a"]       = "<p>Uspjesno ste izvrsili upgrade ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." na vasem trackeru.</p><p>Upgrade je uspjesno zakljucan da sprijecimo ponovno koristenje ali vas savjetujemo da obrisete <b>upgrade.php+install.php</b> radi sigurnosti.</p>";
 $install_lang["succes_upgrade2b"]       = "<p>Uspjesno ste izvrsili upgrade ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." na vasem trackeru.</p><p>savjetujemo vam da zakljucate instalaciju. Mozete to uraditi tako sto ce te preimenovati <b>install.unlock</b> u <b>install.lock</b> ili da obrisete <b>upgrade.php+install.php</b> fajl.</p>";
-$install_lang["succes_upgrade3"]        = "<p>Mi iz BTIT se nadamo da ce te uzivati u nasem proizvodu i da vas vidimo nasem oficijalnom forumu <a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">BTIT Forum</a>.</p>";
+$install_lang["succes_upgrade3"]        = "<p>Mi iz BTIT se nadamo da ce te uzivati u nasem proizvodu i da vas vidimo nasem oficijalnom forumu <a href=\"http://dpwsmedia.com/smf/index.php\" target=\"_blank\">BTIT Forum</a>.</p>";
 $install_lang['error_mysql_database']   = 'Instaler nije mogaopristupiti &quot;<i>%s</i>&quot; Bazi Podataka. Sa nekim hostovima, morate kreirati Bazu Podataka u Administraciji prije nego je xBtit moze koristiti. neki hostovi takodje dodaju prefikse - kao vase korisnicko ime - nazivu stolova vase baze podataka.';
 $install_lang['error_message_click']    = 'Kliknite Ovdje';
 $install_lang['error_message_try_again']= 'da pokusate ponovo';

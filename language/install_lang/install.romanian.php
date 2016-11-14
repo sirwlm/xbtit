@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2015  Btiteam
+// Copyright (C) 2004 - 2015  DPWS Media LTD
 //
 //    This file is part of xbtit.
 //
@@ -110,7 +110,7 @@ $install_lang["finished"]               = "Finalizarea Instalării";
 $install_lang["finished_step"]          = "Finalizare";
 $install_lang["succes_install1"]        = "Instalarea este completă!";
 $install_lang["succes_install2"]        = "<p>Ai instalat cu succes <b>".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]."</b> pe sistemul tău.</p><p>Te sfătuim să blochezi posibilitatea de instalare. Poţi realiza acest lucru redenumind fişierul <b>install.unlock</b> în <b>install.lock</b> sau prin simpla ştergere a acestui fişier de instalare, <b>install.php</b>.</p>";
-$install_lang["succes_install3"]        = "<p>Echipa BTI speră că vei utiliza cu încredere acest produs şi că ne vom revedea cât de curând pe <a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">forumul nostru</a>.</p>";
+$install_lang["succes_install3"]        = "<p>Echipa BTI speră că vei utiliza cu încredere acest produs şi că ne vom revedea cât de curând pe <a href=\"http://dpwsmedia.com/smf/index.php\" target=\"_blank\">forumul nostru</a>.</p>";
 $install_lang["go_to_tracker"]          = "Mergi la Tracker-ul tău";
 
 $install_lang["forum_ipb"]              = "Invision Power Board";

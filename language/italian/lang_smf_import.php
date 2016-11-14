@@ -1,7 +1,7 @@
 <?php
 // Traduzione eseguita da mOOn, con il QCheck di Laurianti.
 //Un grazie anche a Confe, e a chi si è prodigato nel testare il Tracker
-// Per qualsiasi info ci trovate su http://www.btiteam.org
+// Per qualsiasi info ci trovate su http://dpwsmedia.com
 $lang[0]="Si";
 $lang[1]="No";
 $lang[2]="<center><u><strong><font size='4' face='Arial'>Fase 1: Requisiti Iniziali</font></strong></u></center><br />";

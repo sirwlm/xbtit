@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2016  Btiteam
+// Copyright (C) 2004 - 2016  DPWS Media LTD
 //
 //    This file is part of xbtit.
 //
@@ -198,7 +198,7 @@ function print_debug($level=3, $key=' - ') {
 function print_version() {
   global $tracker_version;
 
-  return '[&nbsp;&nbsp;<u>xbtit '.$tracker_version.' By</u>: <a href="http://www.btiteam.org/" target="_blank">Btiteam</a>&nbsp;]';
+  return '[&nbsp;&nbsp;<u>xbtit '.$tracker_version.' By</u>: <a href="http://dpwsmedia.com/" target="_blank">Btiteam</a>&nbsp;]';
 }
 
 function print_designer() {

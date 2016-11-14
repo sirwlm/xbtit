@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2007  Btiteam
+// Copyright (C) 2004 - 2007  DPWS Media LTD
 //
 //    This file is part of xbtit.
 //
@@ -112,7 +112,7 @@ $install_lang["finished_step"]          = "Kurulum Tamamlama";
 $install_lang["succes_install1"]        = "Kurulum tamamlandı!";
 $install_lang["succes_install2a"]       = "<p>".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." kurulumunu başarıyla tamamladınız.</p><p>Kurulum başarıyla kilitlendi ve tekrar kullanılmasını önlemek için <b>install.php</b> dosyası silindi.</p>";
 $install_lang["succes_install2b"]       = "<p>".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." kurulumunu başarıyla tamamladınız.</p><p>Yüklemeyi kilitlemenizi tavsiye ederiz. Bunu <b>install.unlock</b> dosyasını <b>install.lock</b> şeklinde değiştirerek veya <b>install.php</b> dosyasını silerek yapabilirsiniz.</p>";
-$install_lang["succes_install3"]        = "<p>BTITakımı olarak bu ürünü keyifle kullanmanızı ve sizi <a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">forumumuzda</a></p> tekrar görmeyi umarız.</p>";
+$install_lang["succes_install3"]        = "<p>BTITakımı olarak bu ürünü keyifle kullanmanızı ve sizi <a href=\"http://dpwsmedia.com/smf/index.php\" target=\"_blank\">forumumuzda</a></p> tekrar görmeyi umarız.</p>";
 $install_lang["go_to_tracker"]          = "İzleyicinize gidin";
 $install_lang["forum_type"]             = "Forum Tipi";
 $install_lang["forum_internal"]         = "xbtit Dahili Forum";
@@ -130,7 +130,7 @@ $install_lang["allow_url_fopen_OFF"]        = "<span style=\"color:#FF0000; font
 $install_lang["succes_upgrade1"]        = "Yükseltme başarılı!";
 $install_lang["succes_upgrade2a"]       = "<p>İzleyicinizi ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." sürümüne başarılı bir şekilde yükselttiniz.</p><p>Yükseltme başarılı bir şekilde kilitlendi fakat biz daha fazla güvenlik için <b>upgrade.php+install.php</b> dosyalarını silmenizi öneriyoruz.</p>";
 $install_lang["succes_upgrade2b"]       = "<p>İzleyicinizi ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." sürümüne başarılı bir şekilde yükselttiniz.</p><p>Kurulumu kilitlemenizi öneriyoruz. Bunu <b>install.unlock</b> dosyasını <b>install.lock</b> olarak değiştirerek ya da <b>upgrade.php+install.php</b> dosyalarını silerek yapabilirsiniz.</p>";
-$install_lang["succes_upgrade3"]        = "<p>BTITakımı olarak bu ürünü keyifle kullanmanızı ve sizi <a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">forumumuzda</a>.</p> tekrar görmeyi umarız.</p>";
+$install_lang["succes_upgrade3"]        = "<p>BTITakımı olarak bu ürünü keyifle kullanmanızı ve sizi <a href=\"http://www.DPWS Media LTD.org/smf/index.php\" target=\"_blank\">forumumuzda</a>.</p> tekrar görmeyi umarız.</p>";
 $install_lang['error_mysql_database']   = 'Kurulum sihirbazı &quot;<i>%s</i>&quot; veritabanına erişim sağlayamadı. Bazı sunucularda, xBtit kurulumuna girmeden önce yönetim panelinden veritabanı oluşturmak zorunda olabilirsiniz. Bazıları da veritabanı adınıza (kullanıcı adınız gibi) önekler ekleyebilir.';
 $install_lang['error_message_click']    = 'Buraya tıklayın';
 $install_lang['error_message_try_again']= 'Tekrar denemek için';

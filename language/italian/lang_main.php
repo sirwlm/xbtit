@@ -1,7 +1,7 @@
 <?php
 // Traduzione eseguita da mOOn, con il QCheck di Laurianti.
 //Un grazie anche a Confe, e a chi si è prodigato nel testare il Tracker
-// Per qualsiasi info ci trovate su http://www.btiteam.org
+// Per qualsiasi info ci trovate su http://dpwsmedia.com
 global $users, $torrents, $seeds, $leechers, $percent;
 $language["ACCOUNT_CONFIRM"]="Account confermato per $SITENAME ";
 $language["ACCOUNT_CONGRATULATIONS"]="Complimenti, il tuo account è valido!<br />Adesso puoi <a href=index.php?page=login>login</a> sul sito usando il tuo account.";
