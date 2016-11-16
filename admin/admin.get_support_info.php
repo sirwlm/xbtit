@@ -67,8 +67,8 @@ $btit_url_rss="";
 
 if(get_remote_file("http://dpwsmedia.com"))
 {
-    $btit_url_rss="http://dpwsmedia.com/smf/index.php?type=rss;action=.xml;board=83;sa=news";
-    $btit_url_last="http://dpwsmedia.com/last_version.txt";
+    $btit_url_rss="http://dpwsmedia.com/forums/forum/38-announcements.xml/";
+    $btit_url_last="http://dpwsmedia.com/versions/xbtit_latest_version.txt";
 }
 
 // check last version on btiteam.org site
@@ -103,7 +103,7 @@ else
 if (!empty($your_version))
    $your_version=set_block("Version","center",$your_version);
 
-// check for news on DPWS Media LTD site (read rss from comunication forum)
+// check for news on DPWS Media site (read rss from comunication forum)
 
 if($btit_url_rss!="")
 {
@@ -116,7 +116,7 @@ if($btit_url_rss!="")
         $frss=get_remote_file($btit_url_rss);
 
         if (!$frss)
-            $btit_news="<div class=\"blocklist\" style=\"padding:5px; align:center;\">Unable to contact DPWS Media LTD's site</div>";
+            $btit_news="<div class=\"blocklist\" style=\"padding:5px; align:center;\">Unable to contact DPWS Media's site</div>";
         else
         {
             $nrss=new rss_reader();
@@ -124,12 +124,12 @@ if($btit_url_rss!="")
 
             $btit_news="<div class=\"blocklist\" style=\"padding:5px;\">";
             if (!$rss_array)
-                $btit_news="<div class=\"blocklist\" style=\"padding:5px;\">Unable to contact DPWS Media LTD's site</div>";
+                $btit_news="<div class=\"blocklist\" style=\"padding:5px;\">Unable to contact DPWS Media's site</div>";
             else
             {
                 foreach($rss_array[0]["item"] as $id=>$rss)
                 {
-                    $btit_news.=date("d M Y",strtotime($rss["pubDate"])).":&nbsp;\n<a href=\"".$rss["guid"]."\">".$rss["title"]."</a><br />\n<br />\n";
+                    $btit_news.=date("d M Y",strtotime($rss["pubDate"])).":&nbsp;\n<a href=\"".$rss["link"]."\">".$rss["title"]."</a><br />\n<br />\n";
                     $btit_news.="\n".$rss["description"]."<br />\n<hr />\n";
                 }
             }
@@ -139,9 +139,9 @@ if($btit_url_rss!="")
     }
 }
 else
-    $btit_news="<div class=\"blocklist\" style=\"padding:5px; align:center;\">Unable to contact DPWS Media LTD's site</div>";
+    $btit_news="<div class=\"blocklist\" style=\"padding:5px; align:center;\">Unable to contact DPWS Media site</div>";
 
-$btit_news=set_block("DPWS Media LTD Latest News","center",$btit_news);
+$btit_news=set_block("DPWS Media's Latest Announcements","center",$btit_news);
 
 echo $your_version . $btit_news;
 
