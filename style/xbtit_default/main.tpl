@@ -19,6 +19,7 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
 <!-- we need some older JS so we are keeping this tag in place until phased out -->
     <tag:main_jscript />
 </head>
@@ -49,8 +50,32 @@
         <div class="row">
             <!-- Content Column -->
             <div class="col-md-12">
-<tag:main_content />
-<tag:main_footer />
+                <div id="bodyarea" style="padding:4ex 0 0 0;">
+                    <table border="0" align="center" cellpadding="0" cellspacing="0" width="100%">
+                        <tr>
+                            <td valign="top" width="5" rowspan="2"></td>
+                            <if:HAS_LEFT_COL>
+                                <td valign="top" id="col" width="150"><tag:main_left /></td>
+                                <td valign="top" width="5" rowspan="2"></td>
+                            </if:HAS_LEFT_COL>
+                            <td id="mcol" valign="top"><tag:main_content /></td>
+                            <if:HAS_RIGHT_COL>
+                                <td valign="top" width="5" rowspan="2"></td>
+                                <td valign="top" id="col" width="150"><tag:main_right /></td>
+                            </if:HAS_RIGHT_COL>
+                            <td valign="top" width="5" rowspan="2"></td>
+                        </tr>
+                    </table>
+                    <br />
+                    <table align="center" width="100%" cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                            <td valign="top" width="5" rowspan="2"></td>
+                            <td id="mcol" valign="top"><tag:main_footer /></td>
+                            <td valign="top" width="5" rowspan="2"></td>
+                        </tr>
+                    </table>
+                    <br />
+                </div>
  </div>
 </div>
 <!-- /.row -->
