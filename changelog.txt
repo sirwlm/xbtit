@@ -1,3 +1,10 @@
+v.2.5.4
+-------------------
+Side Blocks Returned
+Fixed some errors
+Processed DPWS Media change over from BTITeam
+Fixed Some Deprecated PHP Warnings
+
 v.2.5.0
 -------------------
 Fixed some mysqli functions in account.php - Spotted by King Cobra
