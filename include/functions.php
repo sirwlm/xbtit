@@ -32,6 +32,7 @@
 
 $CURRENTPATH = __DIR__;
 
+
 global $btit_settings;
 if ($btit_settings["error"]===true)
 {
@@ -198,7 +199,7 @@ function print_debug($level=3, $key=' - ') {
 function print_version() {
   global $tracker_version;
 
-  return '[&nbsp;&nbsp;<u>xbtit '.$tracker_version.' By</u>: <a href="http://dpwsmedia.com/" target="_blank">Btiteam</a>&nbsp;]';
+  return '[&nbsp;&nbsp;<u>xbtit '.$tracker_version.' By</u>: <a href="http://dpwsmedia.com/" target="_blank">DPWS Media</a>&nbsp;]';
 }
 
 function print_designer() {
