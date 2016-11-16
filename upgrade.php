@@ -33,7 +33,7 @@
 $dbfile="upgrade/v141_to_v2.sql";
 
 // declaration of variables
-$INSTALLPATH = dirname(__FILE__);
+$INSTALLPATH = dirname(__DIR__);
 $action = isset($_POST['action']) ? $_POST['action'] : (isset($_GET['action']) ? $_GET['action'] : 'welcome');
 $allowed_actions = array('welcome','reqcheck','settings','sql_import','save_mysql','finished');
 if (!in_array($action, $allowed_actions))
@@ -91,10 +91,10 @@ function load_lang_file()
     $GLOBALS["find_install_lang"] = array();
 
     // Make sure the languages directory actually exists.
-    if (file_exists(dirname(__FILE__) . '/language/install_lang/'))
+    if (file_exists(dirname(__DIR__) . '/language/install_lang/'))
     {
         // Find all the "Install" language files in the directory.
-        $dir = dir(dirname(__FILE__) . '/language/install_lang/');
+        $dir = dir(dirname(__DIR__) . '/language/install_lang/');
         while ($entry = $dir->read())
         {
             if (substr($entry, 0, 8) == 'install.' && substr($entry, -4) == '.php')
@@ -133,7 +133,7 @@ function load_lang_file()
     else $_SESSION["install_lang"] = "install.english.php";
 
     // Make sure it exists, if it doesn't reset it.
-    if (!isset($_SESSION["install_lang"]) || !file_exists(dirname(__FILE__) . '/language/install_lang/' . $_SESSION["install_lang"]))
+    if (!isset($_SESSION["install_lang"]) || !file_exists(dirname(__DIR__) . '/language/install_lang/' . $_SESSION["install_lang"]))
     {
         // Use the first one...
         list ($_SESSION["install_lang"]) = array_keys($GLOBALS["find_install_lang"]);
@@ -144,7 +144,7 @@ function load_lang_file()
     }
 
     // And now include the actual language file itself.
-    require_once(dirname(__FILE__) . '/language/install_lang/' . $_SESSION["install_lang"]);
+    require_once(dirname(__DIR__) . '/language/install_lang/' . $_SESSION["install_lang"]);
 }
 
 function language_list()
@@ -195,7 +195,7 @@ function step ($text = '', $stepname = '', $stepnumber = '') {
   }
 
 // check if the installation is not locked
-if (file_exists(dirname(__FILE__)."/install.lock"))
+if (file_exists(dirname(__DIR__)."/install.lock"))
 {
     step ("Installation Error!","ERROR!","*");
     echo ("<p>For security reasons, this installer is locked!<br>Please (via FTP) remove or change the 'install.lock' file before continue.</p>");
@@ -248,9 +248,9 @@ elseif ($action == 'reqcheck') {
     step ($install_lang["requirements_check"],$install_lang["step"]."&nbsp;".$install_lang["reqcheck"],"1");
 
 // check cache folder
-if (file_exists(dirname(__FILE__)."/cache"))
+if (file_exists(dirname(__DIR__)."/cache"))
   {
-  if (is_writable(dirname(__FILE__)."/cache"))
+  if (is_writable(dirname(__DIR__)."/cache"))
         $cache=$install_lang["write_succes"];
   else
         $cache=$install_lang["write_fail"]."&nbsp;&nbsp;&nbsp;".$install_lang["can_continue"];
@@ -258,9 +258,9 @@ if (file_exists(dirname(__FILE__)."/cache"))
 else
   $cache=$install_lang["write_file_not_found"];
 // check torrents folder
-if (file_exists(dirname(__FILE__)."/torrents"))
+if (file_exists(dirname(__DIR__)."/torrents"))
   {
-  if (is_writable(dirname(__FILE__)."/torrents"))
+  if (is_writable(dirname(__DIR__)."/torrents"))
         $torrents=$install_lang["write_succes"];
   else
         $torrents=$install_lang["write_fail"]."&nbsp;&nbsp;&nbsp;".$install_lang["can_continue"];
@@ -268,9 +268,9 @@ if (file_exists(dirname(__FILE__)."/torrents"))
 else
   $torrents=$install_lang["write_file_not_found"];
 // check badwords.txt
-if (file_exists(dirname(__FILE__)."/badwords.txt"))
+if (file_exists(dirname(__DIR__)."/badwords.txt"))
   {
-  if (is_writable(dirname(__FILE__)."/badwords.txt"))
+  if (is_writable(dirname(__DIR__)."/badwords.txt"))
         $badwords=$install_lang["write_succes"];
   else
         $badwords=$install_lang["write_fail"]."&nbsp;&nbsp;&nbsp;".$install_lang["can_continue"];
@@ -278,9 +278,9 @@ if (file_exists(dirname(__FILE__)."/badwords.txt"))
 else
   $badwords=$install_lang["write_file_not_found"];
 // check include/settings.php
-if (file_exists(dirname(__FILE__)."/include/settings.php"))
+if (file_exists(dirname(__DIR__)."/include/settings.php"))
   {
-  if (is_writable(dirname(__FILE__)."/include/settings.php"))
+  if (is_writable(dirname(__DIR__)."/include/settings.php"))
         $settings=$install_lang["write_succes"];
   else
         $settings=$install_lang["write_fail"]."&nbsp;".$install_lang["not_continue_settings"];
@@ -302,9 +302,9 @@ else
     echo ("<tr><td width=\"40%\" valign=\"top\">".$install_lang["allow_url_fopen"].":</td><td>".$allow_url_fopen."</td></tr>");
     echo ("</table>");
     // don't continue if this file doesn't exists
-    if (file_exists(dirname(__FILE__)."/include/settings.php"))
+    if (file_exists(dirname(__DIR__)."/include/settings.php"))
         {
-        if (is_writable(dirname(__FILE__)."/include/settings.php"))
+        if (is_writable(dirname(__DIR__)."/include/settings.php"))
             echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='$cur_script?lang_file=".$_SESSION["install_lang"]."&amp;action=settings'\" /></div>");
         }
 
@@ -340,9 +340,9 @@ if (empty($_POST["db_server"]) || empty($_POST["db_user"]) || empty($_POST["db_p
     die;
 }
 // check settings.php file
-if (file_exists(dirname(__FILE__)."/include/settings.php"))
+if (file_exists(dirname(__DIR__)."/include/settings.php"))
   {
-  if (is_writable(dirname(__FILE__)."/include/settings.php"))
+  if (is_writable(dirname(__DIR__)."/include/settings.php"))
      {
      $fd = fopen("include/settings.php", "w");
      $foutput = "<?php\n\n";
@@ -370,7 +370,7 @@ elseif ($action == 'sql_import') {
     step ($install_lang["mysql_import"],$install_lang["step"]."&nbsp;".$install_lang["mysql_import_step"],"3");
 
     // Make sure it works.
-    require(dirname(__FILE__) . '/include/settings.php');
+    require(dirname(__DIR__) . '/include/settings.php');
 
     // Attempt a connection.
     $db_connection = @($GLOBALS["conn"] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
@@ -438,7 +438,7 @@ elseif ($action == 'sql_import') {
         $replaces[') TYPE=MyISAM;'] = ') TYPE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;';
 
     // Read in the SQL.  Turn this on and that off... internationalize... etc.
-    $sql_lines = explode("\n", strtr(implode(' ', file(dirname(__FILE__) . '/'.$dbfile)), $replaces));
+    $sql_lines = explode("\n", strtr(implode(' ', file(dirname(__DIR__) . '/'.$dbfile)), $replaces));
 
     // Execute the SQL.
     $current_statement = '';

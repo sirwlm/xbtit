@@ -76,7 +76,7 @@
 			if(strlen($ret) < 8){ throw new ScraperException('Too short scrape response.'); }
 			$retd = unpack("Naction/Ntransid",$ret);
 			// Todo check for error string if response = 3
-			if($retd['action'] != 2 || $retd['transid'] != $transaction_id){
+			if($retd['action'] !== 2 || $retd['transid'] !== $transaction_id){
 				throw new ScraperException('Invalid scrape response.');
 			}
 			if(strlen($ret) < $readlength){ throw new ScraperException('Too short scrape response.'); }
