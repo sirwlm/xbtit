@@ -159,9 +159,14 @@ else
 if (!empty($your_version))
    $admin["xbtit_version"]=$your_version."<br />\n";
 */
+$bytes = disk_free_space(".");
+$si_prefix = array( 'B', 'KB', 'MB', 'GB', 'TB', 'EB', 'ZB', 'YB' );
+$base = 1024;
+$class = min((int)log($bytes , $base) , count($si_prefix) - 1);
 
 $admin["infos"].=("<br />\n<table border=\"0\">\n");
 $admin["infos"].=("<tr><td class=\"header\" align=\"center\">Server's OS</td></tr><tr><td align=\"left\">".php_uname()."</td></tr>");
+$admin["infos"].=('<tr><td class="header" align="center">Free Space</td></tr><tr><td align="left"><b>'.$_SERVER["DOCUMENT_ROOT"].'<br>Free:&nbsp;<font color=red>'.sprintf('%1.2f' , $bytes / pow($base,$class)) . ' ' . $si_prefix[$class] . '</b></td></tr>');
 $admin["infos"].=("<tr><td class=\"header\" align=\"center\">PHP version</td></tr><tr><td align=\"left\">".phpversion()."</td></tr>");
 
 $sqlver=mysqli_fetch_row(do_sqlquery("SELECT VERSION()"));
