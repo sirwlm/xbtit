@@ -30,8 +30,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-require_once(__DIR__.'/include/functions.php');
-include(__DIR__.'/btemplate/bTemplate.php');
+require_once __DIR__.'/include/functions.php';
+include __DIR__.'/btemplate/bTemplate.php';
 
 $style = isset($_GET['style']) ? ((int)$_GET['style']) : 0;
 $url = isset($_GET['returnto']) ? urldecode($_GET['returnto']) : 'index.php';
@@ -58,4 +58,3 @@ if ($langue!=0)
 }
 unset($_SESSION['CURUSER'], $_SESSION['CURUSER_EXPIRE']);
 redirect($url);
-?>

@@ -30,43 +30,44 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
+
 error_reporting(E_ALL & ~E_NOTICE);
-if (!defined("IN_BTIT"))
-      die("non direct access!");
+if (!defined('IN_BTIT'))
+      die('non direct access!');
 
-require_once(load_language("lang_account.php"));
+require_once load_language('lang_account.php');
 
-if (!isset($_POST["language"])) $_POST["language"] = max(1,$btit_settings["default_language"]);
-$idlang=((int)$_POST["language"]);
+if (!isset($_POST['language'])) $_POST['language'] = max(1,$btit_settings['default_language']);
+$idlang=((int)$_POST['language']);
 
 
-if (isset($_GET["uid"])) $id=((int)$_GET["uid"]);
- else $id="";
-if (isset($_GET["returnto"])) $link=urldecode($_GET["returnto"]);
- else $link="";
-if (isset($_GET["act"])) $act=$_GET["act"];
- else $act="signup";
-if (isset($_GET["language"])) $idlangue=((int)$_GET["language"]);
- else $idlangue=max(1,$btit_settings["default_language"]);
-if (isset($_GET["style"])) $idstyle=((int)$_GET["style"]);
- else $idstyle=max(1,$btit_settings["default_style"]);
-if (isset($_GET["flag"])) $idflag=((int)$_GET["flag"]);
- else $idflag="";
+if (isset($_GET['uid'])) $id=((int)$_GET['uid']);
+ else $id= '';
+if (isset($_GET['returnto'])) $link=urldecode($_GET['returnto']);
+ else $link= '';
+if (isset($_GET['act'])) $act=$_GET['act'];
+ else $act= 'signup';
+if (isset($_GET['language'])) $idlangue=((int)$_GET['language']);
+ else $idlangue=max(1,$btit_settings['default_language']);
+if (isset($_GET['style'])) $idstyle=((int)$_GET['style']);
+ else $idstyle=max(1,$btit_settings['default_style']);
+if (isset($_GET['flag'])) $idflag=((int)$_GET['flag']);
+ else $idflag= '';
 
-if (isset($_POST["uid"]) && isset($_POST["act"]))
+if (isset($_POST['uid']) && isset($_POST['act']))
   {
-if (isset($_POST["uid"])) $id=((int)$_POST["uid"]);
- else $id="";
-if (isset($_POST["returnto"])) $link=urldecode($_POST["returnto"]);
- else $link="";
-if (isset($_POST["act"])) $act=$_POST["act"];
- else $act="";
+if (isset($_POST['uid'])) $id=((int)$_POST['uid']);
+ else $id= '';
+if (isset($_POST['returnto'])) $link=urldecode($_POST['returnto']);
+ else $link= '';
+if (isset($_POST['act'])) $act=$_POST['act'];
+ else $act= '';
   }
 
 
 // already logged?
-if ($act=="signup" && isset($CURUSER["uid"]) && $CURUSER["uid"]!=1) {
-        $url="index.php";
+if ($act== 'signup' && isset($CURUSER['uid']) && $CURUSER['uid']!=1) {
+        $url= 'index.php';
         redirect($url);
 }
 
@@ -74,27 +75,27 @@ if ($act=="signup" && isset($CURUSER["uid"]) && $CURUSER["uid"]!=1) {
 $nusers=get_result("SELECT count(*) as tu FROM {$TABLE_PREFIX}users WHERE id>1",true,$btit_settings['cache_duration']);
 $numusers=$nusers[0]['tu'];
 
-if ($act=="signup" && $MAX_USERS!=0 && $numusers>=$MAX_USERS)
+if ($act== 'signup' && $MAX_USERS!=0 && $numusers>=$MAX_USERS)
    {
-   stderr($language["ERROR"],$language["REACHED_MAX_USERS"]);
+   stderr($language['ERROR'],$language['REACHED_MAX_USERS']);
 }
 
-if ($act=="confirm") {
+if ($act== 'confirm') {
 
       global $FORUMLINK, $db_prefix;
 
-      $random=((int)$_GET["confirm"]);
-      $random2=rand(10000, 60000);
-      $res=do_sqlquery("UPDATE `{$TABLE_PREFIX}users` SET `id_level`=3".((substr($FORUMLINK,0,3)=="smf" || $FORUMLINK=="ipb") ? ", `random`=$random2" : "")." WHERE `id_level`=2 AND `random`=$random",true);
+      $random=((int)$_GET['confirm']);
+      $random2=random_int(10000, 60000);
+      $res=do_sqlquery("UPDATE `{$TABLE_PREFIX}users` SET `id_level`=3".((substr($FORUMLINK,0,3)== 'smf' || $FORUMLINK== 'ipb') ? ", `random`=$random2" : '')." WHERE `id_level`=2 AND `random`=$random",true);
       if (!$res)
-      	die("ERROR: ".mysqli_error($GLOBALS['conn'])."\n");
+      	die('ERROR: ' .mysqli_error($GLOBALS['conn'])."\n");
       else {
-          if(substr($FORUMLINK,0,3)=="smf")
+          if(substr($FORUMLINK,0,3)== 'smf')
           {
               $get=get_result("SELECT `u`.`smf_fid`, `ul`.`smf_group_mirror` FROM `{$TABLE_PREFIX}users` `u` LEFT JOIN `{$TABLE_PREFIX}users_level` `ul` ON `u`.`id_level`=`ul`.`id` WHERE `u`.`id_level`=3 AND `u`.`random`=$random2",true,$btit_settings['cache_duration']);
-              do_sqlquery("UPDATE `{$db_prefix}members` SET ".(($FORUMLINK=="smf")?"`ID_GROUP`":"`id_group`")."=".(($get[0]["smf_group_mirror"]>0)?$get[0]["smf_group_mirror"]:13)." WHERE ".(($FORUMLINK=="smf")?"`ID_MEMBER`":"`id_member`")."=".$get[0]["smf_fid"],true);
+              do_sqlquery("UPDATE `{$db_prefix}members` SET ".(($FORUMLINK== 'smf')? '`ID_GROUP`' : '`id_group`'). '=' .(($get[0]['smf_group_mirror']>0)?$get[0]['smf_group_mirror']:13). ' WHERE ' .(($FORUMLINK== 'smf')? '`ID_MEMBER`' : '`id_member`'). '=' .$get[0]['smf_fid'],true);
           }
-          elseif($FORUMLINK=="ipb")
+          elseif($FORUMLINK== 'ipb')
           {
                     if(!defined('IPS_ENFORCE_ACCESS'))
                         define('IPS_ENFORCE_ACCESS', true);
@@ -103,68 +104,68 @@ if ($act=="confirm") {
 
                     if(!isset($THIS_BASEPATH) || empty($THIS_BASEPATH))
                         $THIS_BASEPATH= __DIR__;
-                    require_once($THIS_BASEPATH. '/ipb/initdata.php' );
-                    require_once( IPS_ROOT_PATH . 'sources/base/ipsRegistry.php' );
-                    require_once( IPS_ROOT_PATH . 'sources/base/ipsController.php' );
+                    require_once $THIS_BASEPATH. '/ipb/initdata.php';
+                    require_once IPS_ROOT_PATH . 'sources/base/ipsRegistry.php';
+                    require_once IPS_ROOT_PATH . 'sources/base/ipsController.php';
                     $registry = ipsRegistry::instance(); 
                     $registry->init();
 
               $get=get_result("SELECT `u`.`ipb_fid`, `ul`.`ipb_group_mirror` FROM `{$TABLE_PREFIX}users` `u` LEFT JOIN `{$TABLE_PREFIX}users_level` `ul` ON `u`.`id_level`=`ul`.`id` WHERE `u`.`id_level`=3 AND `u`.`random`=$random2",true,$btit_settings['cache_duration']);
-              $forum_level=(($get[0]["ipb_group_mirror"]>0)?$get[0]["ipb_group_mirror"]:3);
-              IPSMember::save($get[0]["ipb_fid"], array("members" => array("member_group_id" => "$forum_level")));  
+              $forum_level=(($get[0]['ipb_group_mirror']>0)?$get[0]['ipb_group_mirror']:3);
+              IPSMember::save($get[0]['ipb_fid'], array('members' => array('member_group_id' => "$forum_level")));
           }
-          success_msg($language["ACCOUNT_CREATED"],$language["ACCOUNT_CONGRATULATIONS"]);
+          success_msg($language['ACCOUNT_CREATED'],$language['ACCOUNT_CONGRATULATIONS']);
           stdfoot();
           exit;
           }
 }
 
-if ($_POST["conferma"]) {
-    if ($act=="signup") {
+if ($_POST['conferma']) {
+    if ($act== 'signup') {
        $ret=aggiungiutente();
-       $pass_min_req=explode(",", $btit_settings["secsui_pass_min_req"]);
+       $pass_min_req=explode(',', $btit_settings['secsui_pass_min_req']);
        if ($ret==0)
           {
-          if ($VALIDATION=="user")
+          if ($VALIDATION== 'user')
              {
-               success_msg($language["ACCOUNT_CREATED"],$language["EMAIL_SENT"]);
+               success_msg($language['ACCOUNT_CREATED'],$language['EMAIL_SENT']);
                stdfoot();
                exit();
              }
-          else if ($VALIDATION=="none")
+          else if ($VALIDATION== 'none')
                {
-               success_msg($language["ACCOUNT_CREATED"],$language["ACCOUNT_CONGRATULATIONS"]);
+               success_msg($language['ACCOUNT_CREATED'],$language['ACCOUNT_CONGRATULATIONS']);
                stdfoot();
                exit();
                }
           else
               {
-               success_msg($language["ACCOUNT_CREATED"],$language["WAIT_ADMIN_VALID"]);
+               success_msg($language['ACCOUNT_CREATED'],$language['WAIT_ADMIN_VALID']);
                stdfoot();
                exit();
               }
           }
        elseif ($ret==-1)
-         stderr($language["ERROR"],$language["ERR_MISSING_DATA"]);
+         stderr($language['ERROR'],$language['ERR_MISSING_DATA']);
        elseif ($ret==-2)
-         stderr($language["ERROR"],$language["ERR_EMAIL_ALREADY_EXISTS"]);
+         stderr($language['ERROR'],$language['ERR_EMAIL_ALREADY_EXISTS']);
        elseif ($ret==-3)
-         stderr($language["ERROR"],$language["ERR_NO_EMAIL"]);
+         stderr($language['ERROR'],$language['ERR_NO_EMAIL']);
        elseif ($ret==-4)
-        stderr($language["ERROR"],$language["ERR_USER_ALREADY_EXISTS"]);
+        stderr($language['ERROR'],$language['ERR_USER_ALREADY_EXISTS']);
        elseif ($ret==-7)
-        stderr($language["ERROR"],$language["ERR_NO_SPACE"]." <span style=\"color:red;font-weight:bold;\">".preg_replace('/\ /', '_', mysqli_real_escape_string($GLOBALS['conn'],$_POST["user"]))."</span><br /> ");
+        stderr($language['ERROR'],$language['ERR_NO_SPACE']." <span style=\"color:red;font-weight:bold;\">".preg_replace('/\ /', '_', mysqli_real_escape_string($GLOBALS['conn'],$_POST['user'])). '</span><br /> ');
        elseif ($ret==-8)
-         stderr($language["ERROR"],$language["ERR_SPECIAL_CHAR"]);
+         stderr($language['ERROR'],$language['ERR_SPECIAL_CHAR']);
        elseif ($ret==-9)
-         stderr($language["ERROR"],$language["ERR_PASS_LENGTH_1"]." <span style=\"color:blue;font-weight:bold;\">".$pass_min_req[0]."</span> ".$language["ERR_PASS_LENGTH_2"]);
+         stderr($language['ERROR'],$language['ERR_PASS_LENGTH_1']." <span style=\"color:blue;font-weight:bold;\">".$pass_min_req[0]. '</span> ' .$language['ERR_PASS_LENGTH_2']);
        elseif ($ret==-998) 
        { 
            $newpassword=pass_the_salt(30); 
-	       stderr($language["ERROR"],$language["ERR_PASS_TOO_WEAK_1"].":<br /><br />".(($pass_min_req[1]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[1]."</span> ".(($pass_min_req[1]==1)?$language["ERR_PASS_TOO_WEAK_2"]:$language["ERR_PASS_TOO_WEAK_2A"])."</li>":"").(($pass_min_req[2]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[2]."</span> ".(($pass_min_req[2]==1)?$language["ERR_PASS_TOO_WEAK_3"]:$language["ERR_PASS_TOO_WEAK_3A"])."</li>":"").(($pass_min_req[3]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[3]."</span> ".(($pass_min_req[3]==1)?$language["ERR_PASS_TOO_WEAK_4"]:$language["ERR_PASS_TOO_WEAK_4A"])."</li>":"").(($pass_min_req[4]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[4]."</span> ".(($pass_min_req[4]==1)?$language["ERR_PASS_TOO_WEAK_5"]:$language["ERR_PASS_TOO_WEAK_5A"])."</li>":"")."<br />".$language["ERR_PASS_TOO_WEAK_6"].":<br /><br /><span style='color:blue;font-weight:bold;'>".$newpassword."</span><br />"); 
+	       stderr($language['ERROR'],$language['ERR_PASS_TOO_WEAK_1']. ':<br /><br />' .(($pass_min_req[1]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[1]. '</span> ' .(($pass_min_req[1]==1)?$language['ERR_PASS_TOO_WEAK_2']:$language['ERR_PASS_TOO_WEAK_2A']). '</li>' : '').(($pass_min_req[2]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[2]. '</span> ' .(($pass_min_req[2]==1)?$language['ERR_PASS_TOO_WEAK_3']:$language['ERR_PASS_TOO_WEAK_3A']). '</li>' : '').(($pass_min_req[3]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[3]. '</span> ' .(($pass_min_req[3]==1)?$language['ERR_PASS_TOO_WEAK_4']:$language['ERR_PASS_TOO_WEAK_4A']). '</li>' : '').(($pass_min_req[4]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[4]. '</span> ' .(($pass_min_req[4]==1)?$language['ERR_PASS_TOO_WEAK_5']:$language['ERR_PASS_TOO_WEAK_5A']). '</li>' : ''). '<br />' .$language['ERR_PASS_TOO_WEAK_6'].":<br /><br /><span style='color:blue;font-weight:bold;'>".$newpassword. '</span><br />');
        } 
        else
-        stderr($language["ERROR"],$language["ERR_USER_ALREADY_EXISTS"]);
+        stderr($language['ERROR'],$language['ERR_USER_ALREADY_EXISTS']);
        }
 }
 else {
@@ -178,56 +179,56 @@ function tabella($action,$dati=array()) {
 
    global $idflag,$link, $idlangue, $idstyle, $CURUSER,$USE_IMAGECODE, $TABLE_PREFIX, $language, $tpl_account,$THIS_BASEPATH, $btit_settings;
 
-   $pass_min_req=explode(",", $btit_settings["secsui_pass_min_req"]); 
-   $tpl_account->set("pass_min_char",$pass_min_req[0]); 
-   $tpl_account->set("pass_min_lct",$pass_min_req[1]); 
-   $tpl_account->set("pass_min_uct",$pass_min_req[2]); 
-   $tpl_account->set("pass_min_num",$pass_min_req[3]); 
-   $tpl_account->set("pass_min_sym",$pass_min_req[4]); 
-   $tpl_account->set("pass_char_plural", (($pass_min_req[0]==1)?false:true),true); 
-   $tpl_account->set("pass_lct_plural", (($pass_min_req[1]==1)?false:true),true); 
-   $tpl_account->set("pass_uct_plural", (($pass_min_req[2]==1)?false:true),true); 
-   $tpl_account->set("pass_num_plural", (($pass_min_req[3]==1)?false:true),true); 
-   $tpl_account->set("pass_sym_plural", (($pass_min_req[4]==1)?false:true),true); 
-   $tpl_account->set("pass_lct_set", (($pass_min_req[1]>0)?true:false),true); 
-   $tpl_account->set("pass_uct_set", (($pass_min_req[2]>0)?true:false),true); 
-   $tpl_account->set("pass_num_set", (($pass_min_req[3]>0)?true:false),true); 
-   $tpl_account->set("pass_sym_set", (($pass_min_req[4]>0)?true:false),true); 
+   $pass_min_req=explode(',', $btit_settings['secsui_pass_min_req']);
+   $tpl_account->set('pass_min_char',$pass_min_req[0]);
+   $tpl_account->set('pass_min_lct',$pass_min_req[1]);
+   $tpl_account->set('pass_min_uct',$pass_min_req[2]);
+   $tpl_account->set('pass_min_num',$pass_min_req[3]);
+   $tpl_account->set('pass_min_sym',$pass_min_req[4]);
+   $tpl_account->set('pass_char_plural', (($pass_min_req[0]==1)?false:true),true);
+   $tpl_account->set('pass_lct_plural', (($pass_min_req[1]==1)?false:true),true);
+   $tpl_account->set('pass_uct_plural', (($pass_min_req[2]==1)?false:true),true);
+   $tpl_account->set('pass_num_plural', (($pass_min_req[3]==1)?false:true),true);
+   $tpl_account->set('pass_sym_plural', (($pass_min_req[4]==1)?false:true),true);
+   $tpl_account->set('pass_lct_set', (($pass_min_req[1]>0)?true:false),true);
+   $tpl_account->set('pass_uct_set', (($pass_min_req[2]>0)?true:false),true);
+   $tpl_account->set('pass_num_set', (($pass_min_req[3]>0)?true:false),true);
+   $tpl_account->set('pass_sym_set', (($pass_min_req[4]>0)?true:false),true);
 
-   if ($action=="signup")
+   if ($action== 'signup')
      {
-          $dati["username"]="";
-          $dati["email"]="";
-          $dati["language"]=$idlangue;
-          $dati["style"]=$idstyle;
+          $dati['username']= '';
+          $dati['email']= '';
+          $dati['language']=$idlangue;
+          $dati['style']=$idstyle;
      }
 
    // avoid error with js
-   $language["DIF_PASSWORDS"]=AddSlashes($language["DIF_PASSWORDS"]);
-   $language["INSERT_PASSWORD"]=AddSlashes($language["INSERT_PASSWORD"]);
-   $language["USER_PWD_AGAIN"]=AddSlashes($language["USER_PWD_AGAIN"]);
-   $language["INSERT_USERNAME"]=AddSlashes($language["INSERT_USERNAME"]);
-   $language["ERR_NO_EMAIL"]=AddSlashes($language["ERR_NO_EMAIL"]);
-   $language["ERR_NO_EMAIL_AGAIN"]=AddSlashes($language["ERR_NO_EMAIL_AGAIN"]);
-   $language["DIF_EMAIL"]=AddSlashes($language["DIF_EMAIL"]);
+   $language['DIF_PASSWORDS']=addslashes($language['DIF_PASSWORDS']);
+   $language['INSERT_PASSWORD']=addslashes($language['INSERT_PASSWORD']);
+   $language['USER_PWD_AGAIN']=addslashes($language['USER_PWD_AGAIN']);
+   $language['INSERT_USERNAME']=addslashes($language['INSERT_USERNAME']);
+   $language['ERR_NO_EMAIL']=addslashes($language['ERR_NO_EMAIL']);
+   $language['ERR_NO_EMAIL_AGAIN']=addslashes($language['ERR_NO_EMAIL_AGAIN']);
+   $language['DIF_EMAIL']=addslashes($language['DIF_EMAIL']);
 
-   $tpl_account->set("language",$language);
-   $tpl_account->set("account_action",$action);
-   $tpl_account->set("account_form_actionlink",htmlspecialchars("index.php?page=signup&act=$action&returnto=$link"));
-   $tpl_account->set("account_uid",$dati["id"]);
-   $tpl_account->set("account_returnto",urlencode($link));
-   $tpl_account->set("account_IDlanguage",$idlang);
-   $tpl_account->set("account_IDstyle",$idstyle);
-   $tpl_account->set("account_IDcountry",$idflag);
-   $tpl_account->set("account_username",$dati["username"]);
-   $tpl_account->set("dati",$dati);
-   $tpl_account->set("DEL",$action=="delete",true);
-   $tpl_account->set("DISPLAY_FULL",$action=="signup",true);
+   $tpl_account->set('language',$language);
+   $tpl_account->set('account_action',$action);
+   $tpl_account->set('account_form_actionlink',htmlspecialchars("index.php?page=signup&act=$action&returnto=$link"));
+   $tpl_account->set('account_uid',$dati['id']);
+   $tpl_account->set('account_returnto',urlencode($link));
+   $tpl_account->set('account_IDlanguage',$idlang);
+   $tpl_account->set('account_IDstyle',$idstyle);
+   $tpl_account->set('account_IDcountry',$idflag);
+   $tpl_account->set('account_username',$dati['username']);
+   $tpl_account->set('dati',$dati);
+   $tpl_account->set('DEL',$action== 'delete',true);
+   $tpl_account->set('DISPLAY_FULL',$action== 'signup',true);
 
-   if ($action=="del")
-      $tpl_account->set("account_from_delete_confirm","<input type=\"submit\" name=\"elimina\" value=\"".$language["FRM_DELETE"]."\" />&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"submit\" name=\"elimina\" value=\"".$language["FRM_CANCEL"]."\" />");
+   if ($action== 'del')
+      $tpl_account->set('account_from_delete_confirm',"<input type=\"submit\" name=\"elimina\" value=\"".$language['FRM_DELETE']."\" />&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"submit\" name=\"elimina\" value=\"".$language['FRM_CANCEL']."\" />");
    else
-      $tpl_account->set("account_from_delete_confirm","<input type=\"submit\" name=\"conferma\" value=\"".$language["FRM_CONFIRM"]."\" />&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"reset\" name=\"annulla\" value=\"".$language["FRM_CANCEL"]."\" />");
+      $tpl_account->set('account_from_delete_confirm',"<input type=\"submit\" name=\"conferma\" value=\"".$language['FRM_CONFIRM']."\" />&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"reset\" name=\"annulla\" value=\"".$language['FRM_CANCEL']."\" />");
    
   $lres=language_list();
 
@@ -235,31 +236,31 @@ function tabella($action,$dati=array()) {
    foreach($lres as $langue)
      {
        $option.="\n<option ";
-       if ($langue["id"]==$dati["language"])
+       if ($langue['id']==$dati['language'])
           $option.="selected=\"selected\"  ";
-       $option.="value=\"".$langue["id"]."\">".$langue["language"]."</option>";
+       $option.="value=\"".$langue['id']."\">".$langue['language']. '</option>';
      }
    $option.="\n</select>";
 
-   $tpl_account->set("account_combo_language",$option);
+   $tpl_account->set('account_combo_language',$option);
 
    $sres=style_list();
    $option="\n<select name=\"style\" size=\"1\">";
    foreach($sres as $style)
      {
        $option.="\n<option ";
-       if ($style["id"]==$dati["style"])
+       if ($style['id']==$dati['style'])
           $option.="selected=\"selected\" ";
-       $option.="value=\"".$style["id"]."\">".$style["style"]."</option>";
+       $option.="value=\"".$style['id']."\">".$style['style']. '</option>';
      }
    $option.="\n</select>";
 
-   $tpl_account->set("account_combo_style",$option);
+   $tpl_account->set('account_combo_style',$option);
 
    $fres=flag_list();
    $option="\n<select name=\"flag\" size=\"1\">\n<option value='0'>---</option>";
 
-   $thisip = $_SERVER["REMOTE_ADDR"];
+   $thisip = $_SERVER['REMOTE_ADDR'];
    $remotedns = gethostbyaddr($thisip);
 
    if ($remotedns != $thisip)
@@ -273,34 +274,34 @@ function tabella($action,$dati=array()) {
    foreach($fres as $flag)
     {
         $option.="\n<option ";
-            if ($flag["id"]==$dati["flag"] || ($flag["domain"]==$remotedns && $action=="signup"))
+            if ($flag['id']==$dati['flag'] || ($flag['domain']==$remotedns && $action== 'signup'))
               $option.="selected=\"selected\"  ";
-            $option.="value=\"".$flag["id"]."\">".$flag["name"]."</option>";
+            $option.="value=\"".$flag['id']."\">".$flag['name']. '</option>';
     }
    $option.="\n</select>";
 
-   $tpl_account->set("account_combo_country",$option);
+   $tpl_account->set('account_combo_country',$option);
 
    $zone=date('Z',time());
    $daylight=date('I',time())*3600;
    $os=$zone-$daylight;
    if($os!=0){ $timeoff=$os/3600; } else { $timeoff=0; }
 
-   if(!$CURUSER || $CURUSER["uid"]==1)
-      $dati["time_offset"]=$timeoff;
+   if(!$CURUSER || $CURUSER['uid']==1)
+      $dati['time_offset']=$timeoff;
 
    $tres=timezone_list();
    $option="<select name=\"timezone\">";
    foreach($tres as $timezone)
      {
        $option.="\n<option ";
-       if ($timezone["difference"]==$dati["time_offset"])
+       if ($timezone['difference']==$dati['time_offset'])
           $option.="selected=\"selected\" ";
-       $option.="value=\"".$timezone["difference"]."\">".unesc($timezone["timezone"])."</option>";
+       $option.="value=\"".$timezone['difference']."\">".unesc($timezone['timezone']). '</option>';
      }
    $option.="\n</select>";
 
-   $tpl_account->set("account_combo_timezone",$option);
+   $tpl_account->set('account_combo_timezone',$option);
 
 // -----------------------------
 // Captcha hack
@@ -323,33 +324,33 @@ if ($USE_IMAGECODE && $action!=='mod')
       }
      else
        {
-         include("$THIS_BASEPATH/include/security_code.php");
-         $scode_index = mt_rand(0, count($security_code) - 1);
+         include "$THIS_BASEPATH/include/security_code.php";
+         $scode_index = random_int(0, count($security_code) - 1);
          $scode="<input type=\"hidden\" name=\"security_index\" value=\"$scode_index\" />\n";
-         $scode.=$security_code[$scode_index]["question"];
+         $scode.=$security_code[$scode_index]['question'];
          $tpl_account->set('scode_question',$scode);
          $tpl_account->set('CAPTCHA',false,true);
        }
      }
      else
        {
-         include("$THIS_BASEPATH/include/security_code.php");
-         $scode_index = mt_rand(0, count($security_code) - 1);
+         include "$THIS_BASEPATH/include/security_code.php";
+         $scode_index = random_int(0, count($security_code) - 1);
          $scode="<input type=\"hidden\" name=\"security_index\" value=\"$scode_index\" />\n";
-         $scode.=$security_code[$scode_index]["question"];
-         $tpl_account->set("scode_question",$scode);
-         $tpl_account->set("CAPTCHA",false,true);
+         $scode.=$security_code[$scode_index]['question'];
+         $tpl_account->set('scode_question',$scode);
+         $tpl_account->set('CAPTCHA',false,true);
        }
    }
-elseif ($action!="mod")
+elseif ($action!= 'mod')
    {
-       include("$THIS_BASEPATH/include/security_code.php");
-       $scode_index = mt_rand(0, count($security_code) - 1);
+       include "$THIS_BASEPATH/include/security_code.php";
+       $scode_index = random_int(0, count($security_code) - 1);
        $scode="<input type=\"hidden\" name=\"security_index\" value=\"$scode_index\" />\n";
-       $scode.=$security_code[$scode_index]["question"];
-       $tpl_account->set("scode_question",$scode);
+       $scode.=$security_code[$scode_index]['question'];
+       $tpl_account->set('scode_question',$scode);
        // we will request simple operation to user
-       $tpl_account->set("CAPTCHA",false,true);
+       $tpl_account->set('CAPTCHA',false,true);
   }
 // -----------------------------
 // Captcha hack
@@ -360,23 +361,23 @@ function aggiungiutente() {
 
 global $SITENAME,$SITEEMAIL,$BASEURL,$VALIDATION,$USERLANG,$USE_IMAGECODE, $TABLE_PREFIX, $XBTT_USE, $language,$THIS_BASEPATH, $FORUMLINK, $db_prefix, $btit_settings;
 
-$utente=mysqli_real_escape_string($GLOBALS['conn'],$_POST["user"]);
-$pwd=mysqli_real_escape_string($GLOBALS['conn'],$_POST["pwd"]);
-$pwd1=mysqli_real_escape_string($GLOBALS['conn'],$_POST["pwd1"]);
-$email=mysqli_real_escape_string($GLOBALS['conn'],$_POST["email"]);
-$idlangue=((int)$_POST["language"]);
-$idstyle=((int)$_POST["style"]);
-$idflag=((int)$_POST["flag"]);
-$timezone=((int)$_POST["timezone"]);
+$utente=mysqli_real_escape_string($GLOBALS['conn'],$_POST['user']);
+$pwd=mysqli_real_escape_string($GLOBALS['conn'],$_POST['pwd']);
+$pwd1=mysqli_real_escape_string($GLOBALS['conn'],$_POST['pwd1']);
+$email=mysqli_real_escape_string($GLOBALS['conn'],$_POST['email']);
+$idlangue=((int)$_POST['language']);
+$idstyle=((int)$_POST['style']);
+$idflag=((int)$_POST['flag']);
+$timezone=((int)$_POST['timezone']);
 
-if (strtoupper($utente) == strtoupper("Guest")) {
-        err_msg($language["ERROR"],$language["ERR_GUEST_EXISTS"]);
+if (strtoupper($utente) == strtoupper('Guest')) {
+        err_msg($language['ERROR'],$language['ERR_GUEST_EXISTS']);
         stdfoot();
         exit;
         }
 
 if ($pwd != $pwd1) {
-    err_msg($language["ERROR"],$language["DIF_PASSWORDS"]);
+    err_msg($language['ERROR'],$language['DIF_PASSWORDS']);
     stdfoot();
     exit;
     }
@@ -389,7 +390,7 @@ else
 $floor = 100000;
 $ceiling = 999999;
 mt_srand((double)microtime()*1000000);
-$random = mt_rand($floor, $ceiling);
+$random = random_int($floor, $ceiling);
 
 if ($utente==='' || $pwd==='' || $email==='') {
    return -1;
@@ -421,7 +422,7 @@ if (mysqli_num_rows($res)>0)
 }
 // duplicate username
 
-if (strpos(mysqli_real_escape_string($GLOBALS['conn'],$utente), " ")===true)
+if (strpos(mysqli_real_escape_string($GLOBALS['conn'],$utente), ' ')===true)
    {
    return -7;
    exit;
@@ -447,7 +448,7 @@ if ($USE_IMAGECODE)
        }
        else
          {
-           include("$THIS_BASEPATH/include/security_code.php");
+           include "$THIS_BASEPATH/include/security_code.php";
            $scode_index=((int)$_POST['security_index']);
            if ($security_code[$scode_index]['answer']!=$_POST['scode_answer'])
               {
@@ -459,7 +460,7 @@ if ($USE_IMAGECODE)
     }
      else
        {
-         include("$THIS_BASEPATH/include/security_code.php");
+         include "$THIS_BASEPATH/include/security_code.php";
          $scode_index=((int)$_POST['security_index']);
          if ($security_code[$scode_index]['answer']!=$_POST['scode_answer'])
             {
@@ -471,25 +472,25 @@ if ($USE_IMAGECODE)
 }
 else
   {
-    include("$THIS_BASEPATH/include/security_code.php");
-    $scode_index=((int)$_POST["security_index"]);
-    if ($security_code[$scode_index]["answer"]!=$_POST["scode_answer"])
+    include "$THIS_BASEPATH/include/security_code.php";
+    $scode_index=((int)$_POST['security_index']);
+    if ($security_code[$scode_index]['answer']!=$_POST['scode_answer'])
        {
-       err_msg($language["ERROR"],$language["ERR_IMAGE_CODE"]);
+       err_msg($language['ERROR'],$language['ERR_IMAGE_CODE']);
        stdfoot();
        exit;
      }
   }
 
-$bannedchar=array("\\", "/", ":", "*", "?", "\"", "@", "$", "'", "`", ",", ";", ".", "<", ">", "!", "�", "%", "^", "&", "(", ")", "+", "=", "#", "~");
+$bannedchar=array("\\", '/', ':', '*', '?', "\"", '@', "$", "'", '`', ',', ';', '.', '<', '>', '!', '�', '%', '^', '&', '(', ')', '+', '=', '#', '~');
 if (straipos(mysqli_real_escape_string($GLOBALS['conn'],$utente), $bannedchar)===true)
    {
    return -8;
    exit;
 }
 
-$pass_to_test=$_POST["pwd"];
-$pass_min_req=explode(",", $btit_settings["secsui_pass_min_req"]);
+$pass_to_test=$_POST['pwd'];
+$pass_min_req=explode(',', $btit_settings['secsui_pass_min_req']);
 
 if(strlen($pass_to_test)<$pass_min_req[0])
 {
@@ -525,30 +526,30 @@ if($lct_count<$pass_min_req[1] || $uct_count<$pass_min_req[2] || $num_count<$pas
     exit;
 }
 
-$mtpp=$btit_settings["max_torrents_per_page"];
-$multipass=hash_generate(array("salt" => ""), $_POST["pwd"], $_POST["user"]);
-$i=$btit_settings["secsui_pass_type"];
+$mtpp=$btit_settings['max_torrents_per_page'];
+$multipass=hash_generate(array('salt' => ''), $_POST['pwd'], $_POST['user']);
+$i=$btit_settings['secsui_pass_type'];
 
-$pid=md5(uniqid(rand(),true));
-do_sqlquery("INSERT INTO `{$TABLE_PREFIX}users` (`username`, `password`, `salt`, `pass_type`, `dupe_hash`, `random`, `id_level`, `email`, `style`, `language`, `flag`, `joined`, `lastconnect`, `pid`, `time_offset`, `torrentsperpage`) VALUES ('".$utente."', '".mysqli_real_escape_string($GLOBALS['conn'],$multipass[$i]["rehash"])."', '".mysqli_real_escape_string($GLOBALS['conn'],$multipass[$i]["salt"])."', '".$i."', '".mysqli_real_escape_string($GLOBALS['conn'],$multipass[$i]["dupehash"])."', ".$random.", ".$idlevel.", '".$email."', ".$idstyle.", ".$idlangue.", ".$idflag.", NOW(), NOW(),'".$pid."', '".$timezone."', $mtpp)",true);
+$pid=md5(uniqid(mt_rand(),true));
+do_sqlquery("INSERT INTO `{$TABLE_PREFIX}users` (`username`, `password`, `salt`, `pass_type`, `dupe_hash`, `random`, `id_level`, `email`, `style`, `language`, `flag`, `joined`, `lastconnect`, `pid`, `time_offset`, `torrentsperpage`) VALUES ('".$utente."', '".mysqli_real_escape_string($GLOBALS['conn'],$multipass[$i]['rehash'])."', '".mysqli_real_escape_string($GLOBALS['conn'],$multipass[$i]['salt'])."', '".$i."', '".mysqli_real_escape_string($GLOBALS['conn'],$multipass[$i]['dupehash'])."', ".$random. ', ' .$idlevel.", '".$email."', ".$idstyle. ', ' .$idlangue. ', ' .$idflag.", NOW(), NOW(),'".$pid."', '".$timezone."', $mtpp)",true);
 
-$newuid=((is_null($___mysqli_res = mysqli_insert_id($GLOBALS['conn']))) ? false : $___mysqli_res);
+$newuid=(is_null($___mysqli_res = mysqli_insert_id($GLOBALS['conn'])) ? false : $___mysqli_res);
 
 // Continue to create smf members if they disable smf mode
 $test=do_sqlquery("SHOW TABLES LIKE '{$db_prefix}members'",true);
 
-if (substr($FORUMLINK,0,3)=="smf" || mysqli_num_rows($test))
+if (substr($FORUMLINK,0,3)== 'smf' || mysqli_num_rows($test))
 {
     $smfpass=smf_passgen($utente, $pwd);
-    $fetch=get_result("SELECT `smf_group_mirror` FROM `{$TABLE_PREFIX}users_level` WHERE `id`=".$idlevel, true, $btit_settings["cache_duration"]);
-    $flevel=(($fetch[0]["smf_group_mirror"]>0)?$fetch[0]["smf_group_mirror"]:$idlevel+10);
+    $fetch=get_result("SELECT `smf_group_mirror` FROM `{$TABLE_PREFIX}users_level` WHERE `id`=".$idlevel, true, $btit_settings['cache_duration']);
+    $flevel=(($fetch[0]['smf_group_mirror']>0)?$fetch[0]['smf_group_mirror']:$idlevel+10);
 
-    if($FORUMLINK=="smf")
+    if($FORUMLINK== 'smf')
         do_sqlquery("INSERT INTO `{$db_prefix}members` (`memberName`, `dateRegistered`, `ID_GROUP`, `realName`, `passwd`, `emailAddress`, `memberIP`, `memberIP2`, `is_activated`, `passwordSalt`) VALUES ('$utente', UNIX_TIMESTAMP(), $flevel, '$utente', '$smfpass[0]', '$email', '".getip()."', '".getip()."', 1, '$smfpass[1]')",true);
     else
         do_sqlquery("INSERT INTO `{$db_prefix}members` (`member_name`, `date_registered`, `id_group`, `real_name`, `passwd`, `email_address`, `member_ip`, `member_ip2`, `is_activated`, `password_salt`) VALUES ('$utente', UNIX_TIMESTAMP(), $flevel, '$utente', '$smfpass[0]', '$email', '".getip()."', '".getip()."', 1, '$smfpass[1]')",true);
 
-    $fid=((is_null($___mysqli_res = mysqli_insert_id($GLOBALS['conn']))) ? false : $___mysqli_res);
+    $fid=(is_null($___mysqli_res = mysqli_insert_id($GLOBALS['conn'])) ? false : $___mysqli_res);
     do_sqlquery("UPDATE `{$db_prefix}settings` SET `value` = $fid WHERE `variable` = 'latestMember'",true);
     do_sqlquery("UPDATE `{$db_prefix}settings` SET `value` = '$utente' WHERE `variable` = 'latestRealName'",true);
     do_sqlquery("UPDATE `{$db_prefix}settings` SET `value` = UNIX_TIMESTAMP() WHERE `variable` = 'memberlist_updated'",true);
@@ -559,7 +560,7 @@ if (substr($FORUMLINK,0,3)=="smf" || mysqli_num_rows($test))
 // Continue to create ipb members if they disable ipb mode
 $test=do_sqlquery("SHOW TABLES LIKE '{$ipb_prefix}members'");
 
-if ($FORUMLINK=="ipb" || mysqli_num_rows($test))
+if ($FORUMLINK== 'ipb' || mysqli_num_rows($test))
 {
     ipb_create($utente, $email, $pwd, $idlevel, $newuid);
 }
@@ -569,19 +570,18 @@ if ($XBTT_USE)
    {
    $resin=do_sqlquery("INSERT INTO xbt_users (uid, torrent_pass) VALUES ($newuid,'$pid')",true);
    }
-if ($VALIDATION=="user")
+if ($VALIDATION== 'user')
    {
-   ini_set("sendmail_from","");
-   if (((is_object($GLOBALS['conn'])) ? mysqli_errno($GLOBALS['conn']) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false))==0)
+   ini_set('sendmail_from', '');
+   if ((is_object($GLOBALS['conn']) ? mysqli_errno($GLOBALS['conn']) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false))==0)
      {
-      send_mail($email,$language["ACCOUNT_CONFIRM"],$language["ACCOUNT_MSG"]."\n\n".$BASEURL."/index.php?page=account&act=confirm&confirm=$random&language=$idlangue");
-      write_log("Signup new user $utente ($email)","add");
+      send_mail($email,$language['ACCOUNT_CONFIRM'],$language['ACCOUNT_MSG']."\n\n".$BASEURL."/index.php?page=account&act=confirm&confirm=$random&language=$idlangue");
+      write_log("Signup new user $utente ($email)", 'add');
       }
    else
-   	die("ERROR: ".mysqli_error($GLOBALS['conn'])."\n");
+   	die('ERROR: ' .mysqli_error($GLOBALS['conn'])."\n");
    }
 
-return ((is_object($GLOBALS['conn'])) ? mysqli_errno($GLOBALS['conn']) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false));
+return (is_object($GLOBALS['conn']) ? mysqli_errno($GLOBALS['conn']) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false));
 }
 
-?>

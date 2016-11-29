@@ -32,12 +32,12 @@
 
 ignore_user_abort(1);
 
-$GLOBALS['peer_id'] = "";
+$GLOBALS['peer_id'] = '';
 $summaryupdate = array();
 
 $BASEPATH=__DIR__;
-require("$BASEPATH/include/config.php");
-require("$BASEPATH/include/common.php");
+require "$BASEPATH/include/config.php";
+require "$BASEPATH/include/common.php";
 
 error_reporting(E_ALL ^ E_NOTICE);
 
@@ -52,23 +52,23 @@ if ($XBTT_USE)
     function implode_with_keys($glue, $array) {
            $output = array();
            foreach( $array as $key => $item )
-                   $output[] = $key . "=" . $item;
+                   $output[] = $key . '=' . $item;
 
            return implode($glue, $output);
     }
 
-    if (isset ($_GET["pid"])) {
-       $pid = $_GET["pid"];
-       if (strpos($pid , "?")!==false)
-          $pid  = substr($pid , 0,strpos($pid , "?"));
-       unset($_GET["pid"]);
+    if (isset ($_GET['pid'])) {
+       $pid = $_GET['pid'];
+       if (strpos($pid , '?')!==false)
+          $pid  = substr($pid , 0,strpos($pid , '?'));
+       unset($_GET['pid']);
     } else
-       $pid = "";
+       $pid = '';
 
     if (isset($_SERVER['QUERY_STRING']))
-        $query_string = substr($_SERVER['QUERY_STRING'], strpos($_SERVER['QUERY_STRING'], "?")+1);
+        $query_string = substr($_SERVER['QUERY_STRING'], strpos($_SERVER['QUERY_STRING'], '?')+1);
     else
-        $query_string=implode_with_keys("&", $_GET);
+        $query_string=implode_with_keys('&', $_GET);
 
 
     if ($pid!== '') // private announce
@@ -100,26 +100,26 @@ function summaryAdd($column, $value, $abs = false)
     }
     else
     {
-        $GLOBALS["summaryupdate"][$column][0] = $value;
-        $GLOBALS["summaryupdate"][$column][1] = $abs;
+        $GLOBALS['summaryupdate'][$column][0] = $value;
+        $GLOBALS['summaryupdate'][$column][1] = $abs;
     }
 }
 
 
 // connect to db
 if ($GLOBALS['persist'])
-    $conres=($GLOBALS['conn'] = mysqli_connect($dbhost,  $dbuser,  $dbpass)) or show_error("Tracker error - mysql_connect: " . ((is_object($GLOBALS['conn'])) ? mysqli_error($GLOBALS['conn']) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+    $conres=($GLOBALS['conn'] = mysqli_connect($dbhost,  $dbuser,  $dbpass)) or show_error('Tracker error - mysql_connect: ' . (is_object($GLOBALS['conn']) ? mysqli_error($GLOBALS['conn']) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
 else
-    $conres=($GLOBALS['conn'] = mysqli_connect($dbhost,  $dbuser,  $dbpass)) or show_error("Tracker error - mysql_connect: " . ((is_object($GLOBALS['conn'])) ? mysqli_error($GLOBALS['conn']) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+    $conres=($GLOBALS['conn'] = mysqli_connect($dbhost,  $dbuser,  $dbpass)) or show_error('Tracker error - mysql_connect: ' . (is_object($GLOBALS['conn']) ? mysqli_error($GLOBALS['conn']) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
 
-    ((bool)mysqli_query($GLOBALS['conn'], "USE $database")) or show_error("Tracker error - $database - ".((is_object($GLOBALS['conn'])) ? mysqli_error($GLOBALS['conn']) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+    ((bool)mysqli_query($GLOBALS['conn'], "USE $database")) or show_error("Tracker error - $database - ".(is_object($GLOBALS['conn']) ? mysqli_error($GLOBALS['conn']) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
 
 // connection is done ok
 
 if (isset ($_GET['pid']))
     $pid = $_GET['pid'];
 else
-    $pid = "";
+    $pid = '';
 
 
 
@@ -191,7 +191,7 @@ $ip = getip();
 
 // IP Banned ??
 $nip = ip2long($ip);
-$res = mysqli_query($GLOBALS['conn'], "SELECT * FROM {$TABLE_PREFIX}bannedip WHERE $nip >= first AND $nip <= last") or error_log(__FILE__." - ".__LINE__);
+$res = mysqli_query($GLOBALS['conn'], "SELECT * FROM {$TABLE_PREFIX}bannedip WHERE $nip >= first AND $nip <= last") or error_log(__FILE__. ' - ' .__LINE__);
 if (mysqli_num_rows($res) > 0)
  {
    show_error('You are not authorized to use this tracker (' .$SITENAME. ') -- Your IP address (' .$ip. ') is BANNED.');
@@ -205,16 +205,16 @@ $res_tor =mysqli_query($GLOBALS['conn'], "SELECT UNIX_TIMESTAMP(data) as data, u
 if (mysqli_num_rows($res_tor)==0)
    show_error('Torrent is not authorized for use on this tracker.');
 
-$downloaded = (float)($_GET['downloaded']);
-$uploaded = (float)($_GET['uploaded']);
-$left = (float)($_GET['left']);
+$downloaded = (float)$_GET['downloaded'];
+$uploaded = (float)$_GET['uploaded'];
+$left = (float)$_GET['left'];
 
 // if private announce turned on
 if ($PRIVATE_ANNOUNCE) {
 $pid = AddSlashes(StripSlashes($pid));
 
 // if PID empty string or not send by client
-if ($pid=="" || !$pid)
+if ($pid== '' || !$pid)
    show_error('Please redownload the torrent. PID system is active and pid was not found in the torrent');
 }
 
@@ -226,7 +226,7 @@ if ($PRIVATE_ANNOUNCE) {
   else
       {
       $rowpid=mysqli_fetch_assoc($respid);
-      if ($rowpid['can_download']!=="yes" && $PRIVATE_ANNOUNCE)
+      if ($rowpid['can_download']!== 'yes' && $PRIVATE_ANNOUNCE)
          show_error("Sorry your level ($rowpid[level]) is not allowed to download from $BASEURL.");
       //waittime
       elseif ($rowpid['WT']>0) {
@@ -292,7 +292,7 @@ if ($PRIVATE_ANNOUNCE) {
 if (isset($_GET['event']))
     $event = $_GET['event'];
 else
-    $event = "";
+    $event = '';
 
 if (!isset($GLOBALS['ip_override']))
     $GLOBALS['ip_override'] = true;
@@ -368,7 +368,7 @@ function getPeerInfo($user, $hash)
         $data = mysqli_fetch_assoc($results);
     }
 
-    if (!($data))
+    if (!$data)
         return false;
 
     $GLOBALS['trackerid'] = $data['sequence'];
@@ -435,7 +435,7 @@ function start($info_hash, $ip, $port, $peer_id, $left, $downloaded=0, $uploaded
     // Special case: duplicated peer_id.
     if (!$results)
     {
-        if (((is_object($GLOBALS['conn'])) ? mysqli_errno($GLOBALS['conn']) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false))==1062)
+        if ((is_object($GLOBALS['conn']) ? mysqli_errno($GLOBALS['conn']) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false))==1062)
         {
             // Duplicate peer_id! Check IP address
             $peer = getPeerInfo($peer_id, $info_hash);
@@ -448,21 +448,21 @@ function start($info_hash, $ip, $port, $peer_id, $left, $downloaded=0, $uploaded
             quickQuery("UPDATE {$TABLE_PREFIX}peers SET ip=\"$ip\", compact=\"$compact\", with_peerid=\"$peerid\", without_peerid=\"$no_peerid\" WHERE peer_id=\"$peer_id\"  AND infohash=\"$info_hash\"");
             return "WHERE natuser='N'";
         }
-        error_log('BtiTracker: start: ' .((is_object($GLOBALS['conn'])) ? mysqli_error($GLOBALS['conn']) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+        error_log('BtiTracker: start: ' .(is_object($GLOBALS['conn']) ? mysqli_error($GLOBALS['conn']) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
         show_error('Tracker/database error. The details are in the error log.');
     }
-    $GLOBALS['trackerid'] = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS['conn']))) ? false : $___mysqli_res);
+    $GLOBALS['trackerid'] = (is_null($___mysqli_res = mysqli_insert_id($GLOBALS['conn'])) ? false : $___mysqli_res);
 
-    @mysqli_query($GLOBALS['conn'], "UPDATE {$TABLE_PREFIX}peers SET sequence=\"".$GLOBALS["trackerid"]."\", compact=\"$compact\", with_peerid=\"$peerid\", without_peerid=\"$no_peerid\" WHERE peer_id=\"$peer_id\" AND infohash=\"$info_hash\"");
+    @mysqli_query($GLOBALS['conn'], "UPDATE {$TABLE_PREFIX}peers SET sequence=\"".$GLOBALS['trackerid']."\", compact=\"$compact\", with_peerid=\"$peerid\", without_peerid=\"$no_peerid\" WHERE peer_id=\"$peer_id\" AND infohash=\"$info_hash\"");
 
     if ($left == 0)
     {
-        summaryAdd("seeds", 1);
+        summaryAdd('seeds', 1);
         return "WHERE status=\"leecher\" AND natuser='N'";
     }
     else
     {
-        summaryAdd("leechers", 1);
+        summaryAdd('leechers', 1);
         return "WHERE natuser='N'";
     }
 }
@@ -470,8 +470,8 @@ function start($info_hash, $ip, $port, $peer_id, $left, $downloaded=0, $uploaded
 /// End of function start
 
 // default for max peers with same pid/ip
-if (!isset($GLOBALS["maxseeds"])) $GLOBALS["maxseeds"]=2;
-if (!isset($GLOBALS["maxleech"])) $GLOBALS["maxleech"]=2;
+if (!isset($GLOBALS['maxseeds'])) $GLOBALS['maxseeds']=2;
+if (!isset($GLOBALS['maxleech'])) $GLOBALS['maxleech']=2;
 
 // send random peers to client (direct print)
 function sendRandomPeers($info_hash)
@@ -481,26 +481,26 @@ function sendRandomPeers($info_hash)
 
 
 
-    if ($GLOBALS["NAT"])
+    if ($GLOBALS['NAT'])
         $where="WHERE infohash=\"$info_hash\" AND natuser = 'N'";
     else
         $where="WHERE infohash=\"$info_hash\"";
 
-    $query = "SELECT ".((isset($_GET["no_peer_id"]) && $_GET["no_peer_id"] == 1) ? "" : "peer_id,")."ip, port FROM {$TABLE_PREFIX}peers ".$where." ORDER BY RAND() LIMIT ".$GLOBALS["maxpeers"];
+    $query = 'SELECT ' .((isset($_GET['no_peer_id']) && $_GET['no_peer_id'] == 1) ? '' : 'peer_id,')."ip, port FROM {$TABLE_PREFIX}peers ".$where. ' ORDER BY RAND() LIMIT ' .$GLOBALS['maxpeers'];
 
-    echo "d";
-    echo "8:intervali".$GLOBALS["report_interval"]."e";
-    if (isset($GLOBALS["min_interval"]))
-        echo "12:min intervali".$GLOBALS["min_interval"]."e";
-    echo "5:peers";
+    echo 'd';
+    echo '8:intervali' .$GLOBALS['report_interval']. 'e';
+    if (isset($GLOBALS['min_interval']))
+        echo '12:min intervali' .$GLOBALS['min_interval']. 'e';
+    echo '5:peers';
 
     $result = @mysqli_query($GLOBALS['conn'], $query);
 
-    if (isset($_GET["compact"]) && $_GET["compact"] == '1')
+    if (isset($_GET['compact']) && $_GET['compact'] == '1')
       {
         $p='';
         while ($row = mysqli_fetch_assoc($result))
-            $p .= str_pad(pack("Nn", ip2long($row["ip"]), $row["port"]), 6);
+            $p .= str_pad(pack('Nn', ip2long($row['ip']), $row['port']), 6);
         echo strlen($p).':'.$p;
     }
     else // no_peer_id or no feature supported
@@ -508,18 +508,18 @@ function sendRandomPeers($info_hash)
         echo 'l';
         while ($row = mysqli_fetch_assoc($result))
         {
-            echo "d2:ip".strlen($row["ip"]).":".$row["ip"];
-            if (isset($row["peer_id"]))
-                echo "7:peer id20:".hex2bin($row["peer_id"]);
-            echo "4:porti".$row["port"]."ee";
+            echo 'd2:ip' .strlen($row['ip']). ':' .$row['ip'];
+            if (isset($row['peer_id']))
+                echo '7:peer id20:' .hex2bin($row['peer_id']);
+            echo '4:porti' .$row['port']. 'ee';
         }
-        echo "e";
+        echo 'e';
     }
-    if (isset($GLOBALS["trackerid"]))
-        echo "10:tracker id".strlen($GLOBALS["trackerid"]).":".$GLOBALS["trackerid"];
-    echo "e";
+    if (isset($GLOBALS['trackerid']))
+        echo '10:tracker id' .strlen($GLOBALS['trackerid']). ':' .$GLOBALS['trackerid'];
+    echo 'e';
 
-    ((mysqli_free_result($result) || (is_object($result) && (get_class($result) == "mysqli_result"))) ? true : false);
+    (mysqli_free_result($result) || (is_object($result) && (get_class($result) == 'mysqli_result'))) ? true : false;
 }
 
 
@@ -537,8 +537,8 @@ function killPeer($userid, $hash, $left, $assumepeer = false)
         $peer = getPeerInfo($userid, $hash);
         if (!$peer)
             return;
-        if ($left != $peer["bytes"])
-            $bytes = bcsub($peer["bytes"], $left);
+        if ($left != $peer['bytes'])
+            $bytes = bcsub($peer['bytes'], $left);
         else
             $bytes = 0;
     }
@@ -551,39 +551,39 @@ function killPeer($userid, $hash, $left, $assumepeer = false)
     quickQuery("DELETE FROM {$TABLE_PREFIX}peers WHERE peer_id=\"$userid\" AND infohash=\"$hash\"");
     if (mysqli_affected_rows($GLOBALS['conn']) == 1)
     {
-        if ($peer["status"] == "leecher")
-            summaryAdd("leechers", -1);
+        if ($peer['status'] == 'leecher')
+            summaryAdd('leechers', -1);
         else
-            summaryAdd("seeds", -1);
-        if ($GLOBALS["countbytes"] && ((float)$bytes) > 0)
-            summaryAdd("dlbytes",$bytes);
-        if ($peer["bytes"] != 0 && $left == 0)
-            summaryAdd("finished", 1);
+            summaryAdd('seeds', -1);
+        if ($GLOBALS['countbytes'] && ((float)$bytes) > 0)
+            summaryAdd('dlbytes',$bytes);
+        if ($peer['bytes'] != 0 && $left == 0)
+            summaryAdd('finished', 1);
 
-        summaryAdd("lastcycle", "UNIX_TIMESTAMP()", true);
+        summaryAdd('lastcycle', 'UNIX_TIMESTAMP()', true);
     }
 }
 
 
 // Transfers bytes from "left" to "dlbytes" when a peer reports in.
-function collectBytes($peer, $hash, $left, $downloaded=0, $uploaded=0, $pid="")
+function collectBytes($peer, $hash, $left, $downloaded=0, $uploaded=0, $pid= '')
 {
 
   global $TABLE_PREFIX;
 
-    $peerid=$peer["peer_id"];
+    $peerid=$peer['peer_id'];
 
-    if (!$GLOBALS["countbytes"])
+    if (!$GLOBALS['countbytes'])
     {
-        quickQuery("UPDATE {$TABLE_PREFIX}peers SET lastupdate=UNIX_TIMESTAMP(), downloaded=$downloaded, uploaded=$uploaded, pid=\"$pid\" where infohash=\"$hash\" AND " . (isset($GLOBALS["trackerid"]) ? "sequence=\"${GLOBALS["trackerid"]}\"" : "peer_id=\"$peerid\""));
+        quickQuery("UPDATE {$TABLE_PREFIX}peers SET lastupdate=UNIX_TIMESTAMP(), downloaded=$downloaded, uploaded=$uploaded, pid=\"$pid\" where infohash=\"$hash\" AND " . (isset($GLOBALS['trackerid']) ? "sequence=\"${GLOBALS['trackerid']}\"" : "peer_id=\"$peerid\""));
         return;
     }
-    $diff = bcsub($peer["bytes"], $left);
-    quickQuery("UPDATE {$TABLE_PREFIX}peers set " . (($diff != 0) ? "bytes=\"$left\"," : ""). " lastupdate=UNIX_TIMESTAMP(), downloaded=$downloaded, uploaded=$uploaded, pid=\"$pid\" where infohash=\"$hash\" AND " . (isset($GLOBALS["trackerid"]) ? "sequence=\"".$GLOBALS["trackerid"]."\"" : "peer_id=\"$peerid\""));
+    $diff = bcsub($peer['bytes'], $left);
+    quickQuery("UPDATE {$TABLE_PREFIX}peers set " . (($diff != 0) ? "bytes=\"$left\"," : ''). " lastupdate=UNIX_TIMESTAMP(), downloaded=$downloaded, uploaded=$uploaded, pid=\"$pid\" where infohash=\"$hash\" AND " . (isset($GLOBALS['trackerid']) ? "sequence=\"".$GLOBALS['trackerid']."\"" : "peer_id=\"$peerid\""));
 
     // Anti-negative clause
     if (((float)$diff) > 0)
-        summaryAdd("dlbytes", $diff);
+        summaryAdd('dlbytes', $diff);
 }
 
 function runSpeed($info_hash, $delta)
@@ -598,8 +598,8 @@ function runSpeed($info_hash, $delta)
         $results = mysqli_query($GLOBALS['conn'], 'SELECT (MAX(bytes)-MIN(bytes))/SUM(delta), COUNT(*), MIN(sequence) FROM '.$TABLE_PREFIX.'timestamps WHERE info_hash="'.$info_hash.'"' );
         $data = mysqli_fetch_row($results);
 
-        summaryAdd("speed", $data[0], true);
-        summaryAdd("lastSpeedCycle", "UNIX_TIMESTAMP()", true);
+        summaryAdd('speed', $data[0], true);
+        summaryAdd('lastSpeedCycle', 'UNIX_TIMESTAMP()', true);
 
         // if we have more than 20 drop the rest
         if ($data[1] == 21)
@@ -615,59 +615,59 @@ function runSpeed($info_hash, $delta)
 
 
 // select how many users with same pid or ip
-$results = mysqli_query($GLOBALS['conn'], "SELECT status, count(status) FROM {$TABLE_PREFIX}peers WHERE ".($PRIVATE_ANNOUNCE?"pid=\"$pid\"":"ip=\"$ip\"")." AND infohash=\"$info_hash\" AND peer_id<>\"$peer_id\" GROUP BY status") or show_error("Tracker error: invalid torrent");
+$results = mysqli_query($GLOBALS['conn'], "SELECT status, count(status) FROM {$TABLE_PREFIX}peers WHERE ".($PRIVATE_ANNOUNCE?"pid=\"$pid\"":"ip=\"$ip\"")." AND infohash=\"$info_hash\" AND peer_id<>\"$peer_id\" GROUP BY status") or show_error('Tracker error: invalid torrent');
 $status = array();
 
 while ($resstat = mysqli_fetch_row($results))
   $status[$resstat[0]]=$resstat[1];
 
-if (!isset($status["leecher"]))
-    $status["leecher"]=0;
-if (!isset($status["seeder"]))
-    $status["seeder"]=0;
+if (!isset($status['leecher']))
+    $status['leecher']=0;
+if (!isset($status['seeder']))
+    $status['seeder']=0;
 
-if ($status["seeder"]>=$GLOBALS["maxseeds"] || $status["leecher"]>=$GLOBALS["maxleech"])
+if ($status['seeder']>=$GLOBALS['maxseeds'] || $status['leecher']>=$GLOBALS['maxleech'])
    show_error("Sorry max peers reached! Redownload torrent from $BASEURL");
 // end select
 
 unset($status);
-((mysqli_free_result($results) || (is_object($results) && (get_class($results) == "mysqli_result"))) ? true : false);
+(mysqli_free_result($results) || (is_object($results) && (get_class($results) == 'mysqli_result'))) ? true : false;
 
 // UPDATE users ratio down/up for every event on every announce
 // only with the difference between stored down/up and sended by client
 if ($LIVESTATS)
   {
-     $resstat = mysqli_query($GLOBALS['conn'], "SELECT `uploaded`, `downloaded` FROM `{$TABLE_PREFIX}peers` WHERE ".(($PRIVATE_ANNOUNCE)?"`pid`='".$pid."'":"`ip`='".$ip."'")." AND `infohash`='".$info_hash."' AND `peer_id`='".$peer_id."'");
+     $resstat = mysqli_query($GLOBALS['conn'], "SELECT `uploaded`, `downloaded` FROM `{$TABLE_PREFIX}peers` WHERE ".($PRIVATE_ANNOUNCE ?"`pid`='".$pid."'":"`ip`='".$ip."'")." AND `infohash`='".$info_hash."' AND `peer_id`='".$peer_id."'");
      if ($resstat && mysqli_num_rows($resstat)>0)
          {
          $livestat=mysqli_fetch_assoc($resstat);
          // only if uploaded/downloaded are >= stored data in peer list
          //if ($uploaded>=$livestat["uploaded"])
-               $newup=max(0,($uploaded-$livestat["uploaded"]));
+               $newup=max(0, $uploaded-$livestat['uploaded']);
          //else
          //      $newup=$uploaded;
 
          //if ($downloaded>=$livestat["downloaded"])
-               $newdown=max(0,($downloaded-$livestat["downloaded"]));
+               $newdown=max(0, $downloaded-$livestat['downloaded']);
          //else
          //      $newdown=$downloaded;
          // rev 485
 
-         quickquery("UPDATE {$TABLE_PREFIX}users SET downloaded=IFNULL(downloaded,0)+$newdown, uploaded=IFNULL(uploaded,0)+$newup WHERE ".($PRIVATE_ANNOUNCE?"pid='$pid'":"cip='$ip'")."");
+         quickquery("UPDATE {$TABLE_PREFIX}users SET downloaded=IFNULL(downloaded,0)+$newdown, uploaded=IFNULL(uploaded,0)+$newup WHERE ".($PRIVATE_ANNOUNCE?"pid='$pid'":"cip='$ip'"). '');
          }
-       ((mysqli_free_result($resstat) || (is_object($resstat) && (get_class($resstat) == "mysqli_result"))) ? true : false);
+       (mysqli_free_result($resstat) || (is_object($resstat) && (get_class($resstat) == 'mysqli_result'))) ? true : false;
 
        // begin history - also this is registered live or not
        if ($LOG_HISTORY)
          {
-          $resu=mysqli_query($GLOBALS['conn'], "SELECT id FROM {$TABLE_PREFIX}users WHERE ".($PRIVATE_ANNOUNCE?"pid='$pid'":"cip='$ip'") ." ORDER BY lastconnect DESC LIMIT 1");
+          $resu=mysqli_query($GLOBALS['conn'], "SELECT id FROM {$TABLE_PREFIX}users WHERE ".($PRIVATE_ANNOUNCE?"pid='$pid'":"cip='$ip'") . ' ORDER BY lastconnect DESC LIMIT 1');
           // if found at least one user should be 1
           if ($resu && mysqli_num_rows($resu)==1)
             {
               $curuid=mysqli_fetch_assoc($resu);
-              quickQuery("UPDATE {$TABLE_PREFIX}history set uploaded=IFNULL(uploaded,0)+$newup, downloaded=IFNULL(downloaded,0)+$newdown WHERE uid=".$curuid["id"]." AND infohash='$info_hash'");
+              quickQuery("UPDATE {$TABLE_PREFIX}history set uploaded=IFNULL(uploaded,0)+$newup, downloaded=IFNULL(downloaded,0)+$newdown WHERE uid=".$curuid['id']." AND infohash='$info_hash'");
             }
-          ((mysqli_free_result($resu) || (is_object($resu) && (get_class($resu) == "mysqli_result"))) ? true : false);
+          (mysqli_free_result($resu) || (is_object($resu) && (get_class($resu) == 'mysqli_result'))) ? true : false;
        }
        // end history    }
 }
@@ -677,7 +677,7 @@ if ($LIVESTATS)
 switch ($event)
 {
     // client sent start
-    case "started":
+    case 'started':
 
        $start = start($info_hash, $ip, $port, $peer_id, $left, $downloaded, $uploaded, $pid);
 
@@ -686,23 +686,23 @@ switch ($event)
        // begin history
        if ($LOG_HISTORY)
          {
-          $resu=mysqli_query($GLOBALS['conn'], "SELECT id FROM {$TABLE_PREFIX}users WHERE ".($PRIVATE_ANNOUNCE?"pid='$pid'":"cip='$ip'") ." ORDER BY lastconnect DESC LIMIT 1");
+          $resu=mysqli_query($GLOBALS['conn'], "SELECT id FROM {$TABLE_PREFIX}users WHERE ".($PRIVATE_ANNOUNCE?"pid='$pid'":"cip='$ip'") . ' ORDER BY lastconnect DESC LIMIT 1');
           // if found at least one user should be 1
           if ($resu && mysqli_num_rows($resu)==1)
             {
               $curuid=mysqli_fetch_assoc($resu);
-              quickQuery("UPDATE {$TABLE_PREFIX}history set active='yes',agent='".getagent($agent,$peer_id)."' WHERE uid=".$curuid["id"]." AND infohash='$info_hash'");
+              quickQuery("UPDATE {$TABLE_PREFIX}history set active='yes',agent='".getagent($agent,$peer_id)."' WHERE uid=".$curuid['id']." AND infohash='$info_hash'");
               // record is not present, create it (only if not seeder: original seeder don't exist in history table, other already exists)
               if (mysqli_affected_rows($GLOBALS['conn'])==0 && $left>0)
-                 quickQuery("INSERT INTO {$TABLE_PREFIX}history (uid,infohash,active,agent) VALUES (".$curuid["id"].",'$info_hash','yes','".getagent($agent,$peer_id)."')");
+                 quickQuery("INSERT INTO {$TABLE_PREFIX}history (uid,infohash,active,agent) VALUES (".$curuid['id'].",'$info_hash','yes','".getagent($agent,$peer_id)."')");
             }
-          ((mysqli_free_result($resu) || (is_object($resu) && (get_class($resu) == "mysqli_result"))) ? true : false);
+          (mysqli_free_result($resu) || (is_object($resu) && (get_class($resu) == 'mysqli_result'))) ? true : false;
        }
        // end history
     break;
 
     // client sent stop
-    case "stopped":
+    case 'stopped':
 
        killPeer($peer_id, $info_hash, $left);
 
@@ -710,25 +710,25 @@ switch ($event)
 
        // update user uploaded/downloaded
        if (!$LIVESTATS)
-            @mysqli_query($GLOBALS['conn'], "UPDATE {$TABLE_PREFIX}users SET uploaded=IFNULL(uploaded,0)+$uploaded, downloaded=IFNULL(downloaded,0)+$downloaded WHERE ".($PRIVATE_ANNOUNCE?"pid='$pid'":"cip='$ip'")." AND id>1 LIMIT 1");
+            @mysqli_query($GLOBALS['conn'], "UPDATE {$TABLE_PREFIX}users SET uploaded=IFNULL(uploaded,0)+$uploaded, downloaded=IFNULL(downloaded,0)+$downloaded WHERE ".($PRIVATE_ANNOUNCE?"pid='$pid'":"cip='$ip'"). ' AND id>1 LIMIT 1');
 
        // begin history - if LIVESTAT, only the active/agent part
        if ($LOG_HISTORY)
          {
-          $resu=mysqli_query($GLOBALS['conn'], "SELECT id FROM {$TABLE_PREFIX}users WHERE ".($PRIVATE_ANNOUNCE?"pid='$pid'":"cip='$ip'") ." ORDER BY lastconnect DESC LIMIT 1");
+          $resu=mysqli_query($GLOBALS['conn'], "SELECT id FROM {$TABLE_PREFIX}users WHERE ".($PRIVATE_ANNOUNCE?"pid='$pid'":"cip='$ip'") . ' ORDER BY lastconnect DESC LIMIT 1');
           // if found at least one user should be 1
           if ($resu && mysqli_num_rows($resu)==1)
             {
               $curuid=mysqli_fetch_assoc($resu);
-              quickQuery("UPDATE {$TABLE_PREFIX}history set active='no',".($LIVESTATS?"":" uploaded=IFNULL(uploaded,0)+$uploaded, downloaded=IFNULL(downloaded,0)+$downloaded,")." agent='".getagent($agent,$peer_id)."' WHERE uid=".$curuid["id"]." AND infohash='$info_hash'");
+              quickQuery("UPDATE {$TABLE_PREFIX}history set active='no',".($LIVESTATS? '' :" uploaded=IFNULL(uploaded,0)+$uploaded, downloaded=IFNULL(downloaded,0)+$downloaded,")." agent='".getagent($agent,$peer_id)."' WHERE uid=".$curuid['id']." AND infohash='$info_hash'");
             }
-          ((mysqli_free_result($resu) || (is_object($resu) && (get_class($resu) == "mysqli_result"))) ? true : false);
+          (mysqli_free_result($resu) || (is_object($resu) && (get_class($resu) == 'mysqli_result'))) ? true : false;
        }
        // end history    }
     break;
 
     // client sent complete
-    case "completed":
+    case 'completed':
 
         $peer_exists = getPeerInfo($peer_id, $info_hash);
 
@@ -736,15 +736,15 @@ switch ($event)
             start($info_hash, $ip, $port, $peer_id, $left, $downloaded, $uploaded, $pid);
         else
         {
-            quickQuery("UPDATE {$TABLE_PREFIX}peers SET bytes=0, status=\"seeder\", lastupdate=UNIX_TIMESTAMP(), downloaded=$downloaded, uploaded=$uploaded, pid=\"$pid\" WHERE sequence=\"".$GLOBALS["trackerid"]."\" AND infohash=\"$info_hash\"");
+            quickQuery("UPDATE {$TABLE_PREFIX}peers SET bytes=0, status=\"seeder\", lastupdate=UNIX_TIMESTAMP(), downloaded=$downloaded, uploaded=$uploaded, pid=\"$pid\" WHERE sequence=\"".$GLOBALS['trackerid']."\" AND infohash=\"$info_hash\"");
 
             // Race check
             if (mysqli_affected_rows($GLOBALS['conn']) == 1)
               {
-                summaryAdd("leechers", -1);
-                summaryAdd("seeds", 1);
-                summaryAdd("finished", 1);
-                summaryAdd("lastcycle", "UNIX_TIMESTAMP()", true);
+                summaryAdd('leechers', -1);
+                summaryAdd('seeds', 1);
+                summaryAdd('finished', 1);
+                summaryAdd('lastcycle', 'UNIX_TIMESTAMP()', true);
             }
             else
               collectBytes($peer_exists, $info_hash, $left, $downloaded, $uploaded, $pid);
@@ -756,7 +756,7 @@ switch ($event)
         // begin history
         if ($LOG_HISTORY)
           {
-           $resu=mysqli_query($GLOBALS['conn'], "SELECT id FROM {$TABLE_PREFIX}users WHERE ".($PRIVATE_ANNOUNCE?"pid='$pid'":"cip='$ip'") ." ORDER BY lastconnect DESC LIMIT 1");
+           $resu=mysqli_query($GLOBALS['conn'], "SELECT id FROM {$TABLE_PREFIX}users WHERE ".($PRIVATE_ANNOUNCE?"pid='$pid'":"cip='$ip'") . ' ORDER BY lastconnect DESC LIMIT 1');
            // if found at least one user should be 1
            if ($resu && mysqli_num_rows($resu)==1)
              {
@@ -764,19 +764,19 @@ switch ($event)
                // if user has already completed this torrent, mysql will give error because of unique index (uid+infohash)
                // upload/download will be updated on stop event...
                // record should already exist (created on stated event)
-               quickQuery("UPDATE {$TABLE_PREFIX}history SET date=UNIX_TIMESTAMP(),active='yes',agent='".getagent($agent,$peer_id)."' WHERE uid=".$curuid["id"]." AND infohash='$info_hash'");
+               quickQuery("UPDATE {$TABLE_PREFIX}history SET date=UNIX_TIMESTAMP(),active='yes',agent='".getagent($agent,$peer_id)."' WHERE uid=".$curuid['id']." AND infohash='$info_hash'");
                // record is not present, create it
                if (mysqli_affected_rows($GLOBALS['conn'])==0)
-                  quickQuery("INSERT INTO {$TABLE_PREFIX}history (uid,infohash,date,active,agent) VALUES (".$curuid["id"].",'$info_hash',UNIX_TIMESTAMP(),'yes','".getagent($agent,$peer_id)."')");
+                  quickQuery("INSERT INTO {$TABLE_PREFIX}history (uid,infohash,date,active,agent) VALUES (".$curuid['id'].",'$info_hash',UNIX_TIMESTAMP(),'yes','".getagent($agent,$peer_id)."')");
 
              }
-           ((mysqli_free_result($resu) || (is_object($resu) && (get_class($resu) === "mysqli_result"))) ? true : false);
+           (mysqli_free_result($resu) || (is_object($resu) && (get_class($resu) === 'mysqli_result'))) ? true : false;
         }
         // end history
     break;
 
     // client sent no event
-    case "":
+    case '':
 
         $peer_exists = getPeerInfo($peer_id, $info_hash);
         $where = "WHERE natuser='N'";
@@ -784,15 +784,15 @@ switch ($event)
         if (!is_array($peer_exists))
             $where = start($info_hash, $ip, $port, $peer_id, $left, $downloaded, $uploaded, $pid);
 
-        if ($peer_exists["bytes"] != 0 && $left == 0)
+        if ($peer_exists['bytes'] != 0 && $left == 0)
         {
-            quickQuery("UPDATE {$TABLE_PREFIX}peers SET bytes=0, status=\"seeder\", lastupdate=UNIX_TIMESTAMP(), downloaded=$downloaded, uploaded=$uploaded, pid=\"$pid\" WHERE sequence=\"".$GLOBALS["trackerid"]."\" AND infohash=\"$info_hash\"");
+            quickQuery("UPDATE {$TABLE_PREFIX}peers SET bytes=0, status=\"seeder\", lastupdate=UNIX_TIMESTAMP(), downloaded=$downloaded, uploaded=$uploaded, pid=\"$pid\" WHERE sequence=\"".$GLOBALS['trackerid']."\" AND infohash=\"$info_hash\"");
             if (mysqli_affected_rows($GLOBALS['conn']) == 1)
             {
-                summaryAdd("leechers", -1);
-                summaryAdd("seeds", 1);
-                summaryAdd("finished", 1);
-                summaryAdd("lastcycle", "UNIX_TIMESTAMP()", true);
+                summaryAdd('leechers', -1);
+                summaryAdd('seeds', 1);
+                summaryAdd('finished', 1);
+                summaryAdd('lastcycle', 'UNIX_TIMESTAMP()', true);
             }
             else
               collectBytes($peer_exists, $info_hash, $left, $downloaded, $uploaded, $pid);
@@ -825,16 +825,16 @@ if ($GLOBALS['countbytes'])
 // Finally, it's time to do stuff to the summary table.
 if (!empty($summaryupdate))
 {
-    $stuff = "";
+    $stuff = '';
     foreach ($summaryupdate as $column => $value)
     {
-        $stuff .= ', '.$column. ($value[1] ? "=".$value[0] : "=IF(($column<" . abs($value[0])." AND ".$value[0]."<0),0,$column+".$value[0].")");
+        $stuff .= ', '.$column. ($value[1] ? '=' .$value[0] : "=IF(($column<" . abs($value[0]). ' AND ' .$value[0]."<0),0,$column+".$value[0]. ')');
     }
     mysqli_query($GLOBALS['conn'], "UPDATE {$TABLE_PREFIX}files SET ".substr($stuff, 1)." WHERE info_hash=\"$info_hash\"");
 }
 
 // generaly not needed, but
 // just in case server don't close connection
-((is_null($___mysqli_res = mysqli_close($GLOBALS['conn']))) ? false : $___mysqli_res);
+is_null($___mysqli_res = mysqli_close($GLOBALS['conn'])) ? false : $___mysqli_res;
 
 ?>
