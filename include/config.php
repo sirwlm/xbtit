@@ -56,11 +56,11 @@ function get_cached_config($qrystr, $cachetime=0) {
     elseif (is_numeric($mz['value']))
       $return[$mz['key']]= max(0,$mz['value']);
     else
-      $return[$mz['key']]= StripSlashes($mz['value']);
+      $return[$mz['key']]= stripslashes($mz['value']);
   }
 
   unset($mz);
-  ((mysqli_free_result($mr) || (is_object($mr) && (get_class($mr) == "mysqli_result"))) ? true : false);
+  ((mysqli_free_result($mr) || (is_object($mr) && (get_class($mr) === "mysqli_result"))) ? true : false);
   ((is_null($___mysqli_res = mysqli_close($GLOBALS['conn']))) ? false : $___mysqli_res);
 
   if ($cachetime>0) {
@@ -188,7 +188,7 @@ $TRACKER_ANNOUNCEURLS=array();
 $TRACKER_ANNOUNCE_URL=unserialize(base64_decode($btit_settings['announce']));
 for($i=0,$count=count($TRACKER_ANNOUNCE_URL); $i<$count; $i++)
   {
-  if (trim($TRACKER_ANNOUNCE_URL[$i])!='')
+  if (trim($TRACKER_ANNOUNCE_URL[$i])!=='')
      $TRACKER_ANNOUNCEURLS[]=trim($TRACKER_ANNOUNCE_URL[$i]);
 }
 //Tracker's email (owner email)
