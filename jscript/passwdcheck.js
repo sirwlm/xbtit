@@ -101,7 +101,7 @@ function Dictionary_Lookup(strWord){
 
 function Dictionary_Add(length, wordList){
     var iL=this.m_entries.length;
-    var cD=new CDictionaryEntry(length, wordList)
+    var cD=new CDictionaryEntry(length, wordList);
     this.m_entries[iL]=cD;
 }
 

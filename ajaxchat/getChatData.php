@@ -42,16 +42,16 @@
   #
   ################################################################*/
   if ( !function_exists('get_cached_config') ) {
-  require_once("format_shout.php");}
+  require_once('format_shout.php');}
   
-  require_once("../include/functions.php");
+  require_once('../include/functions.php');
   
 # Headers are sent to prevent browsers from caching.. IE is still resistent sometimes
-header( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" ); 
-header( "Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" ); 
-header( "Cache-Control: no-cache, must-revalidate" ); 
-header( "Pragma: no-cache" );
-header("Content-Type: text/html; charset=UTF-8");
+header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+header( 'Last-Modified: ' . gmdate('D, d M Y H:i:s') . 'GMT');
+header('Cache-Control: no-cache, must-revalidate');
+header('Pragma: no-cache');
+header('Content-Type: text/html; charset=UTF-8');
 
 
 global $lastID;
@@ -64,20 +64,20 @@ getData($lastID);
 # function that do retrieve all messages with an id greater than $lastID
 function getData($lastID) {
 
-  require_once("conn.php"); # getting connection data
+  require_once('conn.php'); # getting connection data
   
-  include("../include/settings.php");   # getting table prefix
+  include('../include/settings.php');   # getting table prefix
   
-  include("../include/offset.php");
+  include('../include/offset.php');
 
 global $CURUSER;
 
-if ($CURUSER["view_users"]!="yes") {
-die("Sorry, Shoutbox is not available...");
+if ($CURUSER['view_users']!= 'yes') {
+die('Sorry, Shoutbox is not available...');
 }
 
 
-    $sql =  "SELECT * FROM {$TABLE_PREFIX}chat WHERE id > ".$lastID." ORDER BY id DESC LIMIT 10";
+    $sql =  "SELECT * FROM {$TABLE_PREFIX}chat WHERE id > ".$lastID. ' ORDER BY id DESC LIMIT 10';
     $conn = getDBConnection(); # establishes the connection to the database
     $results = mysqli_query( $conn, $sql);
     
@@ -98,7 +98,7 @@ die("Sorry, Shoutbox is not available...");
       
       # we put together our chat using some css     
       $chatout = "
-                 <li><span class='name'>".date("d/m/Y H:i:s", $time - $offset)." | <a href=index.php?page=userdetails&id=".$uid.">".$name."</a>:</span></li>
+                 <li><span class='name'>".date('d/m/Y H:i:s', $time - $offset). ' | <a href=index.php?page=userdetails&id=' .$uid. '>' .$name."</a>:</span></li>
                             <div class='lista' style='text-align:right;
                                       margin-top:-13px;
                                     margin-bottom:0px;
@@ -107,8 +107,8 @@ die("Sorry, Shoutbox is not available...");
                           # $id</div>
  
                  <!-- # chat output -->
-                 <div class='chatoutput'>".format_shout($text)."</div>
-                 ";
+                 <div class='chatoutput'>".format_shout($text). '</div>
+                 ';
 
          echo $chatout; # echo as known handles arrays very fast...
 

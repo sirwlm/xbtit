@@ -34,7 +34,7 @@ var voteCenterImage = 'images/poll_middle.gif';
 
 var graphMaxWidth = 90; // It will actually be a little wider than this because of the rounded image at the left and right
 var graphMinWidth = 15; // Minimum size of graph
-var pollScrollSpeed = 10  // Lower = faster
+var pollScrollSpeed = 10;  // Lower = faster
 var useCookiesToRememberCastedVotes = true; // Use cookie to remember casted votes
 var txt_totalVotes = 'Total votes: ';
 

@@ -40,12 +40,12 @@ if (!defined('IN_ACP'))
 switch ($action)
   {
     case 'write':
-      if ($_POST["write"]==$language["FRM_CONFIRM"])
+      if ($_POST['write']==$language['FRM_CONFIRM'])
          {
-         if (isset($_POST["badwords"]))
+         if (isset($_POST['badwords']))
             {
-            $f=fopen("badwords.txt","w+");
-            @fwrite($f,$_POST["badwords"]);
+            $f=fopen('badwords.txt', 'wb+');
+            @fwrite($f,$_POST['badwords']);
             fclose($f);
             }
          }
@@ -54,13 +54,13 @@ switch ($action)
     case '':
     case 'read':
     default:
-      $f=@fopen("$THIS_BASEPATH/badwords.txt","r");
+      $f=@fopen("$THIS_BASEPATH/badwords.txt", 'rb');
       $badwords=@fread($f,filesize("$THIS_BASEPATH/badwords.txt"));
       @fclose($f);
 
-      $admintpl->set("language",$language);
-      $admintpl->set("censored_text",$badwords);
-      $admintpl->set("frm_action","index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=badwords&amp;action=write");
+      $admintpl->set('language',$language);
+      $admintpl->set('censored_text',$badwords);
+      $admintpl->set('frm_action', 'index.php?page=admin&amp;user=' .$CURUSER['uid']. '&amp;code=' .$CURUSER['random']. '&amp;do=badwords&amp;action=write');
 
 }
 

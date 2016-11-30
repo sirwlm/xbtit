@@ -44,11 +44,11 @@
 */
 function crk($l)
 {
-    $xip=$_SERVER["REMOTE_ADDR"];
+    $xip=$_SERVER['REMOTE_ADDR'];
 
     global $CURUSER,$btit_settings;
 
-    if (function_exists("write_log"))
+    if (function_exists('write_log'))
         write_log('Hacking Attempt! User: <a href="'.$btit_settings['url'].'/index.php?page=userdetails&amp;id='.$CURUSER['uid'].'">'.$CURUSER['username'].'</a> IP:'.$xip.' - Attempt: '.htmlspecialchars($l));
 
     header('Location: index.php');
@@ -62,35 +62,35 @@ $ban['set password for']='@';
 
 $ban2=array('delete from','insert into','<script', '<object', '.write', '.location', '.cookie', '.open', 'vbscript:', '<iframe', '<layer', '<style', ':expression', '<base', 'id_level', 'users_level', 'xbt_', 'c99.txt', 'c99shell', 'r57.txt', 'r57shell.txt','/home/', '/var/', '/www/', '/etc/', '/bin', '/sbin/', '$_GET', '$_POST', '$_REQUEST', 'window.open', 'javascript:', 'xp_cmdshell',  '.htpasswd', '.htaccess', '<?php', '<?', '?>', '</script>');
 
-if (function_exists("dbconn"))
+if (function_exists('dbconn'))
     dbconn();
 
 global $CURUSER;
 
-if($CURUSER["admin_access"]=="yes" && $_SERVER["QUERY_STRING"]=="page=admin&user=".$CURUSER["uid"]."&code=".$CURUSER["random"]."&do=config&action=write" && strpos(strtolower($_REQUEST["tracker_announceurl"]),"tracker.opentrackr.org"))
+if($CURUSER['admin_access']== 'yes' && $_SERVER['QUERY_STRING']== 'page=admin&user=' .$CURUSER['uid']. '&code=' .$CURUSER['random']. '&do=config&action=write' && strpos(strtolower($_REQUEST['tracker_announceurl']), 'tracker.opentrackr.org'))
     unset($ban2[7]);
-if($CURUSER["admin_access"]=="yes" && $_SERVER["QUERY_STRING"]=="page=admin&user=".$CURUSER["uid"]."&code=".$CURUSER["random"]."&do=config&action=write" && strpos(strtolower($_REQUEST["tracker_announceurl"]),"tracker.openbittorrent.com"))
+if($CURUSER['admin_access']== 'yes' && $_SERVER['QUERY_STRING']== 'page=admin&user=' .$CURUSER['uid']. '&code=' .$CURUSER['random']. '&do=config&action=write' && strpos(strtolower($_REQUEST['tracker_announceurl']), 'tracker.openbittorrent.com'))
     unset($ban2[7]);
-if($CURUSER["admin_access"]=="yes" && $_SERVER["QUERY_STRING"]=="page=admin&user=".$CURUSER["uid"]."&code=".$CURUSER["random"]."&do=config&action=write" && strpos(strtolower($_REQUEST["tracker_announceurl"]),"opensharing.com"))
+if($CURUSER['admin_access']== 'yes' && $_SERVER['QUERY_STRING']== 'page=admin&user=' .$CURUSER['uid']. '&code=' .$CURUSER['random']. '&do=config&action=write' && strpos(strtolower($_REQUEST['tracker_announceurl']), 'opensharing.com'))
     unset($ban2[7]);
-if($CURUSER["admin_access"]=="yes" && $_SERVER["QUERY_STRING"]=="page=admin&user=".$CURUSER["uid"]."&code=".$CURUSER["random"]."&do=security_suite")
+if($CURUSER['admin_access']== 'yes' && $_SERVER['QUERY_STRING']== 'page=admin&user=' .$CURUSER['uid']. '&code=' .$CURUSER['random']. '&do=security_suite')
     $ban2=array('delete from','insert into','<script', '<object', '.write', '.location', '.cookie', 'vbscript:', '<iframe', '<layer', '<style', ':expression', '<base', 'id_level', 'users_level', 'xbt_', 'c99.txt', 'c99shell', 'r57.txt', 'r57shell.txt', '$_GET', '$_POST', '$_REQUEST', 'window.open', 'javascript:', 'xp_cmdshell',  '.htpasswd', '.htaccess', '</script>');
-if($CURUSER["admin_access"]=="yes" && $_SERVER["QUERY_STRING"]=="page=admin&user=".$CURUSER["uid"]."&code=".$CURUSER["random"]."&do=php_log&action=save")
+if($CURUSER['admin_access']== 'yes' && $_SERVER['QUERY_STRING']== 'page=admin&user=' .$CURUSER['uid']. '&code=' .$CURUSER['random']. '&do=php_log&action=save')
     $ban2=array('delete from','insert into','<script', '<object', '.write', '.location', '.cookie', 'vbscript:', '<iframe', '<layer', '<style', ':expression', '<base', 'id_level', 'users_level', 'xbt_', 'c99.txt', 'c99shell', 'r57.txt', 'r57shell.txt', '$_GET', '$_POST', '$_REQUEST', 'window.open', 'javascript:', 'xp_cmdshell',  '.htpasswd', '.htaccess', '</script>');
 
 $host=FALSE;
-$host=@getenv("SERVER_NAME");
+$host=@getenv('SERVER_NAME');
 if($host===FALSE)
-    $host=$_SERVER["SERVER_NAME"];
+    $host=$_SERVER['SERVER_NAME'];
 
-$url=explode(".",$host);
+$url=explode('.',$host);
 unset($url[0]);
 if(count($url)>0)
 {
     foreach($url as $urlpart)
     {
-        if(in_array(".".$urlpart,$ban2))
-            $remove[]=array_search(".".$urlpart,$ban2);
+        if(in_array('.' .$urlpart,$ban2))
+            $remove[]=array_search('.' .$urlpart,$ban2);
     }
 }
 

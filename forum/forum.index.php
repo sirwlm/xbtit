@@ -31,16 +31,16 @@
 ////////////////////////////////////////////////////////////////////////////////////
 
 
-if (!defined("IN_BTIT"))
-      die("non direct access!");
+if (!defined('IN_BTIT'))
+      die('non direct access!');
 
-if (!$CURUSER || $CURUSER["view_forum"]!="yes")
-   stderr($language["ERROR"],$language["NOT_AUTHORIZED"]." ".$language["MNU_FORUM"]);
+if (!$CURUSER || $CURUSER['view_forum']!= 'yes')
+   stderr($language['ERROR'],$language['NOT_AUTHORIZED']. ' ' .$language['MNU_FORUM']);
 
-if (substr($btit_settings["forum"],0,3)=="smf")
+if (substr($btit_settings['forum'],0,3)== 'smf')
   {
-     $FORUMLINK=$BASEURL."/smf";
-     $smf_content="";
+     $FORUMLINK=$BASEURL. '/smf';
+     $smf_content= '';
      $smf_content.="
      <script type=\"text/javascript\" language=\"JavaScript\">
 
@@ -76,28 +76,28 @@ if (substr($btit_settings["forum"],0,3)=="smf")
 
      </script>
      <noscript>".
-     err_msg($language["ERROR"], "Resizable window will not work without Javascript.<br />Please enable Javascript or view the forum in a new window <a target='_new' href='$BASEURL/$FORUMLINK'>Here</a>")
-     ."</noscript>";
+     err_msg($language['ERROR'], "Resizable window will not work without Javascript.<br />Please enable Javascript or view the forum in a new window <a target='_new' href='$BASEURL/$FORUMLINK'>Here</a>")
+     . '</noscript>';
     
-     $topic=((int)$_GET["topicid"]);
-     $action=htmlspecialchars($_GET["action"]);
-     $user=((int)$_GET["userid"]);
+     $topic=((int)$_GET['topicid']);
+     $action=htmlspecialchars($_GET['action']);
+     $user=((int)$_GET['userid']);
 
-     if ($action=="viewtopic")
+     if ($action== 'viewtopic')
        {
        $smf_content.="
           <div align=\"center\">
           <iframe id=\"forum_ifrm\" onload=\"autoIframe('forum_ifrm')\" name=\"Forum\" border=\"0\" frameborder=\"0\" src=\"$FORUMLINK/index.php?topic=$topic\" width=\"98%\">Your browser don't support iframe, then click <a href=\"$FORUMLINK/index.php?topic=$topic\">here</a> to get forum page</iframe>
           </div>";
       }
-     elseif (substr($action, 0, 7)=="profile")
+     elseif (substr($action, 0, 7)== 'profile')
        {
        $smf_content.="
           <div align=\"center\">
           <iframe id=\"forum_ifrm\" onload=\"autoIframe('forum_ifrm')\" name=\"Forum\" border=\"0\" frameborder=\"0\" src=\"$FORUMLINK/index.php?action=$action\" width=\"98%\">Your browser don't support iframe, then click <a href=\"$FORUMLINK/index.php?action=$action\">here</a> to get forum page</iframe>
           </div>";
       }
-     elseif (substr($action, 0, 2)=="pm")
+     elseif (substr($action, 0, 2)== 'pm')
        {
        $smf_content.="
           <div align=\"center\">
@@ -113,14 +113,14 @@ if (substr($btit_settings["forum"],0,3)=="smf")
           </div>";
       }
 
-     $tpl->set("main_content",set_block($block_title,"center",$smf_content));
+     $tpl->set('main_content',set_block($block_title, 'center',$smf_content));
 
 
 }
-elseif ($btit_settings["forum"]=="ipb")
+elseif ($btit_settings['forum']== 'ipb')
   {
-     $FORUMLINK=$BASEURL."/".$btit_settings["forum"];
-     $ipb_content="";
+     $FORUMLINK=$BASEURL. '/' .$btit_settings['forum'];
+     $ipb_content= '';
      $ipb_content.="
      <script type=\"text/javascript\" language=\"JavaScript\">
 
@@ -156,35 +156,35 @@ elseif ($btit_settings["forum"]=="ipb")
 
      </script>
      <noscript>".
-     err_msg($language["ERROR"], "Resizable window will not work without Javascript.<br />Please enable Javascript or view the forum in a new window <a target='_new' href='$BASEURL/$FORUMLINK'>Here</a>")
-     ."</noscript>";
+     err_msg($language['ERROR'], "Resizable window will not work without Javascript.<br />Please enable Javascript or view the forum in a new window <a target='_new' href='$BASEURL/$FORUMLINK'>Here</a>")
+     . '</noscript>';
     
-     $topic=((int)$_GET["topicid"]);;
-     $action=htmlspecialchars($_GET["action"]);
-     $user=((int)$_GET["userid"]);
+     $topic=((int)$_GET['topicid']);
+      $action=htmlspecialchars($_GET['action']);
+     $user=((int)$_GET['userid']);
      
-     if ($action=="viewtopic")
+     if ($action== 'viewtopic')
        {
        $ipb_content.="
           <div align=\"center\">
           <iframe id=\"forum_ifrm\" onload=\"autoIframe('forum_ifrm')\" name=\"Forum\" border=\"0\" frameborder=\"0\" src=\"$FORUMLINK/index.php?showtopic=$topic&view=getnewpost\" width=\"98%\">Your browser don't support iframe, then click <a href=\"$FORUMLINK/index.php?showtopic=$topic&view=getnewpost\">here</a> to get forum page</iframe>
           </div>";
       }
-     elseif ($action=="showuser")
+     elseif ($action== 'showuser')
        {
        $ipb_content.="
           <div align=\"center\">
           <iframe id=\"forum_ifrm\" onload=\"autoIframe('forum_ifrm')\" name=\"Forum\" border=\"0\" frameborder=\"0\" src=\"$FORUMLINK/index.php?showuser=$user\" width=\"98%\">Your browser don't support iframe, then click <a href=\"$FORUMLINK/index.php?showuser=$user\">here</a> to get forum page</iframe>
           </div>";
       }
-     elseif ($action=="pm")
+     elseif ($action== 'pm')
        {
        $ipb_content.="
           <div align=\"center\">
           <iframe id=\"forum_ifrm\" onload=\"autoIframe('forum_ifrm')\" name=\"Forum\" border=\"0\" frameborder=\"0\" src=\"$FORUMLINK/index.php?app=members&module=messaging\" width=\"98%\">Your browser don't support iframe, then click <a href=\"$FORUMLINK/index.php?app=members&module=messaging\">here</a> to get forum page</iframe>
           </div>";
       }
-     elseif ($action=="newpm")
+     elseif ($action== 'newpm')
        {
        $ipb_content.="
           <div align=\"center\">
@@ -199,15 +199,15 @@ elseif ($btit_settings["forum"]=="ipb")
           </div>";
       }
 
-     $tpl->set("main_content",set_block($block_title,"center",$ipb_content));
+     $tpl->set('main_content',set_block($block_title, 'center',$ipb_content));
 }
 else
   {
-    if (isset($_GET["action"])) $action = $_GET["action"];
-      else $action = "";
+    if (isset($_GET['action'])) $action = $_GET['action'];
+      else $action = '';
 
 
-    define("IN_BTIT_FORUM",true);
+    define('IN_BTIT_FORUM',true);
 
     function highlight_search($ori_string,$hl_words)
     {
@@ -221,7 +221,7 @@ else
          $pos=strpos($h,$n);
          if ($pos !== false)
              {
-            $var=substr($ori_string,0,$pos)."<span class=\"highlight\">".substr($ori_string,$pos,strlen($hl_words))."</span>";
+            $var=substr($ori_string,0,$pos)."<span class=\"highlight\">".substr($ori_string,$pos,strlen($hl_words)). '</span>';
             $var.=substr($ori_string,($pos+strlen($hl_words)));
             $ori_string=$var;
             }
@@ -237,7 +237,7 @@ else
         if($rpp!=0) $pages = ceil($count / $rpp);
         else $pages=1;
 
-        if (!isset($opts["lastpagedefault"]))
+        if (!isset($opts['lastpagedefault']))
             $pagedefault = 1;
         else {
             $pagedefault = floor(($count - 1) / $rpp);
@@ -245,31 +245,31 @@ else
                 $pagedefault = 1;
         }
 
-        $pagename="pages";
+        $pagename= 'pages';
 
-        if (isset($opts["pagename"]))
+        if (isset($opts['pagename']))
           {
-           $pagename=$opts["pagename"];
-           if (isset($_GET[$opts["pagename"]]))
-              $page = max(1 ,((int)$_GET[$opts["pagename"]]));
+           $pagename=$opts['pagename'];
+           if (isset($_GET[$opts['pagename']]))
+              $page = max(1 ,((int)$_GET[$opts['pagename']]));
            else
               $page = $pagedefault;
           }
-        elseif (isset($_GET["pages"])) {
-            $page = max(1,((int)0 + $_GET["pages"]));
+        elseif (isset($_GET['pages'])) {
+            $page = max(1,((int)0 + $_GET['pages']));
             if ($page < 0)
                 $page = $pagedefault;
         }
         else
             $page = $pagedefault;
 
-        $pager = "";
+        $pager = '';
 
         if ($pages>1)
           {
             $pager.="\n<form name=\"change_page\" method=\"post\" action=\"index.php\">\n<select class=\"drop_pager\" name=\"pages\" onchange=\"location=document.change_page.pages.options[document.change_page.pages.selectedIndex].value\" size=\"1\">";
             for ($i = 1; $i<=$pages;$i++)
-                $pager.="\n<option ".($i==$page?"selected=\"selected\"":"")."value=\"$href$pagename=$i\">$i</option>";
+                $pager.="\n<option ".($i==$page?"selected=\"selected\"": '')."value=\"$href$pagename=$i\">$i</option>";
             $pager.="\n</select>";
         }
 
@@ -302,19 +302,19 @@ else
     //            $pager .= "\n&nbsp;<span class=\"pager\">&nbsp;&gt;</span>";
 
             $pagertop = "$pager\n</form>";
-            $pagerbottom = str_replace("change_page","change_page1",$pager)."\n";
+            $pagerbottom = str_replace('change_page', 'change_page1',$pager)."\n";
         }
         else {
             $pagertop = "$pager\n</form>";
-            $pagerbottom = str_replace("change_page","change_page1",$pagertop)."\n";
+            $pagerbottom = str_replace('change_page', 'change_page1',$pagertop)."\n";
         }
 
         $start = ($page-1) * $rpp;
         if ($pages<2)
             {
             // only 1 page??? don't need pager ;)
-            $pagertop="";
-            $pagerbottom="";
+            $pagertop= '';
+            $pagerbottom= '';
         }
         return array($pagertop, $pagerbottom, "LIMIT $start,$rpp");
 
@@ -323,17 +323,17 @@ else
 
     $FORUM_PATH=__DIR__;
 
-    include(load_language("lang_forum.php"));
+    include(load_language('lang_forum.php'));
 
     $forumtpl=new bTemplate();
-    $forumtpl->set("language",$language);
+    $forumtpl->set('language',$language);
 
     switch ($action)
         {
 
         case 'editpost':
           include("$FORUM_PATH/forum.post.php");
-          $tpl->set("main_content",set_block($block_title,"center",$forumtpl->fetch(load_template("forum.editpost.tpl"))));
+          $tpl->set('main_content',set_block($block_title, 'center',$forumtpl->fetch(load_template('forum.editpost.tpl'))));
           break;
 
         case 'catchup':
@@ -351,28 +351,28 @@ else
         case 'quotepost':
         case 'reply':
           include("$FORUM_PATH/forum.post.php");
-          $tpl->set("main_content",set_block($block_title,"center",$forumtpl->fetch(load_template("forum.post.tpl"))));
+          $tpl->set('main_content',set_block($block_title, 'center',$forumtpl->fetch(load_template('forum.post.tpl'))));
           break;
 
         case 'search':
           include("$FORUM_PATH/forum.search.php");
-          $tpl->set("main_content",set_block($block_title,"center",$forumtpl->fetch(load_template("forum.search.tpl"))));
+          $tpl->set('main_content',set_block($block_title, 'center',$forumtpl->fetch(load_template('forum.search.tpl'))));
           break;
 
 
         case 'viewforum':
           include("$FORUM_PATH/forum.viewforum.php");
-          $tpl->set("main_content",set_block($block_title,"center",$forumtpl->fetch(load_template("forum.viewforum.tpl"))));
+          $tpl->set('main_content',set_block($block_title, 'center',$forumtpl->fetch(load_template('forum.viewforum.tpl'))));
           break;
 
         case 'viewtopic':
           include("$FORUM_PATH/forum.viewtopic.php");
-          $tpl->set("main_content",set_block($block_title,"center",$forumtpl->fetch(load_template("forum.viewtopic.tpl"))));
+          $tpl->set('main_content',set_block($block_title, 'center',$forumtpl->fetch(load_template('forum.viewtopic.tpl'))));
           break;
 
         case 'viewunread':
           include("$FORUM_PATH/forum.unread.php");
-          $tpl->set("main_content",set_block($block_title,"center",$forumtpl->fetch(load_template("forum.unread.tpl"))));
+          $tpl->set('main_content',set_block($block_title, 'center',$forumtpl->fetch(load_template('forum.unread.tpl'))));
           break;
 
 
@@ -380,7 +380,7 @@ else
         case '':
         default:
           include("$FORUM_PATH/forum.main.php");
-          $tpl->set("main_content",set_block($language["FORUM"],"center",$forumtpl->fetch(load_template("forum.main.tpl"))));
+          $tpl->set('main_content',set_block($language['FORUM'], 'center',$forumtpl->fetch(load_template('forum.main.tpl'))));
           break;
 
 

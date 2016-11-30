@@ -65,13 +65,13 @@ class Assert {
 
   function assertEquals($expected, $actual, $message=0) {
     if ($expected != $actual) {
-      $this->failNotEquals($expected, $actual, "expected", $message);
+      $this->failNotEquals($expected, $actual, 'expected', $message);
     }
   }
 
   function assertRegexp($regexp, $actual, $message=false) {
     if (! preg_match($regexp, $actual)) {
-      $this->failNotEquals($regexp, $actual, "pattern", $message);
+      $this->failNotEquals($regexp, $actual, 'pattern', $message);
     }
   }
 
@@ -197,18 +197,19 @@ class TestSuite /* implements Test */ {
 	// PHP4 introspection, submitted by Dylan Kuhn
 	$names = get_class_methods($classname);
 	while (list($key, $method) = each($names)) {
-	  if (preg_match('/^test/', $method) && $method != "testcase") {  
+	  if (preg_match('/^test/', $method) && $method != 'testcase') {
 	    $this->addTest(new $classname($method));
 	  }
 	}
       }
       else {
-	$dummy = new $classname("dummy");
+	$dummy = new $classname('dummy');
 	$names = (array) $dummy;
 	while (list($key, $value) = each($names)) {
 	  $type = gettype($value);
-	  if ($type == "user function" && preg_match('/^test/', $key)
-	  && $key != "testcase") {  
+	  if ($type == 'user function' && preg_match('/^test/', $key)
+	  && $key != 'testcase'
+      ) {
 	    $this->addTest(new $classname($key));
 	  }
 	}
@@ -329,7 +330,7 @@ class TextTestResult extends TestResult {
     /* report result of test run */
     $nRun = $this->countTests();
     $nFailures = $this->countFailures();
-    printf("<p>%s test%s run<br>", $nRun, ($nRun == 1) ? '' : 's');
+    printf('<p>%s test%s run<br>', $nRun, ($nRun == 1) ? '' : 's');
     printf("%s failure%s.<br>\n", $nFailures, ($nFailures == 1) ? '' : 's');
     if ($nFailures == 0)
       return;
@@ -341,16 +342,16 @@ class TextTestResult extends TestResult {
       printf("<li>%s\n", $failedTestName);
 
       $exceptions = $failure->getExceptions();
-      print("<ul>");
+      print('<ul>');
       while (list($na, $exception) = each($exceptions))
 	printf("<li>%s\n", $exception->getMessage());
-      print("</ul>");
+      print('</ul>');
     }
     print("</ol>\n");
   }
 
   function _startTest($test) {
-    printf("%s ", $test->name());
+    printf('%s ', $test->name());
     flush();
   }
 

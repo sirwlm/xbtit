@@ -88,11 +88,11 @@ switch ($action)
            while ($arr=mysqli_fetch_assoc($getbanned))
               {
               $banned[$i]['first_ip'] = long2ip($arr['first']);
-              $banned[$i]['last_ip'] = long2ip($arr["last"]);
+              $banned[$i]['last_ip'] = long2ip($arr['last']);
               $banned[$i]['date'] = get_date_time($arr['added']);
               $banned[$i]['comments'] = htmlspecialchars(unesc($arr['comment']));
               $banned[$i]['by'] = "<a href=\"index.php?page=userdetails&amp;id=".$arr['addedby']."\">".unesc($arr['username']).'</a>';
-              $banned[$i]['remove'] = "<a href=\"index.php?page=admin&amp;user=".$CURUSER['uid'].'&amp;code='.$CURUSER['random']."&amp;do=banip&amp;action=delete&amp;ip=$arr[id]\" onclick=\"return confirm('". str_replace("'","\'",$language['DELETE_CONFIRM'])."')\">".image_or_link("$STYLEPATH/images/delete.png","",$language['DELETE']).'</a>';
+              $banned[$i]['remove'] = "<a href=\"index.php?page=admin&amp;user=".$CURUSER['uid'].'&amp;code='.$CURUSER['random']."&amp;do=banip&amp;action=delete&amp;ip=$arr[id]\" onclick=\"return confirm('". str_replace("'","\'",$language['DELETE_CONFIRM'])."')\">".image_or_link("$STYLEPATH/images/delete.png", '',$language['DELETE']).'</a>';
            $i++;
            }
 

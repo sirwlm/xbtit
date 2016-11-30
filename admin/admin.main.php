@@ -58,9 +58,9 @@ if ($res)
     while ($result=mysqli_fetch_array($res))
           {
           if ($result['task']==='sanity')
-             $admin['lastsanity']=$language['LAST_SANITY']."<br />\n".get_date_time($result['last_time'])."<br />\n(".$language['NEXT'].': '.get_date_time($result["last_time"]+((int)$GLOBALS["clean_interval"])).")<br />\n<a href=\"index.php?page=admin&amp;user=".$CURUSER['uid'].'&amp;code='.$CURUSER['random']."&amp;do=sanity&amp;action=now\">Do it now!</a><br />";
-          elseif ($result["task"]==='update')
-             $admin["lastscrape"]="<br />\n".$language['LAST_EXTERNAL']."<br />\n".get_date_time($result['last_time'])."<br />\n(".$language['NEXT'].': '.get_date_time($result['last_time']+((int)$GLOBALS['update_interval'])).")<br />";
+             $admin['lastsanity']=$language['LAST_SANITY']."<br />\n".get_date_time($result['last_time'])."<br />\n(".$language['NEXT'].': '.get_date_time($result['last_time']+((int)$GLOBALS['clean_interval'])).")<br />\n<a href=\"index.php?page=admin&amp;user=".$CURUSER['uid'].'&amp;code='.$CURUSER['random']."&amp;do=sanity&amp;action=now\">Do it now!</a><br />";
+          elseif ($result['task']==='update')
+             $admin['lastscrape']="<br />\n".$language['LAST_EXTERNAL']."<br />\n".get_date_time($result['last_time'])."<br />\n(".$language['NEXT'].': '.get_date_time($result['last_time']+((int)$GLOBALS['update_interval'])). ')<br />';
        }
    }
 
@@ -106,7 +106,7 @@ if (file_exists('$THIS_BASEPATH/cache'))
   if (is_writable('$THIS_BASEPATH/cache'))
         $admin['cache_ok']=("cache folder<br />\n<span style=\"color:#BEC635; font-weight: bold;\">is writable</span><br />\n");
   else
-        $admin["cache_ok"]=("cache folder is<br />\n<span style=\"color:#FF0000; font-weight: bold;\">NOT writable</span><br />\n");
+        $admin['cache_ok']=("cache folder is<br />\n<span style=\"color:#FF0000; font-weight: bold;\">NOT writable</span><br />\n");
   }
 else
   $admin['cache_ok']=("cache folder<br />\n<span style=\"color:#FF0000; font-weight: bold;\">NOT FOUND!</span><br />\n");
@@ -159,15 +159,15 @@ else
 if (!empty($your_version))
    $admin["xbtit_version"]=$your_version."<br />\n";
 */
-$bytes = disk_free_space(".");
+$bytes = disk_free_space('.');
 $si_prefix = array( 'B', 'KB', 'MB', 'GB', 'TB', 'EB', 'ZB', 'YB' );
 $base = 1024;
 $class = min((int)log($bytes , $base) , count($si_prefix) - 1);
 
 $admin['infos'].=("<br />\n<table border=\"0\">\n");
-$admin['infos'].=("<tr><td class=\"header\" align=\"center\">Server's OS</td></tr><tr><td align=\"left\">".php_uname()."</td></tr>");
-$admin['infos'].=('<tr><td class="header" align="center">Free Space</td></tr><tr><td align="left"><b>'.$_SERVER["DOCUMENT_ROOT"].'<br>Free:&nbsp;<font color=red>'.sprintf('%1.2f' , $bytes / pow($base,$class)) . ' ' . $si_prefix[$class] . '</b></td></tr>');
-$admin['infos'].=("<tr><td class=\"header\" align=\"center\">PHP version</td></tr><tr><td align=\"left\">".phpversion()."</td></tr>");
+$admin['infos'].=("<tr><td class=\"header\" align=\"center\">Server's OS</td></tr><tr><td align=\"left\">".php_uname(). '</td></tr>');
+$admin['infos'].=('<tr><td class="header" align="center">Free Space</td></tr><tr><td align="left"><b>'.$_SERVER['DOCUMENT_ROOT'].'<br>Free:&nbsp;<font color=red>'.sprintf('%1.2f' , $bytes / pow($base,$class)) . ' ' . $si_prefix[$class] . '</b></td></tr>');
+$admin['infos'].=("<tr><td class=\"header\" align=\"center\">PHP version</td></tr><tr><td align=\"left\">".phpversion(). '</td></tr>');
 
 $sqlver=mysqli_fetch_row(do_sqlquery('SELECT VERSION()'));
 $admin['infos'].=("\n<tr><td class=\"header\" align=\"center\">MYSQL version</td></tr><tr><td align=\"left\">$sqlver[0]</td></tr>");

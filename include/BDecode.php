@@ -129,7 +129,7 @@ class BDecode {
 			}
 			$left = $this->decodeEntry($wholefile, $offset);
 			if ($left[0]===false) { 
-			     die("stop...".$left[1]);
+			     die('stop...' .$left[1]);
 			 	return false; 
 			}
 			

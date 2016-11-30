@@ -41,7 +41,7 @@ function format_shout($text)
 
     $s = unesc($s);
 
-    $f=@fopen('badwords.txt', 'r');
+    $f=@fopen('badwords.txt', 'rb');
     if ($f && filesize ('badwords.txt')!==0)
        {
        $bw=fread($f,filesize('badwords.txt'));

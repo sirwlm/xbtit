@@ -2,7 +2,7 @@
 //AJAX Poll System Hack Start - 5:03 PM 3/24/2007
 $language['POLL_ID']='ID';
 $language['LATEST_POLL']='Latest poll';
-$language["CAST_VOTE"]='Cast my vote';
+$language['CAST_VOTE']='Cast my vote';
 $language['FETCHING_RESULTS']='Getting poll results. Please wait...';
 $language['POLL_TITLE']='Poll title';
 $language['POLL_TITLE_MISSING']='Poller title is missing';

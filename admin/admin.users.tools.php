@@ -71,7 +71,7 @@ if (substr($FORUMLINK,0,3)=='smf')
     if (!isset($curu['smf_fid']) || $curu['smf_fid']==0)
     {
         # go full mysql search on it's ass
-        $smf_user=get_result("SELECT ".(($FORUMLINK=="smf")?"`ID_MEMBER`":"`id_member`")." FROM `{$db_prefix}members` WHERE `member".(($FORUMLINK=="smf")?"N":"_n")."ame`=".sqlesc($curu['username'])." LIMIT 1");
+        $smf_user=get_result('SELECT ' .(($FORUMLINK== 'smf')? '`ID_MEMBER`' : '`id_member`')." FROM `{$db_prefix}members` WHERE `member".(($FORUMLINK== 'smf')? 'N' : '_n'). 'ame`=' .sqlesc($curu['username']). ' LIMIT 1');
         if (isset($smf_user[0]))
         {
             $smf_fid=$smf_user[0]['ID_MEMBER'];
@@ -124,9 +124,9 @@ switch ($action) {
         if (isset($_GET['sure']) && $_GET['sure']==1) {
             quickQuery('DELETE FROM '.$TABLE_PREFIX.'users WHERE id='.$uid.' LIMIT 1;',true);
             if (substr($FORUMLINK,0,3)=='smf')
-                quickQuery("DELETE FROM `{$db_prefix}members` WHERE ".(($FORUMLINK=="smf")?"`ID_MEMBER`":"`id_member`")."=".$smf_fid." LIMIT 1");
+                quickQuery("DELETE FROM `{$db_prefix}members` WHERE ".(($FORUMLINK== 'smf')? '`ID_MEMBER`' : '`id_member`'). '=' .$smf_fid. ' LIMIT 1');
             elseif ($FORUMLINK=='ipb')
-                quickQuery("DELETE FROM `{$ipb_prefix}members` WHERE `member_id`=".$ipb_fid." LIMIT 1");
+                quickQuery("DELETE FROM `{$ipb_prefix}members` WHERE `member_id`=".$ipb_fid. ' LIMIT 1');
             if ($XBTT_USE)
                 quickQuery('DELETE FROM xbt_users WHERE uid='.$uid.' LIMIT 1;');
 
@@ -150,21 +150,21 @@ switch ($action) {
     case 'edit':
         # init vars
 
-        $pass_min_req=explode(",", $btit_settings["secsui_pass_min_req"]);
-        $admintpl->set("pass_min_char",$pass_min_req[0]);
-        $admintpl->set("pass_min_lct",$pass_min_req[1]);
-        $admintpl->set("pass_min_uct",$pass_min_req[2]);
-        $admintpl->set("pass_min_num",$pass_min_req[3]);
-        $admintpl->set("pass_min_sym",$pass_min_req[4]);
-        $admintpl->set("pass_char_plural", (($pass_min_req[0]==1)?false:true),true);
-        $admintpl->set("pass_lct_plural", (($pass_min_req[1]==1)?false:true),true);
-        $admintpl->set("pass_uct_plural", (($pass_min_req[2]==1)?false:true),true);
-        $admintpl->set("pass_num_plural", (($pass_min_req[3]==1)?false:true),true);
-        $admintpl->set("pass_sym_plural", (($pass_min_req[4]==1)?false:true),true);
-        $admintpl->set("pass_lct_set", (($pass_min_req[1]>0)?true:false),true);
-        $admintpl->set("pass_uct_set", (($pass_min_req[2]>0)?true:false),true);
-        $admintpl->set("pass_num_set", (($pass_min_req[3]>0)?true:false),true);
-        $admintpl->set("pass_sym_set", (($pass_min_req[4]>0)?true:false),true);
+        $pass_min_req=explode(',', $btit_settings['secsui_pass_min_req']);
+        $admintpl->set('pass_min_char',$pass_min_req[0]);
+        $admintpl->set('pass_min_lct',$pass_min_req[1]);
+        $admintpl->set('pass_min_uct',$pass_min_req[2]);
+        $admintpl->set('pass_min_num',$pass_min_req[3]);
+        $admintpl->set('pass_min_sym',$pass_min_req[4]);
+        $admintpl->set('pass_char_plural', (($pass_min_req[0]==1)?false:true),true);
+        $admintpl->set('pass_lct_plural', (($pass_min_req[1]==1)?false:true),true);
+        $admintpl->set('pass_uct_plural', (($pass_min_req[2]==1)?false:true),true);
+        $admintpl->set('pass_num_plural', (($pass_min_req[3]==1)?false:true),true);
+        $admintpl->set('pass_sym_plural', (($pass_min_req[4]==1)?false:true),true);
+        $admintpl->set('pass_lct_set', (($pass_min_req[1]>0)?true:false),true);
+        $admintpl->set('pass_uct_set', (($pass_min_req[2]>0)?true:false),true);
+        $admintpl->set('pass_num_set', (($pass_min_req[3]>0)?true:false),true);
+        $admintpl->set('pass_sym_set', (($pass_min_req[4]>0)?true:false),true);
 
         $profile['username']=unesc($curu['username']);
         $profile['email']=unesc($curu['email']);
@@ -234,7 +234,7 @@ switch ($action) {
     case 'save':
         if ($_POST['confirm']==$language['FRM_CONFIRM']) {
 
-            if($FORUMLINK=="ipb")
+            if($FORUMLINK== 'ipb')
             {
                 if(!defined('IPS_ENFORCE_ACCESS'))
                     define('IPS_ENFORCE_ACCESS', true);
@@ -264,7 +264,7 @@ switch ($action) {
             $pass=$_POST['pass'];
             $chpass=(isset($_POST['chpass']) && $pass!='');
             # new level of the user
-            $rlev=do_sqlquery("SELECT `id_level` `base_level`, `level` `name`".((substr($FORUMLINK,0,3)=='smf')?", `smf_group_mirror`":(($FORUMLINK=='ipb')?", `ipb_group_mirror`":""))." FROM {$TABLE_PREFIX}users_level WHERE id=".$level." LIMIT 1");
+            $rlev=do_sqlquery('SELECT `id_level` `base_level`, `level` `name`' .((substr($FORUMLINK,0,3)=='smf')? ', `smf_group_mirror`' :(($FORUMLINK=='ipb')? ', `ipb_group_mirror`' : ''))." FROM {$TABLE_PREFIX}users_level WHERE id=".$level. ' LIMIT 1');
             $reslev=mysqli_fetch_assoc($rlev);
             if ( ($CURUSER['id_level'] < $reslev['base_level']))
                 $level=0;
@@ -280,34 +280,34 @@ switch ($action) {
             if ($level>0 && $level != $curu['id_level']) {
                 if (substr($FORUMLINK,0,3)=='smf') {
                     # find the coresponding level in smf
-                    if($reslev["smf_group_mirror"]==0)
-                        $smf_group=get_result("SELECT ".(($FORUMLINK=="smf")?"`ID_GROUP`":"`id_group`")." FROM `{$db_prefix}membergroups` WHERE `group".(($FORUMLINK=="smf")?"N":"_n")."ame`='".$reslev["name"]."' LIMIT 1", true, $CACHE_DURATION);
+                    if($reslev['smf_group_mirror']==0)
+                        $smf_group=get_result('SELECT ' .(($FORUMLINK== 'smf')? '`ID_GROUP`' : '`id_group`')." FROM `{$db_prefix}membergroups` WHERE `group".(($FORUMLINK== 'smf')? 'N' : '_n')."ame`='".$reslev['name']."' LIMIT 1", true, $CACHE_DURATION);
                     # if there is one update it
-                    if (isset($smf_group[0]) || $reslev["smf_group_mirror"]>0)
+                    if (isset($smf_group[0]) || $reslev['smf_group_mirror']>0)
                     {
-                        if($reslev["smf_group_mirror"]>0)
+                        if($reslev['smf_group_mirror']>0)
                         {
-                            if($FORUMLINK=="smf")
-                                $smf_group[0]['ID_GROUP']=$reslev["smf_group_mirror"];
+                            if($FORUMLINK== 'smf')
+                                $smf_group[0]['ID_GROUP']=$reslev['smf_group_mirror'];
                             else
-                                $smf_group[0]['id_group']=$reslev["smf_group_mirror"];
+                                $smf_group[0]['id_group']=$reslev['smf_group_mirror'];
                         }
-                        $smfset[]=(($FORUMLINK=="smf")?'ID_GROUP='.$smf_group[0]['ID_GROUP']:'id_group='.$smf_group[0]['id_group']);
+                        $smfset[]=(($FORUMLINK== 'smf')?'ID_GROUP='.$smf_group[0]['ID_GROUP']:'id_group='.$smf_group[0]['id_group']);
                     }
                     else $note.=' Group not found in SMF.';
                 }
-                elseif($FORUMLINK=="ipb")
+                elseif($FORUMLINK== 'ipb')
                 {
                     # find the coresponding level in ipb
-                    if($reslev["ipb_group_mirror"]==0)
-                    $ipb_group=get_result("SELECT `perm_id` FROM `{$ipb_prefix}forum_perms` WHERE `perm_name`='".$reslev["name"]."' LIMIT 1;", true, $CACHE_DURATION);
+                    if($reslev['ipb_group_mirror']==0)
+                    $ipb_group=get_result("SELECT `perm_id` FROM `{$ipb_prefix}forum_perms` WHERE `perm_name`='".$reslev['name']."' LIMIT 1;", true, $CACHE_DURATION);
                     # if there is one update it
-                    if (isset($ipb_group[0]) || $reslev["ipb_group_mirror"]>0)
+                    if (isset($ipb_group[0]) || $reslev['ipb_group_mirror']>0)
                     {
-                        if($reslev["ipb_group_mirror"]>0)
-                            $ipb_group[0]["perm_id"]=$reslev["ipb_group_mirror"];
-                        $ipblevel=$ipb_group[0]["perm_id"];
-                        IPSMember::save($ipb_fid, array("members" => array("member_group_id" => "$ipblevel")));
+                        if($reslev['ipb_group_mirror']>0)
+                            $ipb_group[0]['perm_id']=$reslev['ipb_group_mirror'];
+                        $ipblevel=$ipb_group[0]['perm_id'];
+                        IPSMember::save($ipb_fid, array('members' => array('member_group_id' => "$ipblevel")));
                     }
                     else $note.=' Group not found in IPB.';
                 }
@@ -318,13 +318,13 @@ switch ($action) {
             if ($email != $curu['email'])
             {
                 $set[]='email='.sqlesc($email);
-                if(substr($FORUMLINK,0,3)=="smf")
+                if(substr($FORUMLINK,0,3)== 'smf')
                 {
-                    $smfset[]="email".(($FORUMLINK=="smf")?"A":"_a")."ddress=".sqlesc($email);
+                    $smfset[]= 'email' .(($FORUMLINK== 'smf')? 'A' : '_a'). 'ddress=' .sqlesc($email);
                 }
-                elseif($FORUMLINK=="ipb")
+                elseif($FORUMLINK== 'ipb')
                 {
-                    IPSMember::save($ipb_fid, array("members" => array("email" => "$email")));
+                    IPSMember::save($ipb_fid, array('members' => array('email' => "$email")));
                 }
             }
             if ($avatar != $curu['avatar'])
@@ -333,20 +333,20 @@ switch ($action) {
                 $new_username=$username;
                 $sql_name=sqlesc($curu['username']);
                 $username=sqlesc($username);
-                $dupe=get_result("SELECT `id` FROM `{$TABLE_PREFIX}users` WHERE `username`=".$username." LIMIT 1", true, $CACHE_DURATION);
+                $dupe=get_result("SELECT `id` FROM `{$TABLE_PREFIX}users` WHERE `username`=".$username. ' LIMIT 1', true, $CACHE_DURATION);
                 if (!isset($dupe[0])) {
                     $set[]='username='.$username;
                     $newname=' ( now: '.$username;
                     if (substr($FORUMLINK,0,3)=='smf')
                     {
-                        $dupe=get_result("SELECT ".(($FORUMLINK=="smf")?"`ID_MEMBER`":"`id_member`")." FROM `{$db_prefix}members` WHERE `member".(($FORUMLINK=="smf")?"N":"_n")."ame`=".$username." LIMIT 1", true, $CACHE_DURATION);
+                        $dupe=get_result('SELECT ' .(($FORUMLINK== 'smf')? '`ID_MEMBER`' : '`id_member`')." FROM `{$db_prefix}members` WHERE `member".(($FORUMLINK== 'smf')? 'N' : '_n'). 'ame`=' .$username. ' LIMIT 1', true, $CACHE_DURATION);
                         if (!isset($dupe[0])) {
-                            $smfset[]='member'.(($FORUMLINK=="smf")?"N":"_n").'ame='.$username;
+                            $smfset[]='member'.(($FORUMLINK== 'smf')? 'N' : '_n').'ame='.$username;
                         } else
                             $newname.=', dupe name in smf memberName';
-                        $dupe=get_result("SELECT ".(($FORUMLINK=="smf")?"`ID_MEMBER`":"`id_member`")." FROM {$db_prefix}members WHERE `real".(($FORUMLINK=="smf")?"N":"_n")."ame`=".$username." LIMIT 1", true, $CACHE_DURATION);
+                        $dupe=get_result('SELECT ' .(($FORUMLINK== 'smf')? '`ID_MEMBER`' : '`id_member`')." FROM {$db_prefix}members WHERE `real".(($FORUMLINK== 'smf')? 'N' : '_n'). 'ame`=' .$username. ' LIMIT 1', true, $CACHE_DURATION);
                         if (!isset($dupe[0])) {
-                            $smfset[]='real'.(($FORUMLINK=="smf")?"N":"_n").'ame='.$username;
+                            $smfset[]='real'.(($FORUMLINK== 'smf')? 'N' : '_n').'ame='.$username;
                         } else
                             $newname.=', dupe name in smf realName';
                     }
@@ -355,7 +355,7 @@ switch ($action) {
                         $new_username=trim($username,"'");
                         $new_l_username=strtolower($new_username);
                         $new_seoname=IPSText::makeSeoTitle($new_username);
-                        IPSMember::save($ipb_fid, array("members" => array("name" => "$new_username", "members_display_name" => "$new_username", "members_l_display_name" => "$new_l_username", "members_l_username" => "$new_l_username", "members_seo_name" => "$new_seoname")));
+                        IPSMember::save($ipb_fid, array('members' => array('name' => "$new_username", 'members_display_name' => "$new_username", 'members_l_display_name' => "$new_l_username", 'members_l_username' => "$new_l_username", 'members_seo_name' => "$new_seoname")));
                     }
                     $newname.=' )';
                 } else $note.=' Dupe name in XBTIT.';
@@ -382,10 +382,10 @@ switch ($action) {
                     $set[]='downloaded='.$downloaded;
             }
             if ($chpass) {
-                $pass_min_req=explode(",", $btit_settings["secsui_pass_min_req"]);
+                $pass_min_req=explode(',', $btit_settings['secsui_pass_min_req']);
                 
                 if(strlen($pass)<$pass_min_req[0])
-                    stderr($language["ERROR"],$language["ERR_PASS_LENGTH_1"]." <span style=\"color:blue;font-weight:bold;\">".$pass_min_req[0]."</span> ".$language["ERR_PASS_LENGTH_2"]);
+                    stderr($language['ERROR'],$language['ERR_PASS_LENGTH_1']." <span style=\"color:blue;font-weight:bold;\">".$pass_min_req[0]. '</span> ' .$language['ERR_PASS_LENGTH_2']);
 
                 $lct_count=0;
                 $uct_count=0;
@@ -411,22 +411,22 @@ switch ($action) {
                 }
                 $newpassword=pass_the_salt(30);
                 if($lct_count<$pass_min_req[1] || $uct_count<$pass_min_req[2] || $num_count<$pass_min_req[3] || $sym_count<$pass_min_req[4])
-                    stderr($language["ERROR"],$language["ERR_PASS_TOO_WEAK_1A"].":<br /><br />".(($pass_min_req[1]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[1]."</span> ".(($pass_min_req[1]==1)?$language["ERR_PASS_TOO_WEAK_2"]:$language["ERR_PASS_TOO_WEAK_2A"])."</li>":"").(($pass_min_req[2]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[2]."</span> ".(($pass_min_req[2]==1)?$language["ERR_PASS_TOO_WEAK_3"]:$language["ERR_PASS_TOO_WEAK_3A"])."</li>":"").(($pass_min_req[3]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[3]."</span> ".(($pass_min_req[3]==1)?$language["ERR_PASS_TOO_WEAK_4"]:$language["ERR_PASS_TOO_WEAK_4A"])."</li>":"").(($pass_min_req[4]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[4]."</span> ".(($pass_min_req[4]==1)?$language["ERR_PASS_TOO_WEAK_5"]:$language["ERR_PASS_TOO_WEAK_5A"])."</li>":"")."<br />".$language["ERR_PASS_TOO_WEAK_6"].":<br /><br /><span style='color:blue;font-weight:bold;'>".$newpassword."</span><br />");
+                    stderr($language['ERROR'],$language['ERR_PASS_TOO_WEAK_1A']. ':<br /><br />' .(($pass_min_req[1]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[1]. '</span> ' .(($pass_min_req[1]==1)?$language['ERR_PASS_TOO_WEAK_2']:$language['ERR_PASS_TOO_WEAK_2A']). '</li>' : '').(($pass_min_req[2]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[2]. '</span> ' .(($pass_min_req[2]==1)?$language['ERR_PASS_TOO_WEAK_3']:$language['ERR_PASS_TOO_WEAK_3A']). '</li>' : '').(($pass_min_req[3]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[3]. '</span> ' .(($pass_min_req[3]==1)?$language['ERR_PASS_TOO_WEAK_4']:$language['ERR_PASS_TOO_WEAK_4A']). '</li>' : '').(($pass_min_req[4]>0)?"<li><span style='color:blue;font-weight:bold;'>".$pass_min_req[4]. '</span> ' .(($pass_min_req[4]==1)?$language['ERR_PASS_TOO_WEAK_5']:$language['ERR_PASS_TOO_WEAK_5A']). '</li>' : ''). '<br />' .$language['ERR_PASS_TOO_WEAK_6'].":<br /><br /><span style='color:blue;font-weight:bold;'>".$newpassword. '</span><br />');
 
-                $un=((!empty($new_username) && $new_username!=$curu["username"])?$new_username:$curu["username"]);
-                $multipass=hash_generate(array("salt" => ""), $pass, $un);
-                $j=$btit_settings["secsui_pass_type"];
-                $set[]="`password`=".sqlesc($multipass[$j]["rehash"]);
-                $set[]="`salt`=".sqlesc($multipass[$j]["salt"]);
-                $set[]="`pass_type`=".sqlesc($j);
-                $set[]="`dupe_hash`=".sqlesc($multipass[$j]["dupehash"]);
+                $un=((!empty($new_username) && $new_username!=$curu['username'])?$new_username:$curu['username']);
+                $multipass=hash_generate(array('salt' => ''), $pass, $un);
+                $j=$btit_settings['secsui_pass_type'];
+                $set[]= '`password`=' .sqlesc($multipass[$j]['rehash']);
+                $set[]= '`salt`=' .sqlesc($multipass[$j]['salt']);
+                $set[]= '`pass_type`=' .sqlesc($j);
+                $set[]= '`dupe_hash`=' .sqlesc($multipass[$j]['dupehash']);
                 $passhash=smf_passgen($un, $pass);
                 $smfset[]='`passwd`='.sqlesc($passhash[0]);
-                $smfset[]='`password'.(($FORUMLINK=="smf")?"S":"_s").'alt`='.sqlesc($passhash[1]);
-                if($FORUMLINK=="ipb")
+                $smfset[]='`password'.(($FORUMLINK== 'smf')? 'S' : '_s').'alt`='.sqlesc($passhash[1]);
+                if($FORUMLINK== 'ipb')
                 {
                     $ipbhash=ipb_passgen($pass);
-                    IPSMember::save($ipb_fid, array("members" => array("member_login_key" => "", "member_login_key_expire" => "0", "members_pass_hash" => "$ipbhash[0]", "members_pass_salt" => "$ipbhash[1]")));
+                    IPSMember::save($ipb_fid, array('members' => array('member_login_key' => '', 'member_login_key_expire' => '0', 'members_pass_hash' => "$ipbhash[0]", 'members_pass_salt' => "$ipbhash[1]")));
                 }
             }
 
@@ -437,7 +437,7 @@ switch ($action) {
                 if ($XBTT_USE && $updatesetxbt!='')
                     quickQuery('UPDATE xbt_users SET '.$updatesetxbt.' WHERE uid='.$uid.' LIMIT 1;');
                 if ((substr($FORUMLINK,0,3)=='smf') && ($updatesetsmf!='') && (!is_bool($smf_fid)))
-                    quickQuery("UPDATE `{$db_prefix}members` SET ".$updatesetsmf." WHERE ".(($FORUMLINK=="smf")?"`ID_MEMBER`":"`id_member`")."=".$smf_fid." LIMIT 1");
+                    quickQuery("UPDATE `{$db_prefix}members` SET ".$updatesetsmf. ' WHERE ' .(($FORUMLINK== 'smf')? '`ID_MEMBER`' : '`id_member`'). '=' .$smf_fid. ' LIMIT 1');
                 quickQuery('UPDATE '.$TABLE_PREFIX.'users SET '.$updateset.' WHERE id='.$uid.' LIMIT 1;');
 
                 success_msg($language['SUCCESS'], $language['INF_CHANGED'].$note.'<br /><a href="index.php?page=admin&amp;user='.$CURUSER['uid'].'&amp;code='.$CURUSER['random'].'">'.$language['MNU_ADMINCP'].'</a>');

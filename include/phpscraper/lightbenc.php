@@ -84,7 +84,7 @@ class lightbenc {
 					break;
 				$retval[$key]=$val;
 			}
-			$retval["isDct"]=true;
+			$retval['isDct']=true;
 			$pos++;
 			return $retval;
 	
@@ -125,30 +125,30 @@ class lightbenc {
 	
 	function bencode(&$d){
 		if(is_array($d)){
-			$ret="l";
-			if($d["isDct"]){
+			$ret= 'l';
+			if($d['isDct']){
 				$isDict=1;
-				$ret="d";
+				$ret= 'd';
 				// this is required by the specs, and BitTornado actualy chokes on unsorted dictionaries
 				ksort($d, SORT_STRING);
 			}
 			foreach($d as $key=>$value) {
 				if($isDict){
 					// skip the isDct element, only if it's set by us
-					if($key=="isDct" and is_bool($value)) continue;
-					$ret.=strlen($key).":".$key;
+					if($key== 'isDct' and is_bool($value)) continue;
+					$ret.=strlen($key). ':' .$key;
 				}
 				if (is_string($value)) {
-					$ret.=strlen($value).":".$value;
+					$ret.=strlen($value). ':' .$value;
 				} elseif (is_int($value)){
 					$ret.="i${value}e";
 				} else {
 					$ret.=self::bencode ($value);
 				}
 			}
-			return $ret."e";
+			return $ret. 'e';
 		} elseif (is_string($d)) // fallback if we're given a single bencoded string or int
-			return strlen($d).":".$d;
+			return strlen($d). ':' .$d;
 		elseif (is_int($d))
 			return "i${d}e";
 		else 

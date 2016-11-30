@@ -6,7 +6,7 @@ function SmileIT(smile,textarea){
     {
         var caretPos = textarea.caretPos;
 
-        caretPos.text = caretPos.text.charAt(caretPos.text.length - 1) == ' ' ? smile + ' ' : smile
+        caretPos.text = caretPos.text.charAt(caretPos.text.length - 1) == ' ' ? smile + ' ' : smile;
         caretPos.select();
     }
     // Mozilla text range replace.

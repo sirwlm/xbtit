@@ -27,12 +27,12 @@ $language['MSG_DOWNLOAD_PID']='PID system activt, hent torrenten med dit PID';
 $language['MSG_UP_SUCCESS']='Din torrent er uploaded!';
 
 
-$language["FILE_UPLOAD_TO_BIG"]="Fil størrelsen er for stor - kontakt en Admin";
-$language["IMAGE_WAS"]="Billed størrelse";
-$language["MOVE_IMAGE_TO"]="Kunne ikke flytte billedet til";
-$language["CHECK_FOLDERS_PERM"]="Check venligst bibliotekets tilladelser og prøv igen.";
-$language["ILEGAL_UPLOAD"]="Ilegal upload!! Dette er ikke et billede<br>Prøv venligst igen";
-$language["IMAGE"]="Billede";
-$language["SCREEN"]="Screenshots";
+$language['FILE_UPLOAD_TO_BIG']= 'Fil størrelsen er for stor - kontakt en Admin';
+$language['IMAGE_WAS']= 'Billed størrelse';
+$language['MOVE_IMAGE_TO']= 'Kunne ikke flytte billedet til';
+$language['CHECK_FOLDERS_PERM']= 'Check venligst bibliotekets tilladelser og prøv igen.';
+$language['ILEGAL_UPLOAD']= 'Ilegal upload!! Dette er ikke et billede<br>Prøv venligst igen';
+$language['IMAGE']= 'Billede';
+$language['SCREEN']= 'Screenshots';
 
 ?>

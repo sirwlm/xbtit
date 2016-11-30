@@ -42,33 +42,33 @@
   #
   ################################################################*/
   
-  define("DELETE_CONFIRM", "If you are really sure you want to delete this click OK, othervise Cancel!");
-  $language["ERR_MODERATE_SHOUT"]="You are not authorised to moderate this shout!";
+  define('DELETE_CONFIRM', 'If you are really sure you want to delete this click OK, othervise Cancel!');
+  $language['ERR_MODERATE_SHOUT']= 'You are not authorised to moderate this shout!';
 
 
 global $CURUSER;
-if ($CURUSER["view_users"]!="yes") {
-die("Sorry, Shoutbox is not available...");
+if ($CURUSER['view_users']!= 'yes') {
+die('Sorry, Shoutbox is not available...');
 }
 
   # avoid Undefined variable: lastID, seems to be never set...
   $lastID=0;
 
-    if (isset($_GET["delete"]))
-        $delete = $_GET["delete"]; # getting the delete header
+    if (isset($_GET['delete']))
+        $delete = $_GET['delete']; # getting the delete header
         
-    if (isset($_GET["edit"]))
-        $edit = $_GET["edit"]; # getting the edit header
+    if (isset($_GET['edit']))
+        $edit = $_GET['edit']; # getting the edit header
         
-    if (isset($_GET["sid"])) {
-        $sid = ((int)$_GET["sid"]); # getting shout id (sid)
+    if (isset($_GET['sid'])) {
+        $sid = ((int)$_GET['sid']); # getting shout id (sid)
 
-    $post = $_POST["shoutid"]; # setting shout id 
+    $post = $_POST['shoutid']; # setting shout id
         $post = str_replace("'","\'",$post); # our textarea string replacement for preview
         
     }
     else
-        $post="";
+        $post= '';
         
   function shoutError() {
     global $language;
@@ -94,18 +94,18 @@ die("Sorry, Shoutbox is not available...");
  }
 
  
-if (isset($_POST["confirm"]) && $_POST["confirm"]==$language["FRM_CANCEL"]) {
+if (isset($_POST['confirm']) && $_POST['confirm']==$language['FRM_CANCEL']) {
     
-      header("Location: index.php?page=allshout");
+      header('Location: index.php?page=allshout');
 }
 
 
   global $CURUSER;
   
-      require_once("ajaxchat/conn.php"); # getting connection data
+      require_once('ajaxchat/conn.php'); # getting connection data
       $conn = his_getDBConnection(); # establishes the connection to the database
       
-      include_once("include/settings.php");  # getting table prefix
+      include_once('include/settings.php');  # getting table prefix
 
   # deleting the shout
   if (isset($delete)) {
@@ -115,7 +115,7 @@ if (isset($_POST["confirm"]) && $_POST["confirm"]==$language["FRM_CANCEL"]) {
       $row = mysqli_fetch_array($res);
               
         # check for valid moderation
-        if ($CURUSER["admin_access"]!="yes" && $CURUSER["uid"]!="".$row[uid]."") {
+        if ($CURUSER['admin_access']!= 'yes' && $CURUSER['uid']!= '' .$row[uid]. '') {
         shoutError();
         
         }
@@ -129,14 +129,14 @@ if (isset($_POST["confirm"]) && $_POST["confirm"]==$language["FRM_CANCEL"]) {
     }
     
 # some bb stuff and badwords...
-require_once("ajaxchat/format_shout.php");
+require_once('ajaxchat/format_shout.php');
 
 # Headers are sent to prevent browsers from caching.. IE is still resistent sometimes
-header( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" ); 
-header( "Last-Modified: " . gmdate( "D, d M Y H:i:s" ) . "GMT" ); 
-header( "Cache-Control: no-cache, must-revalidate" ); 
-header( "Pragma: no-cache" );
-header("Content-Type: text/html; charset=UTF-8");
+header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+header( 'Last-Modified: ' . gmdate('D, d M Y H:i:s') . 'GMT');
+header('Cache-Control: no-cache, must-revalidate');
+header('Pragma: no-cache');
+header('Content-Type: text/html; charset=UTF-8');
 
 
   if (isset($edit)) {
@@ -161,14 +161,14 @@ header("Content-Type: text/html; charset=UTF-8");
       $row = mysqli_fetch_array($res);
 
         # check for valid moderation
-        if ($CURUSER["admin_access"]!="yes" && $CURUSER["uid"]!="".$row[uid]."") {
+        if ($CURUSER['admin_access']!= 'yes' && $CURUSER['uid']!= '' .$row[uid]. '') {
         shoutError();
         
         }
                 
         # actual edit widgets
         else {
-        print "<span class='name'>".date("d/m/Y H:i:s", $row["time"] - $offset)." | <a href=javascript:windowunder('index.php?page=userdetails&amp;id=".$row[uid]."')>".$row[name]."</a>:</span>";
+        print "<span class='name'>".date('d/m/Y H:i:s', $row['time'] - $offset)." | <a href=javascript:windowunder('index.php?page=userdetails&amp;id=".$row[uid]."')>".$row[name]. '</a>:</span>';
         
                               print "
                             <div style='text-align:right;
@@ -190,11 +190,11 @@ header("Content-Type: text/html; charset=UTF-8");
                             </div>";
 
 
-            if (isset($_POST["confirm"]) && $_POST["confirm"]==$language["FRM_PREVIEW"]) {
+            if (isset($_POST['confirm']) && $_POST['confirm']==$language['FRM_PREVIEW']) {
                             
             $post = str_replace("\'","'",$post);
 
-            print "<div class='chatoutput'>".format_shout($post)."</div>";
+            print "<div class='chatoutput'>".format_shout($post). '</div>';
             
             $text = $post;       
 
@@ -202,7 +202,7 @@ header("Content-Type: text/html; charset=UTF-8");
 
             else {
 
-            print "<div class='chatoutput'>".format_shout($row[text])."</div>";
+            print "<div class='chatoutput'>".format_shout($row[text]). '</div>';
             
             $text = $row[text];
     
@@ -228,7 +228,7 @@ header("Content-Type: text/html; charset=UTF-8");
             ";
                                                   
                             
- if (isset($_POST["confirm"]) && $_POST["confirm"]==$language["FRM_CONFIRM"]) {
+ if (isset($_POST['confirm']) && $_POST['confirm']==$language['FRM_CONFIRM']) {
 
 #################################################
  
@@ -241,7 +241,7 @@ header("Content-Type: text/html; charset=UTF-8");
         end;
     }
    
-         redirect("index.php?page=allshout");
+         redirect('index.php?page=allshout');
    
       ############################################################
 }
@@ -282,14 +282,14 @@ getData($lastID);
 # function that do retrieve all messages with a set id
 function getData($lastID) {
 
-  include("include/settings.php");  # getting table prefix
-  include("include/offset.php");
+  include('include/settings.php');  # getting table prefix
+  include('include/offset.php');
 
   # discard it if we are editing
-  $sid = isset($_GET["sid"])?$_GET["sid"]:0; # get shout id (sid)and set it to zero for bool
+  $sid = isset($_GET['sid'])?$_GET['sid']:0; # get shout id (sid)and set it to zero for bool
 
   
-    $sql =  "SELECT * FROM {$TABLE_PREFIX}chat WHERE id > ".$lastID." AND id != ".$sid." ORDER BY id DESC";
+    $sql =  "SELECT * FROM {$TABLE_PREFIX}chat WHERE id > ".$lastID. ' AND id != ' .$sid. ' ORDER BY id DESC';
     $conn = his_getDBConnection(); # establishes the connection to the database
     $results = mysqli_query( $conn, $sql);
     
@@ -309,11 +309,11 @@ function getData($lastID) {
   
       # we lego put together our chat using some conditions and css and javascript this time
 
-      print "<span class='name'>".date("d/m/Y H:i:s", $time - $offset)." | <a href=\"javascript:windowunder('index.php?page=userdetails&amp;id=".$uid."')\">".$name."</a>:</span>";
+      print "<span class='name'>".date('d/m/Y H:i:s', $time - $offset)." | <a href=\"javascript:windowunder('index.php?page=userdetails&amp;id=".$uid."')\">".$name. '</a>:</span>';
 
           global $CURUSER;
           
-        if ($CURUSER["admin_access"]!="yes" && $CURUSER["uid"]!="".$uid."") {}
+        if ($CURUSER['admin_access']!= 'yes' && $CURUSER['uid']!= '' .$uid. '') {}
         
         else {
                # edit/delete buttons -->
@@ -329,7 +329,7 @@ function getData($lastID) {
                }
                       
                  # chat output -->
-                 print "<div class='chatoutput'>".format_shout($text)."</div>";      
+                 print "<div class='chatoutput'>".format_shout($text). '</div>';
     }
 }
 ?>
@@ -342,4 +342,4 @@ function getData($lastID) {
   }
   </script>
 <br />
-<div align="center"><a href="javascript: window.close();"><?php echo $language["CLOSE"] ?></a></div>
+<div align="center"><a href="javascript: window.close();"><?php echo $language['CLOSE'] ?></a></div>

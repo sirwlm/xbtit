@@ -2,7 +2,7 @@
 //AJAX Poll System Hack Start - 5:03 PM 3/24/2007
 $language['POLL_ID']='ID';
 $language['LATEST_POLL']='Son Anket';
-$language["CAST_VOTE"]='Oyumu yayınla';
+$language['CAST_VOTE']='Oyumu yayınla';
 $language['FETCHING_RESULTS']='Anket sonuçları alınıyor. Lütfen bekleyiniz...';
 $language['POLL_TITLE']='Anket Başlığı';
 $language['POLL_TITLE_MISSING']='Anket başlığı yok';

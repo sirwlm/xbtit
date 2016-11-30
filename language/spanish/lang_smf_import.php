@@ -20,7 +20,7 @@ $lang[14]='<center><strong>smf.sql file present in the \'sql\' folder?<font colo
 $lang[15]='<br /><center><strong>Language file (';
 $lang[16]=')<br />is missing, please ensure <font color='#FF0000'><u>all SMF files</u></font> were uploaded!<br /><br />';
 $lang[17]=')<br />is not writable, <font color='#FF0000'><u>please CHMOD this file to 777</u></font><br /><br />';
-$lang[18]='<br /><center><strong>smf.sql is missing, <font color='#FF0000'><u>please ensure this file is present in the \'sql\' folder.</u></font><br />(It should be included with the XBTIT distribution!)<br /><br />';
+$lang[18]='<br /><center><strong>smf.sql is missing, <font color='#FF0000'><u>please ensure this file is present in the \'sql\' folder.</u></font><br />(It should be included with the XBTIT distribution!)<br /><br />'
 $lang[19]='<br /><center>All requirements have been met, please <a href='';
 $lang[20]=''>click here to continue</a></center>';
 $lang[21]='<center><u><strong><font size='4' face='Arial'>Stage 2: Initial Setup</font></strong></u></center><br />';

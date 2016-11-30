@@ -46,9 +46,9 @@
 
 block_begin('SHOUTBOX');
     
-  if ($CURUSER["uid"] > 1)
+  if ($CURUSER['uid'] > 1)
     {
-    require_once("include/smilies.php");
+    require_once('include/smilies.php');
   if (!isset($CURUSER)) global $CURUSER;
 
  global $tpl;
@@ -69,7 +69,7 @@ function smile() {
         $count++;
   }
   
-  print "</tr></table></div>";
+  print '</tr></table></div>';
 
 }
 
@@ -84,7 +84,7 @@ function smile() {
       <ul id="outputList">
 
         <li>
-          <span class="name">BTIT SHOUT:</span><h2 style='padding-left:20px;'><?php echo $language["WELCOME"] ?></h2>
+          <span class="name">BTIT SHOUT:</span><h2 style='padding-left:20px;'><?php echo $language['WELCOME'] ?></h2>
           
             <center><div class="loader"></div></center>
 
@@ -101,10 +101,10 @@ function smile() {
      
     <form id="chatForm" name="chatForm" onsubmit="return false;" action="">
     
-      <input type="hidden" name="name" id="name" value="<?php echo $CURUSER["username"] ?>" />
-      <input type="hidden" name="uid" id="uid" value="<?php echo $CURUSER["uid"] ?>" />
+      <input type="hidden" name="name" id="name" value="<?php echo $CURUSER['username'] ?>" />
+      <input type="hidden" name="uid" id="uid" value="<?php echo $CURUSER['uid'] ?>" />
       <input type="text" size="45" maxlength="500" name="chatbarText" id="chatbarText" onblur="checkStatus('');" onfocus="checkStatus('active');" /> 
-      <input onclick="sendComment();" type="submit" id="submit" name="submit" value="<?php echo $language["FRM_CONFIRM"]; ?>" />
+      <input onclick="sendComment();" type="submit" id="submit" name="submit" value="<?php echo $language['FRM_CONFIRM']; ?>" />
       &nbsp;
       <a href="javascript: PopMoreSmiles('chatForm','chatbarText');">
       <img src="images/smile.gif" border="0" class="form" title="<?php echo $language['MORE_SMILES']; ?>" align="top" alt="" /></a>
@@ -131,7 +131,7 @@ function smile() {
   
 else
     print("<div align=\"center\">\n
-           <br />".$language["ERR_MUST_BE_LOGGED_SHOUT"]."</div>");
+           <br />".$language['ERR_MUST_BE_LOGGED_SHOUT']. '</div>');
 
     block_end();
 ?>

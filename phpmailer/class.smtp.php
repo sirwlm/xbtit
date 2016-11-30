@@ -274,7 +274,7 @@ class SMTP
             $socket_context = stream_context_create($options);
             //Suppress errors; connection failures are handled at a higher level
             $this->smtp_conn = @stream_socket_client(
-                $host . ":" . $port,
+                $host . ':' . $port,
                 $errno,
                 $errstr,
                 $timeout,
@@ -284,7 +284,7 @@ class SMTP
         } else {
             //Fall back to fsockopen which should work in more places, but is missing some features
             $this->edebug(
-                "Connection: stream_socket_client not available, falling back to fsockopen",
+                'Connection: stream_socket_client not available, falling back to fsockopen',
                 self::DEBUG_CONNECTION
             );
             $this->smtp_conn = fsockopen(
@@ -430,10 +430,10 @@ class SMTP
                 if (!$this->sendCommand('AUTH', 'AUTH LOGIN', 334)) {
                     return false;
                 }
-                if (!$this->sendCommand("Username", base64_encode($username), 334)) {
+                if (!$this->sendCommand('Username', base64_encode($username), 334)) {
                     return false;
                 }
-                if (!$this->sendCommand("Password", base64_encode($password), 235)) {
+                if (!$this->sendCommand('Password', base64_encode($password), 235)) {
                     return false;
                 }
                 break;
@@ -868,7 +868,7 @@ class SMTP
             $code_ex = (count($matches) > 2 ? $matches[2] : null);
             // Cut off error code from each response line
             $detail = preg_replace(
-                "/{$code}[ -]".($code_ex ? str_replace('.', '\\.', $code_ex).' ' : '')."/m",
+                "/{$code}[ -]".($code_ex ? str_replace('.', '\\.', $code_ex).' ' : ''). '/m',
                 '',
                 $this->last_reply
             );

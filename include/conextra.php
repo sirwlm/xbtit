@@ -4,15 +4,15 @@ function getConnection () {
 
     $CURRENTPATH = (__DIR__);
 
-    include($CURRENTPATH."/settings.php"); # contains the given DB setup $database, $dbhost, $dbuser, $dbpass
+    include($CURRENTPATH. '/settings.php'); # contains the given DB setup $database, $dbhost, $dbuser, $dbpass
 
     $Econn = ($GLOBALS['conn'] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
     if (!$Econn) {
-            echo "Connection to DB was not possible!";
+            echo 'Connection to DB was not possible!';
             end;
         }
         if (!((bool)mysqli_query( $Econn, "USE $database"))) {
-            echo "No DB with that name seems to exist on the server!";
+            echo 'No DB with that name seems to exist on the server!';
             end;
         }
 
@@ -26,7 +26,7 @@ function getPrefix () {
 
     $CURRENTPATH = (__DIR__);
 
-    include($CURRENTPATH."/settings.php"); # contains the given DB setup $database, $dbhost, $dbuser, $dbpass
+    include($CURRENTPATH. '/settings.php'); # contains the given DB setup $database, $dbhost, $dbuser, $dbpass
     
     return $TABLE_PREFIX;
 }
