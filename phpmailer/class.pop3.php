@@ -34,7 +34,7 @@ class POP3
      * @var string
      * @access public
      */
-    public $Version = '5.2.14';
+    public $Version = '5.2.21';
 
     /**
      * Default POP3 port number.
@@ -302,7 +302,7 @@ class POP3
             @fclose($this->pop_conn);
         } catch (Exception $e) {
             //Do nothing
-        }
+        };
     }
 
     /**
@@ -397,7 +397,7 @@ class POP3
     protected function catchWarning($errno, $errstr, $errfile, $errline)
     {
         $this->setError(array(
-            'error' => 'Connecting to the POP3 server raised a PHP warning: ',
+            'error' => "Connecting to the POP3 server raised a PHP warning: ",
             'errno' => $errno,
             'errstr' => $errstr,
             'errfile' => $errfile,
