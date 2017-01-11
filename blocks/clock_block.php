@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2016  DPWS Media LTD
+// Copyright (C) 2004 - 2016  Btiteam
 //
 //    This file is part of xbtit.
 //
@@ -30,9 +30,9 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-$clocktype = $GLOBALS['clocktype'];
-require_once('addons/clock/clock.php');
-block_begin('Clock',1, 'center');
+$clocktype = $GLOBALS["clocktype"];
+require_once("addons/clock/clock.php");
+block_begin("Clock",1,"center");
 clock_display($clocktype);
 block_end();
 ?>

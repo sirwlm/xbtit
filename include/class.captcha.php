@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2016  DPWS Media LTD
+// Copyright (C) 2004 - 2016  Btiteam
 //
 //    This file is part of xbtit.
 //
@@ -40,7 +40,7 @@ class ocr_captcha {
   var $public_key;                         // public key
   var $font_file='./include/adlibn.ttf';   // path to font file
 
-  function __construct($long=6,$lx=120,$ly=30,$nb_noise=25) {
+  function ocr_captcha($long=6,$lx=120,$ly=30,$nb_noise=25) {
     $this->key=md5('A nice little private text used to generate private keys.');
     $this->long=$long;
     $this->lx=$lx;

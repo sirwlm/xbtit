@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2016  DPWS Media LTD
+// Copyright (C) 2004 - 2016  Btiteam
 //
 //    This file is part of xbtit.
 //
@@ -31,7 +31,7 @@
 ////////////////////////////////////////////////////////////////////////////////////
 
 global $CURUSER, $XBTT_USE,$TABLE_PREFIX,$btit_settings;
-if (!$CURUSER || $CURUSER['view_torrents']== 'no')
+if (!$CURUSER || $CURUSER["view_torrents"]=="no")
    {
     // do nothing
    }
@@ -44,9 +44,9 @@ else
    if ($res)
       {
       $row=$res[0];
-      $torrents=$row['tot'];
-      $seeds=0+$row['seeds'];
-      $leechers=0+$row['leechs'];
+      $torrents=$row["tot"];
+      $seeds=0+$row["seeds"];
+      $leechers=0+$row["leechs"];
       }
    else {
       $seeds=0;
@@ -58,7 +58,7 @@ else
    if ($res)
       {
       $row=$res[0];
-      $users=$row['tot'];
+      $users=$row["tot"];
       }
    else
        $users=0;
@@ -75,24 +75,24 @@ else
    else
       $res=get_result("select sum(downloaded) as dled, sum(uploaded) as upld FROM {$TABLE_PREFIX}users",true,$btit_settings['cache_duration']);
    $row=$res[0];
-   $dled=0+$row['dled'];
-   $upld=0+$row['upld'];
+   $dled=0+$row["dled"];
+   $upld=0+$row["upld"];
    $traffic=makesize($dled+$upld);
 ?>
        <div class="row">
        <div class="col-md-6">
        <div class="panel panel-default">
        <div class="panel-heading">
-          <h4><i class="fa fa-fw fa-files-o"></i><?php echo $language['BLOCK_INFO']; ?> </h4>
+          <h4><i class="fa fa-fw fa-files-o"></i><?php echo $language["BLOCK_INFO"]; ?> </h4>
        </div>
        <div class="panel-body" align="center">
-<b><?php echo $language['MEMBERS']; ?>:</b>&nbsp;&nbsp;<?php echo $users; ?>&nbsp;||&nbsp;
-<b><?php echo $language['TORRENTS']; ?>:</b>&nbsp;&nbsp;<?php echo $torrents; ?>&nbsp;||&nbsp;
-<b><?php echo $language['SEEDERS']; ?>:</b>&nbsp;&nbsp;<?php echo $seeds; ?>&nbsp;||&nbsp;
-<b><?php echo $language['LEECHERS']; ?>:</b>&nbsp;&nbsp;<?php echo $leechers; ?>&nbsp;||&nbsp;
-<b><?php echo $language['PEERS']; ?>:</b>&nbsp;&nbsp;<?php echo $peers; ?><br />
-<b><?php echo $language['SEEDERS']. '/' .$language['LEECHERS']; ?>:&nbsp;&nbsp;</b><?php echo $percent. '%'; ?>&nbsp;||&nbsp;
-<b><?php echo $language['TRAFFIC']; ?>:</b>&nbsp;&nbsp;<?php echo $traffic; ?>
+<b><?php echo $language["MEMBERS"]; ?>:</b>&nbsp;&nbsp;<?php echo $users; ?>&nbsp;||&nbsp;
+<b><?php echo $language["TORRENTS"]; ?>:</b>&nbsp;&nbsp;<?php echo $torrents; ?>&nbsp;||&nbsp;
+<b><?php echo $language["SEEDERS"]; ?>:</b>&nbsp;&nbsp;<?php echo $seeds; ?>&nbsp;||&nbsp;
+<b><?php echo $language["LEECHERS"]; ?>:</b>&nbsp;&nbsp;<?php echo $leechers; ?>&nbsp;||&nbsp;
+<b><?php echo $language["PEERS"]; ?>:</b>&nbsp;&nbsp;<?php echo $peers; ?><br />
+<b><?php echo $language["SEEDERS"]."/".$language["LEECHERS"]; ?>:&nbsp;&nbsp;</b><?php echo $percent."%"; ?>&nbsp;||&nbsp;
+<b><?php echo $language["TRAFFIC"]; ?>:</b>&nbsp;&nbsp;<?php echo $traffic; ?>
         </div>
     </div>
 </div>

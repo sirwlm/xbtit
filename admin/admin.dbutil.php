@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2016  DPWS Media LTD
+// Copyright (C) 2004 - 2016  Btiteam
 //
 //    This file is part of xbtit.
 //
@@ -30,11 +30,11 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-if (!defined('IN_BTIT'))
-      die('non direct access!');
+if (!defined("IN_BTIT"))
+      die("non direct access!");
 
-if (!defined('IN_ACP'))
-      die('non direct access!');
+if (!defined("IN_ACP"))
+      die("non direct access!");
 
 
 
@@ -42,11 +42,11 @@ switch($action)
     {
 
     case 'tables':
-        if (isset($_POST['doit']) && isset($_POST['tname']))
+        if (isset($_POST["doit"]) && isset($_POST["tname"]))
           {
-            $table_action=strtoupper($_POST['doit']);
-            $tables=implode(',',$_POST['tname']);
-            if (isset($_POST['tname']))
+            $table_action=strtoupper($_POST["doit"]);
+            $tables=implode(",",$_POST["tname"]);
+            if (isset($_POST["tname"]))
               {
                 switch ($table_action)
                    {
@@ -73,30 +73,30 @@ switch($action)
                  $t=array();
                  while ($tstatus=mysqli_fetch_array($dbres))
                       {
-                         $t[$i]['table']=$tstatus['Table'];
-                         $t[$i]['operation']=$tstatus['Op'];
-                         $t[$i]['info']=$tstatus['Msg_type'];
-                         $t[$i]['status']=$tstatus['Msg_text'];
+                         $t[$i]["table"]=$tstatus['Table'];
+                         $t[$i]["operation"]=$tstatus['Op'];
+                         $t[$i]["info"]=$tstatus['Msg_type'];
+                         $t[$i]["status"]=$tstatus['Msg_text'];
                          $i++;
                  }
-                  $admintpl->set('language',$language);
-                  $admintpl->set('results',$t);
-                  $admintpl->set('db_status',false,true);
-                  $admintpl->set('table_result',true,true);
+                  $admintpl->set("language",$language);
+                  $admintpl->set("results",$t);
+                  $admintpl->set("db_status",false,true);
+                  $admintpl->set("table_result",true,true);
 
               }
         }
          else
-            header('Location: index.php?page=admin&user=' .$CURUSER['uid']. '&code=' .$CURUSER['random']. '&do=dbutil&action=status');
+            header("Location: index.php?page=admin&user=".$CURUSER["uid"]."&code=".$CURUSER["random"]."&do=dbutil&action=status");
         break;
 
 
     case 'status':
     default:
-        $dbstatus=do_sqlquery('SHOW TABLE STATUS');
+        $dbstatus=do_sqlquery("SHOW TABLE STATUS");
         if (mysqli_num_rows($dbstatus)>0)
             {
-              $admintpl->set('frm_action', 'index.php?page=admin&amp;user=' .$CURUSER['uid']. '&amp;code=' .$CURUSER['random']. '&amp;do=dbutil&amp;action=tables');
+              $admintpl->set("frm_action","index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=dbutil&amp;action=tables");
               $i=0;
               $bytes=0;
               $records=0;
@@ -105,22 +105,22 @@ switch($action)
               // display current status for tables
               while ($tstatus=mysqli_fetch_array($dbstatus))
                   {
-                  $tables[$i]['name']=$tstatus['Name'];
-                  $tables[$i]['rows']=$tstatus['Rows'];
-                  $tables[$i]['length']=makesize($tstatus['Data_length']+$tstatus['Index_length']);
-                  $tables[$i]['overhead']=($tstatus['Data_free']==0? '-' :makesize($tstatus['Data_free']));
+                  $tables[$i]["name"]=$tstatus['Name'];
+                  $tables[$i]["rows"]=$tstatus['Rows'];
+                  $tables[$i]["length"]=makesize($tstatus['Data_length']+$tstatus['Index_length']);
+                  $tables[$i]["overhead"]=($tstatus['Data_free']==0?"-":makesize($tstatus['Data_free']));
                   $i++;
                   $bytes+=$tstatus['Data_length']+$tstatus['Index_length'];
                   $records+=$tstatus['Rows'];
                   $overhead+=$tstatus['Data_free'];
                 }
-                $admintpl->set('language',$language);
-                $admintpl->set('tables',$tables);
-                $admintpl->set('db_status',true,true);
-                $admintpl->set('table_count',$i);
-                $admintpl->set('table_bytes',makesize($bytes));
-                $admintpl->set('table_records',$records);
-                $admintpl->set('table_overhead',makesize($overhead));
+                $admintpl->set("language",$language);
+                $admintpl->set("tables",$tables);
+                $admintpl->set("db_status",true,true);
+                $admintpl->set("table_count",$i);
+                $admintpl->set("table_bytes",makesize($bytes));
+                $admintpl->set("table_records",$records);
+                $admintpl->set("table_overhead",makesize($overhead));
                 unset($tables);
                 unset($bytes);
                 unset($records);

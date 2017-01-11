@@ -31,7 +31,7 @@ $language['INVITE_SOMEONE_TO']='Send invitation';
 $language['MEMBERS_INVITED_BY']='Medlemmer inviteret af dig';
 $language['MESSAGE']='Besked';
 $language['MNU_UCP_INVITATIONS']='Invitationer';
-$language['MNU_UCP_TOOLS']='Værktøjer';
+$language["MNU_UCP_TOOLS"]='Værktøjer';
 $language['NO_INV']='Ingen invitationer tilbage.';
 $language['NO_INVITATIONS_OUT']='Ingen invitationer sendt.';
 $language['NO_NEED_CONFIRM_YET']='Ingen invitationer at bekræfte.';
@@ -41,7 +41,7 @@ $language['SENT_INVITATIONS']='Sendte invitationer';
 $language['STATUS']='Status';
 $language['WELCOME_UCP_INVITE']='Dette er dit invitations panel.<br />Her fra sender du dine invitationer ud til venner, så de kan følge dig og hinanden på '.$SITENAME.'.<br />';
         
-      $language['APARKED']= 'Parkeret konto';
+      $language["APARKED"]="Parkeret konto";
 // UserBars
 $language['USERBAR'] = 'UserBar';
 $language['NEWUSERBAR'] = 'Skift UserBar';

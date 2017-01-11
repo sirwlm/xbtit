@@ -62,7 +62,7 @@
 			}
 			
 			ini_set('default_socket_timeout',$this->timeout);
-			$rh = @fopen($requesturl, 'rb');
+			$rh = @fopen($requesturl,'r');
 			if(!$rh){ throw new ScraperException('Could not open HTTP connection.',0,true); }
 			stream_set_timeout($rh, $this->timeout);
 			

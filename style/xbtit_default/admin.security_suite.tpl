@@ -2,19 +2,19 @@
 
 window.onload=function()
 {
-    <if:not_gazelle>;
+    <if:not_gazelle>
     var elm= document.getElementById('gazelle');
     elm.style.visibility = 'hidden';
     </if:not_gazelle>
-    <if:;not_session>;
+    <if:not_session>
     var elm2= document.getElementById('cookie_extra');
     elm2.style.visibility = 'hidden';
     </if:not_session>
-    <if:;not_ip_options>;
+    <if:not_ip_options>
     var elm3= document.getElementById('ip_options');
     elm3.style.visibility = 'hidden';
     </if:not_ip_options>
-};
+}
 
 function hide(obj)
   {

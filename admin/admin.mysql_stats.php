@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2016  DPWS Media LTD
+// Copyright (C) 2004 - 2016  Btiteam
 //
 //    This file is part of xbtit.
 //
@@ -30,11 +30,11 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-if (!defined('IN_BTIT'))
-      die('non direct access!');
+if (!defined("IN_BTIT"))
+      die("non direct access!");
 
-if (!defined('IN_ACP'))
-      die('non direct access!');
+if (!defined("IN_ACP"))
+      die("non direct access!");
 
 
 
@@ -43,7 +43,7 @@ if (!defined('IN_ACP'))
 
 ob_start();
 
-$GLOBALS['byteUnits'] = array('Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB');
+$GLOBALS["byteUnits"] = array('Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB');
 
 $day_of_week = array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat');
 $month = array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
@@ -112,7 +112,7 @@ $timespanfmt = '%s days, %s hours, %s minutes and %s seconds';
         if ($days > 0 || $hours > 0 || $minutes > 0) {
             $seconds -= $minutes * 60;
         }
-        return (string)$days. ' Days ' . (string)$hours. ' Hours ' . (string)$minutes. ' Minutes ' . (string)$seconds. ' Seconds ';
+        return (string)$days." Days ". (string)$hours." Hours ". (string)$minutes." Minutes ". (string)$seconds." Seconds ";
     }
 
 
@@ -154,7 +154,7 @@ $res = @mysqli_query($GLOBALS['conn'], 'SHOW STATUS') or Die(((is_object($GLOBAL
     while ($row = mysqli_fetch_row($res)) {
         $serverStatus[$row[0]] = $row[1];
     }
-@((mysqli_free_result($res) || (is_object($res) && (get_class($res) == 'mysqli_result'))) ? true : false);
+@((mysqli_free_result($res) || (is_object($res) && (get_class($res) == "mysqli_result"))) ? true : false);
 unset($res);
 unset($row);
 
@@ -173,7 +173,7 @@ $row = mysqli_fetch_row($res);
       <tr>
         <td style="padding-left:40px;"><b>
 <?php
-print("\tThis MySQL server has been running for ". timespanFormat($serverStatus['Uptime']) . '. It started up on ' . localisedDate($row[0])) . "\n";
+print("\tThis MySQL server has been running for ". timespanFormat($serverStatus['Uptime']) .". It started up on ". localisedDate($row[0])) . "\n";
 ?>
         </b></td>
       </tr>
@@ -181,7 +181,7 @@ print("\tThis MySQL server has been running for ". timespanFormat($serverStatus[
 
 <?php
 
-((mysqli_free_result($res) || (is_object($res) && (get_class($res) == 'mysqli_result'))) ? true : false);
+((mysqli_free_result($res) || (is_object($res) && (get_class($res) == "mysqli_result"))) ? true : false);
 unset($res);
 unset($row);
 //Get query statistics
@@ -269,7 +269,7 @@ unset($tmp_array);
 <ul>
     <li>
         <!-- Queries -->
-        <?php print('<b>Query Statistics:</b> Since its start up ' . number_format($serverStatus['Questions'], 0, '.', ',')." queries have been sent to the server.\n"); ?></li></ul>
+        <?php print("<b>Query Statistics:</b> Since its start up ". number_format($serverStatus['Questions'], 0, '.', ',')." queries have been sent to the server.\n"); ?></li></ul>
                 </div>
                 
         </td>

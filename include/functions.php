@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2016  DPWS Media LTD
+// Copyright (C) 2004 - 2016  Btiteam
 //
 //    This file is part of xbtit.
 //
@@ -32,29 +32,34 @@
 
 $CURRENTPATH = __DIR__;
 
-
 global $btit_settings;
-if ($btit_settings['error']===true)
+if ($btit_settings["error"]===true)
 {
 if(version_compare(PHP_VERSION, '5.3.0', '<=')) 
 error_reporting(E_ALL&~E_NOTICE&~E_WARNING&~E_STRICT&~'E_DEPRECATED'); 
 else 
 error_reporting(E_ALL&~E_NOTICE&~E_WARNING&~E_STRICT&~E_DEPRECATED);
 }
+ini_set("log_errors", 'On'); // enable or disable php error logging (use 'On' or 'Off')
 //create some logging :)
 require_once($CURRENTPATH.'/conextra.php');
 $signon= getConnection ();
 $prefix=getPrefix ();
 $logname=mysqli_fetch_row(mysqli_query($signon, "SELECT `value` FROM {$prefix}settings WHERE `key`='php_log_name' LIMIT 1"));
 $logpath=mysqli_fetch_row(mysqli_query($signon, "SELECT `value` FROM {$prefix}settings WHERE `key`='php_log_path' LIMIT 1"));
-$when=@date('d.m.y');
-ini_set('log_errors','On'); // enable or disable php error logging (use 'On' or 'Off')
-ini_set('error_log',''.$logpath[0].'/'.$logname[0].'_'.$when.'_.log'); // path to server-writable log file
+$when=@date("d.m.y");
+if(!is_dir($logpath[0].'/')){
+mkdir($logpath[0], 0777, true);
+file_put_contents($logpath[0].'/'.$logname[0].'_'.$when.'_.log',"");
+ini_set('error_log',$logpath[0].'/'.$logname[0].'_'.$when.'_.log'); // path to server-writable log file
+error_log(date('l jS \of F Y h:i:s A'));
+}else
+ini_set('error_log',$logpath[0].'/'.$logname[0].'_'.$when.'_.log'); // path to server-writable log file
 
 #
 // Emulate register_globals off
 #
-$php_version=explode('.',phpversion());
+$php_version=explode(".",phpversion());
 if($php_version[0]<=5 && $php_version[1]<=2)
 {
     if (@ini_get('register_globals'))
@@ -199,7 +204,7 @@ function print_debug($level=3, $key=' - ') {
 function print_version() {
   global $tracker_version;
 
-  return '[&nbsp;&nbsp;<u>xbtit '.$tracker_version.' By</u>: <a href="http://dpwsmedia.com/" target="_blank">DPWS Media</a>&nbsp;]';
+  return '[&nbsp;&nbsp;<u>xbtit '.$tracker_version.' By</u>: <a href="http://www.btiteam.org/" target="_blank">Btiteam</a>&nbsp;]';
 }
 
 function print_designer() {
@@ -225,10 +230,10 @@ function check_online($session_id, $location)
 {
     global $TABLE_PREFIX, $CURUSER;
 
-    session_name('xbtit');
+    session_name("xbtit");
     
-    $overOneMinute=(((isset($_SESSION['ONLINE_EXPIRE']) && time() > $_SESSION['ONLINE_EXPIRE']) || !isset($_SESSION['ONLINE_EXPIRE']))?true:false);
-    $locationHasChanged=(((isset($_SESSION['ONLINE_LOCATION']) && $_SESSION['ONLINE_LOCATION']!=$location) || !isset($_SESSION['ONLINE_LOCATION']))?true:false);
+    $overOneMinute=(((isset($_SESSION["ONLINE_EXPIRE"]) && time() > $_SESSION["ONLINE_EXPIRE"]) || !isset($_SESSION["ONLINE_EXPIRE"]))?true:false);
+    $locationHasChanged=(((isset($_SESSION["ONLINE_LOCATION"]) && $_SESSION["ONLINE_LOCATION"]!=$location) || !isset($_SESSION["ONLINE_LOCATION"]))?true:false);
     $location=sqlesc($location);
     $ip=getip();
     $uid=max(1,(int)$CURUSER['uid']);
@@ -243,11 +248,11 @@ function check_online($session_id, $location)
 
     if($locationHasChanged || $overOneMinute)
     {
-        @quickQuery("UPDATE {$TABLE_PREFIX}online SET session_id='$session_id', user_name=$uname, user_group=$ugroup, prefixcolor=$prefix, suffixcolor=$suffix, location=$location, user_id=$uid, lastaction=UNIX_TIMESTAMP() $where");
+        @quickQuery("UPDATE {$TABLE_PREFIX}online SET session_id='$session_id', user_name=$uname, user_group=$ugroup, prefixcolor=$prefix, suffixcolor=$suffix, location=$location, user_id=$uid, lastaction=UNIX_TIMESTAMP(), user_ip='$ip' $where");
         // record don't already exist, then insert it
         if (mysqli_affected_rows($GLOBALS['conn'])==0)
         { 
-            @quickQuery("UPDATE {$TABLE_PREFIX}users SET lastconnect=NOW() WHERE id=$uid AND id>1");
+            @quickQuery("UPDATE {$TABLE_PREFIX}users SET lastconnect=NOW(), cip='$ip' WHERE id=$uid AND id>1");
             @quickQuery("INSERT INTO {$TABLE_PREFIX}online SET session_id='$session_id', user_name=$uname, user_group=$ugroup, prefixcolor=$prefix, suffixcolor=$suffix, user_id=$uid, user_ip='$ip', location=$location, lastaction=UNIX_TIMESTAMP()");
         }
     }
@@ -256,9 +261,9 @@ function check_online($session_id, $location)
         $timeout=time()-900; // 15 minutes
         @quickQuery("UPDATE {$TABLE_PREFIX}users u INNER JOIN {$TABLE_PREFIX}online ol ON ol.user_id = u.id SET u.lastconnect=NOW(), u.cip=ol.user_ip, u.lip=INET_ATON(ol.user_ip) WHERE ol.lastaction<$timeout AND ol.user_id>1");
         @quickQuery("DELETE FROM {$TABLE_PREFIX}online WHERE lastaction<$timeout");
-        $_SESSION['ONLINE_EXPIRE']=(time()+60);
+        $_SESSION["ONLINE_EXPIRE"]=(time()+60);
     }
-    $_SESSION['ONLINE_LOCATION']=trim($location, "'");
+    $_SESSION["ONLINE_LOCATION"]=trim($location, "'");
 }
 
 //Disallow special characters in username
@@ -303,56 +308,56 @@ function logincookie($row, $user, $expires = 0x7fffffff)
 {
     global $btit_settings;
 
-    $my_cookie_name=((isset($btit_settings['secsui_cookie_name']) && !empty($btit_settings['secsui_cookie_name']))?$btit_settings['secsui_cookie_name']: 'xbtitLoginCookie');
-    $my_cookie_path=((isset($btit_settings['secsui_cookie_path']) && !empty($btit_settings['secsui_cookie_path']))?$btit_settings['secsui_cookie_path']: '/');
-    $my_cookie_domain=((isset($btit_settings['secsui_cookie_domain']) && !empty($btit_settings['secsui_cookie_domain']))?$btit_settings['secsui_cookie_domain']:false);
+    $my_cookie_name=((isset($btit_settings["secsui_cookie_name"]) && !empty($btit_settings["secsui_cookie_name"]))?$btit_settings["secsui_cookie_name"]:"xbtitLoginCookie");
+    $my_cookie_path=((isset($btit_settings["secsui_cookie_path"]) && !empty($btit_settings["secsui_cookie_path"]))?$btit_settings["secsui_cookie_path"]:"/");
+    $my_cookie_domain=((isset($btit_settings["secsui_cookie_domain"]) && !empty($btit_settings["secsui_cookie_domain"]))?$btit_settings["secsui_cookie_domain"]:false);
     
-    if($btit_settings['secsui_cookie_type']==1)
+    if($btit_settings["secsui_cookie_type"]==1)
     {
-        setcookie('uid', $row['id'], $expires, '/');
-        setcookie('pass', md5($row['random'].$row['password'].$row['random']), $expires, '/');
+        setcookie('uid', $row["id"], $expires, '/');
+        setcookie('pass', md5($row["random"].$row["password"].$row["random"]), $expires, '/');
     }
-    elseif($btit_settings['secsui_cookie_type']==2  || $btit_settings['secsui_cookie_type']==3)
+    elseif($btit_settings["secsui_cookie_type"]==2  || $btit_settings["secsui_cookie_type"]==3)
     {
-        $cookie_items=explode(',', $btit_settings['secsui_cookie_items']);
-        $cookie_string= '';
+        $cookie_items=explode(",", $btit_settings["secsui_cookie_items"]);
+        $cookie_string="";
 
         foreach($cookie_items as $ci_value)
         {
-            $ci_exp=explode('-',$ci_value);
+            $ci_exp=explode("-",$ci_value);
             if($ci_exp[0]==8)
             {
-                $ci_exp2=explode('[+]', $ci_exp[1]);
+                $ci_exp2=explode("[+]", $ci_exp[1]);
                 if($ci_exp2[0]==1)
                 {
-                    $ip_parts=explode('.', getip());
+                    $ip_parts=explode(".", getip());
 
                     if($ci_exp2[1]==1)
-                        $cookie_string.=$ip_parts[0]. '-';
+                        $cookie_string.=$ip_parts[0]."-";
                     if($ci_exp2[1]==2)
-                        $cookie_string.=$ip_parts[1]. '-';
+                        $cookie_string.=$ip_parts[1]."-";
                     if($ci_exp2[1]==3)
-                        $cookie_string.=$ip_parts[2]. '-';
+                        $cookie_string.=$ip_parts[2]."-";
                     if($ci_exp2[1]==4)
-                        $cookie_string.=$ip_parts[3]. '-';
+                        $cookie_string.=$ip_parts[3]."-";
                     if($ci_exp2[1]==5)
-                        $cookie_string.=$ip_parts[0]. '.' .$ip_parts[1]. '-';
+                        $cookie_string.=$ip_parts[0].".".$ip_parts[1]."-";
                     if($ci_exp2[1]==6)
-                        $cookie_string.=$ip_parts[1]. '.' .$ip_parts[2]. '-';
+                        $cookie_string.=$ip_parts[1].".".$ip_parts[2]."-";
                     if($ci_exp2[1]==7)
-                        $cookie_string.=$ip_parts[2]. '.' .$ip_parts[3]. '-';
+                        $cookie_string.=$ip_parts[2].".".$ip_parts[3]."-";
                     if($ci_exp2[1]==8)
-                        $cookie_string.=$ip_parts[0]. '.' .$ip_parts[2]. '-';
+                        $cookie_string.=$ip_parts[0].".".$ip_parts[2]."-";
                     if($ci_exp2[1]==9)
-                        $cookie_string.=$ip_parts[0]. '.' .$ip_parts[3]. '-';
+                        $cookie_string.=$ip_parts[0].".".$ip_parts[3]."-";
                     if($ci_exp2[1]==10)
-                        $cookie_string.=$ip_parts[1]. '.' .$ip_parts[3]. '-';
+                        $cookie_string.=$ip_parts[1].".".$ip_parts[3]."-";
                     if($ci_exp2[1]==11)
-                        $cookie_string.=$ip_parts[0]. '.' .$ip_parts[1]. '.' .$ip_parts[2]. '-';
+                        $cookie_string.=$ip_parts[0].".".$ip_parts[1].".".$ip_parts[2]."-";
                     if($ci_exp2[1]==12)
-                        $cookie_string.=$ip_parts[1]. '.' .$ip_parts[2]. '.' .$ip_parts[3]. '-';
+                        $cookie_string.=$ip_parts[1].".".$ip_parts[2].".".$ip_parts[3]."-";
                     if($ci_exp2[1]==13)
-                        $cookie_string.=$ip_parts[0]. '.' .$ip_parts[1]. '.' .$ip_parts[2]. '.' .$ip_parts[3]. '-';
+                        $cookie_string.=$ip_parts[0].".".$ip_parts[1].".".$ip_parts[2].".".$ip_parts[3]."-";
 
                     unset($ci_exp2);
                 }
@@ -361,52 +366,52 @@ function logincookie($row, $user, $expires = 0x7fffffff)
             {
                 if($ci_exp[0]==1 && $ci_exp[1]==1)
                 {
-                    $cookie_string.=$row['id']. '-';
+                    $cookie_string.=$row["id"]."-";
                 }
                 if($ci_exp[0]==2 && $ci_exp[1]==1)
                 {
-                    $cookie_string.=$row['password']. '-';
+                    $cookie_string.=$row["password"]."-";
                 }
                 if($ci_exp[0]==3 && $ci_exp[1]==1)
                 {
-                    $cookie_string.=$row['random']. '-';
+                    $cookie_string.=$row["random"]."-";
                 }
                 if($ci_exp[0]==4 && $ci_exp[1]==1)
                 {
-                    $cookie_string.=strtolower($user). '-';
+                    $cookie_string.=strtolower($user)."-";
                 }
                 if($ci_exp[0]==5 && $ci_exp[1]==1)
                 {
-                    $cookie_string.=$row['salt']. '-';
+                    $cookie_string.=$row["salt"]."-";
                 }
                 if($ci_exp[0]==6 && $ci_exp[1]==1)
                 {
-                    $cookie_string.=$_SERVER['HTTP_USER_AGENT']. '-';
+                    $cookie_string.=$_SERVER["HTTP_USER_AGENT"]."-";
                 }
                 if($ci_exp[0]==7 && $ci_exp[1]==1)
                 {
-                    $cookie_string.=$_SERVER['HTTP_ACCEPT_LANGUAGE']. '-';
+                    $cookie_string.=$_SERVER["HTTP_ACCEPT_LANGUAGE"]."-";
                 }
             }
             unset($ci_exp);
         }
-        $final_cookie=serialize(array('id' => $row['id'], 'hash' => sha1(trim($cookie_string, '-'))));
+        $final_cookie=serialize(array("id" => $row["id"], "hash" => sha1(trim($cookie_string, "-"))));
 
-        if($btit_settings['secsui_cookie_type']==2)
+        if($btit_settings["secsui_cookie_type"]==2)
         {
             $my_mult=60;
-            if($btit_settings['secsui_cookie_exp2']==2)
+            if($btit_settings["secsui_cookie_exp2"]==2)
                 $my_mult=3600;
-            elseif($btit_settings['secsui_cookie_exp2']==3)
+            elseif($btit_settings["secsui_cookie_exp2"]==3)
                 $my_mult=86400;
-            elseif($btit_settings['secsui_cookie_exp2']==4)
+            elseif($btit_settings["secsui_cookie_exp2"]==4)
                 $my_mult=604800;
-            elseif($btit_settings['secsui_cookie_exp2']==5)
+            elseif($btit_settings["secsui_cookie_exp2"]==5)
                 $my_mult=2592000;
-            elseif($btit_settings['secsui_cookie_exp2']==6)
+            elseif($btit_settings["secsui_cookie_exp2"]==6)
                 $my_mult=31536000;
 
-            $my_cookie_expire=(($btit_settings['secsui_cookie_exp1']*$my_mult)+time());
+            $my_cookie_expire=(($btit_settings["secsui_cookie_exp1"]*$my_mult)+time());
         
             if($my_cookie_expire>2147483647)
                 $my_cookie_expire=$expires;
@@ -415,9 +420,9 @@ function logincookie($row, $user, $expires = 0x7fffffff)
         }
         else
         {
-            session_name('xbtit');
+            session_name("xbtit");
             session_start();
-            $_SESSION['login_cookie']=$final_cookie;
+            $_SESSION["login_cookie"]=$final_cookie;
         }
     }
     else
@@ -428,18 +433,18 @@ function logoutcookie()
 {
     global $btit_settings;
 
-    $my_cookie_name=((isset($btit_settings['secsui_cookie_name']) && !empty($btit_settings['secsui_cookie_name']))?$btit_settings['secsui_cookie_name']: 'xbtitLoginCookie');
-    $my_cookie_path=((isset($btit_settings['secsui_cookie_path']) && !empty($btit_settings['secsui_cookie_path']))?$btit_settings['secsui_cookie_path']: '/');
-    $my_cookie_domain=((isset($btit_settings['secsui_cookie_domain']) && !empty($btit_settings['secsui_cookie_domain']))?$btit_settings['secsui_cookie_domain']:false);
+    $my_cookie_name=((isset($btit_settings["secsui_cookie_name"]) && !empty($btit_settings["secsui_cookie_name"]))?$btit_settings["secsui_cookie_name"]:"xbtitLoginCookie");
+    $my_cookie_path=((isset($btit_settings["secsui_cookie_path"]) && !empty($btit_settings["secsui_cookie_path"]))?$btit_settings["secsui_cookie_path"]:"/");
+    $my_cookie_domain=((isset($btit_settings["secsui_cookie_domain"]) && !empty($btit_settings["secsui_cookie_domain"]))?$btit_settings["secsui_cookie_domain"]:false);
 
-    setcookie('uid', '', (time()-3600), '/');
-    setcookie('pass', '', (time()-3600), '/');
-    setcookie("$my_cookie_name", '', (time()-3600), "$my_cookie_path", "$my_cookie_domain");
-    setcookie("$my_cookie_name", '', (time()-3600), '/');
-    session_name('xbtit');
+    setcookie("uid", "", (time()-3600), "/");
+    setcookie("pass", "", (time()-3600), "/");
+    setcookie("$my_cookie_name", "", (time()-3600), "$my_cookie_path", "$my_cookie_domain");
+    setcookie("$my_cookie_name", "", (time()-3600), "/");
+    session_name("xbtit");
     session_start();
     $_SESSION=array();
-    setcookie('xbtit', '', time()-3600, '/');
+    setcookie("xbtit", "", time()-3600, "/");
     session_destroy();
 }
 
@@ -453,7 +458,7 @@ function userlogin()
 
     unset($GLOBALS['CURUSER']);
 
-    session_name('xbtit');
+    session_name("xbtit");
     
 
     $ip = getip(); //$_SERVER["REMOTE_ADDR"];
@@ -468,61 +473,61 @@ function userlogin()
         die();
     }
 
-    if(isset($_SESSION['CURUSER']) && isset($_SESSION['CURUSER_EXPIRE']))
+    if(isset($_SESSION["CURUSER"]) && isset($_SESSION["CURUSER_EXPIRE"]))
     {
-        if($_SESSION['CURUSER_EXPIRE']>time())
+        if($_SESSION["CURUSER_EXPIRE"]>time())
         {
             if(!isset($STYLEPATH) || empty($STYLEPATH))
-                $STYLEPATH=((is_null($_SESSION['CURUSER']['style_path']))?$THIS_BASEPATH. '/style/xbtit_default' :$_SESSION['CURUSER']['style_path']);
+                $STYLEPATH=((is_null($_SESSION["CURUSER"]["style_path"]))?$THIS_BASEPATH."/style/xbtit_default":$_SESSION["CURUSER"]["style_path"]);
             if(!isset($STYLEURL) || empty($STYLEURL))
-                $STYLEURL=((is_null($_SESSION['CURUSER']['style_url']))?$BASEURL. '/style/xbtit_default' :$_SESSION['CURUSER']['style_url']);
+                $STYLEURL=((is_null($_SESSION["CURUSER"]["style_url"]))?$BASEURL."/style/xbtit_default":$_SESSION["CURUSER"]["style_url"]);
             if(!isset($STYLETYPE) || empty($STYLETYPE))
-                $STYLETYPE=((is_null($_SESSION['CURUSER']['style_type']))?3:(int)0+$_SESSION['CURUSER']['style_type']);
+                $STYLETYPE=((is_null($_SESSION["CURUSER"]["style_type"]))?3:(int)0+$_SESSION["CURUSER"]["style_type"]);
             if(!isset($USERLANG) || empty($USERLANG))
-                $USERLANG=((is_null($_SESSION['CURUSER']['language_path']))?$THIS_BASEPATH. '/language/english' :$THIS_BASEPATH. '/' .$_SESSION['CURUSER']['language_url']);
-            $GLOBALS['CURUSER']=$_SESSION['CURUSER'];
+                $USERLANG=((is_null($_SESSION["CURUSER"]["language_path"]))?$THIS_BASEPATH."/language/english":$THIS_BASEPATH."/".$_SESSION["CURUSER"]["language_url"]);
+            $GLOBALS["CURUSER"]=$_SESSION["CURUSER"];
             return;
         }
         else
         {
-            unset($_SESSION['CURUSER']);
-            unset($_SESSION['CURUSER_EXPIRE']);
+            unset($_SESSION["CURUSER"]);
+            unset($_SESSION["CURUSER_EXPIRE"]);
         }
     }
 
     if ($btit_settings['xbtt_use'])
     {
-        $udownloaded= 'u.downloaded+IFNULL(x.downloaded,0)';
-        $uuploaded= 'u.uploaded+IFNULL(x.uploaded,0)';
+        $udownloaded="u.downloaded+IFNULL(x.downloaded,0)";
+        $uuploaded="u.uploaded+IFNULL(x.uploaded,0)";
         $utables="{$TABLE_PREFIX}users u LEFT JOIN xbt_users x ON x.uid=u.id";
     }
     else
     {
-        $udownloaded= 'u.downloaded';
-        $uuploaded= 'u.uploaded';
+        $udownloaded="u.downloaded";
+        $uuploaded="u.uploaded";
         $utables="{$TABLE_PREFIX}users u";
     }
 
     // guest   
-    if($btit_settings['secsui_cookie_type']==1)
-        $id = (isset($_COOKIE['uid']) && is_numeric($_COOKIE['uid']) && $_COOKIE['uid']>1) ? $id=(int)0+$_COOKIE['uid'] : $id=1;
-    elseif($btit_settings['secsui_cookie_type']==2)
+    if($btit_settings["secsui_cookie_type"]==1)
+        $id = (isset($_COOKIE["uid"]) && is_numeric($_COOKIE["uid"]) && $_COOKIE["uid"]>1) ? $id=(int)0+$_COOKIE["uid"] : $id=1;
+    elseif($btit_settings["secsui_cookie_type"]==2)
     {
-        $user_cookie_name=((isset($btit_settings['secsui_cookie_name']) && !empty($btit_settings['secsui_cookie_name']))?$btit_settings['secsui_cookie_name']: 'xbtitLoginCookie');
+        $user_cookie_name=((isset($btit_settings["secsui_cookie_name"]) && !empty($btit_settings["secsui_cookie_name"]))?$btit_settings["secsui_cookie_name"]:"xbtitLoginCookie");
         if(isset($_COOKIE[$user_cookie_name]))
         {
             $user_cookie=unserialize($_COOKIE[$user_cookie_name]);
-            $id=((is_numeric($user_cookie['id']) && $user_cookie['id']>1)?(int)0+$user_cookie['id']:$id=1);
+            $id=((is_numeric($user_cookie["id"]) && $user_cookie["id"]>1)?(int)0+$user_cookie["id"]:$id=1);
         }
         else
             $id=1;
     }
-    elseif($btit_settings['secsui_cookie_type']==3)
+    elseif($btit_settings["secsui_cookie_type"]==3)
     {
-        if(isset($_SESSION['login_cookie']))
+        if(isset($_SESSION["login_cookie"]))
         {
-            $user_cookie=unserialize($_SESSION['login_cookie']);
-            $id=((is_numeric($user_cookie['id']) && $user_cookie['id']>1)?(int)0+$user_cookie['id']:$id=1);
+            $user_cookie=unserialize($_SESSION["login_cookie"]);
+            $id=((is_numeric($user_cookie["id"]) && $user_cookie["id"]>1)?(int)0+$user_cookie["id"]:$id=1);
         }
         else
             $id=1;
@@ -535,52 +540,52 @@ function userlogin()
         $res = do_sqlquery("SELECT u.salt, u.pass_type, u.lip, u.cip, $udownloaded as downloaded, $uuploaded as uploaded, u.smf_fid, u.ipb_fid, u.topicsperpage, u.postsperpage,u.torrentsperpage, u.flag, u.avatar, UNIX_TIMESTAMP(u.lastconnect) AS lastconnect, UNIX_TIMESTAMP(u.joined) AS joined, u.id as uid, u.username, u.password, u.random, u.email, u.language,u.style, u.time_offset, ul.*, `s`.`style_url`, `s`.`style_type`, `l`.`language_url` FROM $utables INNER JOIN {$TABLE_PREFIX}users_level ul ON u.id_level=ul.id LEFT JOIN `{$TABLE_PREFIX}style` `s` ON `u`.`style`=`s`.`id` LEFT JOIN `{$TABLE_PREFIX}language` `l` ON `u`.`language`=`l`.`id` WHERE u.id = $id LIMIT 1;",true);
         $row = mysqli_fetch_assoc($res);
 
-        if($btit_settings['secsui_cookie_type']==1)
+        if($btit_settings["secsui_cookie_type"]==1)
         {
-            if(md5($row['random'].$row['password'].$row['random'])!=$_COOKIE['pass'])
+            if(md5($row["random"].$row["password"].$row["random"])!=$_COOKIE["pass"])
                 $id=1;
         }
-        elseif($btit_settings['secsui_cookie_type']==2  || $btit_settings['secsui_cookie_type']==3)
+        elseif($btit_settings["secsui_cookie_type"]==2  || $btit_settings["secsui_cookie_type"]==3)
         {
-            $cookie_items=explode(',', $btit_settings['secsui_cookie_items']);
-            $cookie_string= '';
+            $cookie_items=explode(",", $btit_settings["secsui_cookie_items"]);
+            $cookie_string="";
 
             foreach($cookie_items as $ci_value)
             {
-                $ci_exp=explode('-',$ci_value);
+                $ci_exp=explode("-",$ci_value);
                 if($ci_exp[0]==8)
                 {
-                    $ci_exp2=explode('[+]', $ci_exp[1]);
+                    $ci_exp2=explode("[+]", $ci_exp[1]);
                     if($ci_exp2[0]==1)
                     {
-                        $ip_parts=explode('.', getip());
+                        $ip_parts=explode(".", getip());
 
                         if($ci_exp2[1]==1)
-                            $cookie_string.=$ip_parts[0]. '-';
+                            $cookie_string.=$ip_parts[0]."-";
                         if($ci_exp2[1]==2)
-                            $cookie_string.=$ip_parts[1]. '-';
+                            $cookie_string.=$ip_parts[1]."-";
                         if($ci_exp2[1]==3)
-                            $cookie_string.=$ip_parts[2]. '-';
+                            $cookie_string.=$ip_parts[2]."-";
                         if($ci_exp2[1]==4)
-                            $cookie_string.=$ip_parts[3]. '-';
+                            $cookie_string.=$ip_parts[3]."-";
                         if($ci_exp2[1]==5)
-                            $cookie_string.=$ip_parts[0]. '.' .$ip_parts[1]. '-';
+                            $cookie_string.=$ip_parts[0].".".$ip_parts[1]."-";
                         if($ci_exp2[1]==6)
-                            $cookie_string.=$ip_parts[1]. '.' .$ip_parts[2]. '-';
+                            $cookie_string.=$ip_parts[1].".".$ip_parts[2]."-";
                         if($ci_exp2[1]==7)
-                            $cookie_string.=$ip_parts[2]. '.' .$ip_parts[3]. '-';
+                            $cookie_string.=$ip_parts[2].".".$ip_parts[3]."-";
                         if($ci_exp2[1]==8)
-                            $cookie_string.=$ip_parts[0]. '.' .$ip_parts[2]. '-';
+                            $cookie_string.=$ip_parts[0].".".$ip_parts[2]."-";
                         if($ci_exp2[1]==9)
-                            $cookie_string.=$ip_parts[0]. '.' .$ip_parts[3]. '-';
+                            $cookie_string.=$ip_parts[0].".".$ip_parts[3]."-";
                         if($ci_exp2[1]==10)
-                            $cookie_string.=$ip_parts[1]. '.' .$ip_parts[3]. '-';
+                            $cookie_string.=$ip_parts[1].".".$ip_parts[3]."-";
                         if($ci_exp2[1]==11)
-                            $cookie_string.=$ip_parts[0]. '.' .$ip_parts[1]. '.' .$ip_parts[2]. '-';
+                            $cookie_string.=$ip_parts[0].".".$ip_parts[1].".".$ip_parts[2]."-";
                         if($ci_exp2[1]==12)
-                            $cookie_string.=$ip_parts[1]. '.' .$ip_parts[2]. '.' .$ip_parts[3]. '-';
+                            $cookie_string.=$ip_parts[1].".".$ip_parts[2].".".$ip_parts[3]."-";
                         if($ci_exp2[1]==13)
-                            $cookie_string.=$ip_parts[0]. '.' .$ip_parts[1]. '.' .$ip_parts[2]. '.' .$ip_parts[3]. '-';
+                            $cookie_string.=$ip_parts[0].".".$ip_parts[1].".".$ip_parts[2].".".$ip_parts[3]."-";
 
                         unset($ci_exp2);
                     }
@@ -589,38 +594,38 @@ function userlogin()
                 {
                     if($ci_exp[0]==1 && $ci_exp[1]==1)
                     {
-                        $cookie_string.=$row['uid']. '-';
+                        $cookie_string.=$row["uid"]."-";
                     }
                     if($ci_exp[0]==2 && $ci_exp[1]==1)
                     {
-                        $cookie_string.=$row['password']. '-';
+                        $cookie_string.=$row["password"]."-";
                     }
                     if($ci_exp[0]==3 && $ci_exp[1]==1)
                     {
-                        $cookie_string.=$row['random']. '-';
+                        $cookie_string.=$row["random"]."-";
                     }
                     if($ci_exp[0]==4 && $ci_exp[1]==1)
                     {
-                        $cookie_string.=strtolower($row['username']). '-';
+                        $cookie_string.=strtolower($row["username"])."-";
                     }
                     if($ci_exp[0]==5 && $ci_exp[1]==1)
                     {
-                        $cookie_string.=$row['salt']. '-';
+                        $cookie_string.=$row["salt"]."-";
                     }
                     if($ci_exp[0]==6 && $ci_exp[1]==1)
                     {
-                        $cookie_string.=$_SERVER['HTTP_USER_AGENT']. '-';
+                        $cookie_string.=$_SERVER["HTTP_USER_AGENT"]."-";
                     }
                     if($ci_exp[0]==7 && $ci_exp[1]==1)
                     {
-                        $cookie_string.=$_SERVER['HTTP_ACCEPT_LANGUAGE']. '-';
+                        $cookie_string.=$_SERVER["HTTP_ACCEPT_LANGUAGE"]."-";
                     }
                 }
                 unset($ci_exp);
             }
-            $final_cookie['hash']=sha1(trim($cookie_string, '-'));
+            $final_cookie["hash"]=sha1(trim($cookie_string, "-"));
 
-            if($final_cookie['hash']!=$user_cookie['hash'])
+            if($final_cookie["hash"]!=$user_cookie["hash"])
                 $id=1;
         }
     }
@@ -637,23 +642,23 @@ function userlogin()
         $err_msg_install='';
 
     if(!isset($STYLEPATH) || empty($STYLEPATH))
-        $STYLEPATH=$THIS_BASEPATH. '/' .((is_null($row['style_url']))? 'style/xbtit_default' :$row['style_url']);
+        $STYLEPATH=$THIS_BASEPATH."/".((is_null($row["style_url"]))?"style/xbtit_default":$row["style_url"]);
     if(!isset($STYLEURL) || empty($STYLEURL))
-        $STYLEURL=$BASEURL. '/' .((is_null($row['style_url']))? 'style/xbtit_default' :$row['style_url']);
+        $STYLEURL=$BASEURL."/".((is_null($row["style_url"]))?"style/xbtit_default":$row["style_url"]);
     if(!isset($STYLETYPE) || empty($STYLETYPE))
-        $STYLETYPE=((is_null($row['style_type']))?3:(int)0+$row['style_type']);
+        $STYLETYPE=((is_null($row["style_type"]))?3:(int)0+$row["style_type"]);
     if(!isset($USERLANG) || empty($USERLANG))
-        $USERLANG=((is_null($row['language_url']))?$THIS_BASEPATH. '/language/english' :$THIS_BASEPATH. '/' .$row['language_url']);
+        $USERLANG=((is_null($row["language_url"]))?$THIS_BASEPATH."/language/english":$THIS_BASEPATH."/".$row["language_url"]);
 
-    $_SESSION['CURUSER']=$row;
-    $_SESSION['CURUSER']['style_url']=$STYLEURL;
-    $_SESSION['CURUSER']['style_path']=$STYLEPATH;
-    $_SESSION['CURUSER']['style_type']=$STYLETYPE;
-    $_SESSION['CURUSER']['language_path']=$USERLANG;
-    $_SESSION['CURUSER_EXPIRE'] = (time()+$btit_settings['cache_duration']);
-    $GLOBALS['CURUSER'] = $_SESSION['CURUSER'];
+    $_SESSION["CURUSER"]=$row;
+    $_SESSION["CURUSER"]["style_url"]=$STYLEURL;
+    $_SESSION["CURUSER"]["style_path"]=$STYLEPATH;
+    $_SESSION["CURUSER"]["style_type"]=$STYLETYPE;
+    $_SESSION["CURUSER"]["language_path"]=$USERLANG;
+    $_SESSION["CURUSER_EXPIRE"] = (time()+$btit_settings["cache_duration"]);
+    $GLOBALS["CURUSER"] = $_SESSION["CURUSER"];
 
-    ((mysqli_free_result($res) || (is_object($res) && (get_class($res) == 'mysqli_result'))) ? true : false);
+    ((mysqli_free_result($res) || (is_object($res) && (get_class($res) == "mysqli_result"))) ? true : false);
     unset($row);
 }
 
@@ -677,8 +682,8 @@ function dbconn($do_clean=false) {
     }
   }
 
-  if($GLOBALS['charset']== 'UTF-8')
-      do_sqlquery('SET NAMES utf8');
+  if($GLOBALS["charset"]=="UTF-8")
+      do_sqlquery("SET NAMES utf8");
 
   ((bool)mysqli_query($GLOBALS['conn'], "USE $database")) or die($language['ERR_CANT_OPEN_DB'].' '.$database.' - '.((is_object($GLOBALS['conn'])) ? mysqli_error($GLOBALS['conn']) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
 
@@ -828,10 +833,10 @@ function pager($rpp, $count, $href, $opts = array()) {
     }
 
     $pagertop = "$pager\n</form>";
-    $pagerbottom = str_replace('change_page', 'change_page1',$pagertop)."\n";
+    $pagerbottom = str_replace("change_page","change_page1",$pagertop)."\n";
   } else {
     $pagertop = "$pager\n</form>";
-    $pagerbottom = str_replace('change_page', 'change_page1',$pagertop)."\n";
+    $pagerbottom = str_replace("change_page","change_page1",$pagertop)."\n";
   }
 
   $start = ($page-1) * $rpp;
@@ -972,7 +977,7 @@ function stdfoot($normalpage=true, $update=true, $adminpage=false, $torrentspage
     $tpl->set('main_footer',bottom_menu()."<br />\n");
     $tpl->set('xbtit_version',print_version());
     $tpl->set('style_copyright',print_designer());
-    $tpl->set('xbtit_debug', (($PRINT_DEBUG)?print_debug(): ''));
+    $tpl->set('xbtit_debug', (($PRINT_DEBUG)?print_debug():""));
 
     if($STYLETYPE==2)
     {
@@ -981,122 +986,122 @@ function stdfoot($normalpage=true, $update=true, $adminpage=false, $torrentspage
         // Improvement of template by atmoner
         if ($normalpage && !$no_columns)
         {
-            $tpl->set('RIGHT_COL', true, true);
-            $tpl->set('LEFT_COL', true, true);
-            $tpl->set('NO_HEADER', true, true);
-            $tpl->set('NO_FOOTER', true, true);
+            $tpl->set("RIGHT_COL", true, true);
+            $tpl->set("LEFT_COL", true, true);
+            $tpl->set("NO_HEADER", true, true);
+            $tpl->set("NO_FOOTER", true, true);
         }
         elseif ($adminpage)
         {
-            $tpl->set('RIGHT_COL', false, true);
-            $tpl->set('LEFT_COL', true, true);
-            $tpl->set('NO_HEADER', true, true);
-            $tpl->set('NO_FOOTER', true, true);
+            $tpl->set("RIGHT_COL", false, true);
+            $tpl->set("LEFT_COL", true, true);
+            $tpl->set("NO_HEADER", true, true);
+            $tpl->set("NO_FOOTER", true, true);
         }
         elseif ($torrentspage || $forumpage || $no_columns==1)
         {
-            $tpl->set('RIGHT_COL', false, true);
-            $tpl->set('LEFT_COL', false, true);
-            $tpl->set('NO_HEADER', true, true);
-            $tpl->set('NO_FOOTER', true, true);
+            $tpl->set("RIGHT_COL", false, true);
+            $tpl->set("LEFT_COL", false, true);
+            $tpl->set("NO_HEADER", true, true);
+            $tpl->set("NO_FOOTER", true, true);
         }
         else
         {
-            $tpl->set('RIGHT_COL', false, true);
-            $tpl->set('LEFT_COL', false, true);
-            $tpl->set('NO_HEADER', false, true);
-            $tpl->set('NO_FOOTER', false, true);
+            $tpl->set("RIGHT_COL", false, true);
+            $tpl->set("LEFT_COL", false, true);
+            $tpl->set("NO_HEADER", false, true);
+            $tpl->set("NO_FOOTER", false, true);
         }
         echo $tpl->fetch(load_template('main.tpl'));
     }
     elseif($STYLETYPE==3)
     {
         // It's a style modified for Petr1fied's enhanced version of atmoner's system.
-        $tpl->set('TYPE1_EXCLUSIVE_1', false, true);
-        $tpl->set('TYPE1_EXCLUSIVE_2', false, true);
-        $tpl->set('TYPE1_EXCLUSIVE_3', false, true);
-        $tpl->set('TYPE1_EXCLUSIVE_4', false, true);
-        $tpl->set('TYPE1_EXCLUSIVE_5', false, true);
+        $tpl->set("TYPE1_EXCLUSIVE_1", false, true);
+        $tpl->set("TYPE1_EXCLUSIVE_2", false, true);
+        $tpl->set("TYPE1_EXCLUSIVE_3", false, true);
+        $tpl->set("TYPE1_EXCLUSIVE_4", false, true);
+        $tpl->set("TYPE1_EXCLUSIVE_5", false, true);
 
-        $tpl->set('TYPE2_EXCLUSIVE_1', false, true);
-        $tpl->set('TYPE2_EXCLUSIVE_2', false, true);
-        $tpl->set('TYPE2_EXCLUSIVE_3', false, true);
-        $tpl->set('TYPE2_EXCLUSIVE_4', false, true);
-        $tpl->set('TYPE2_EXCLUSIVE_5', false, true);
+        $tpl->set("TYPE2_EXCLUSIVE_1", false, true);
+        $tpl->set("TYPE2_EXCLUSIVE_2", false, true);
+        $tpl->set("TYPE2_EXCLUSIVE_3", false, true);
+        $tpl->set("TYPE2_EXCLUSIVE_4", false, true);
+        $tpl->set("TYPE2_EXCLUSIVE_5", false, true);
 
-        $tpl->set('TYPE3_EXCLUSIVE_1', false, true);
-        $tpl->set('TYPE3_EXCLUSIVE_2', false, true);
-        $tpl->set('TYPE3_EXCLUSIVE_3', false, true);
-        $tpl->set('TYPE3_EXCLUSIVE_4', false, true);
-        $tpl->set('TYPE3_EXCLUSIVE_5', false, true);
+        $tpl->set("TYPE3_EXCLUSIVE_1", false, true);
+        $tpl->set("TYPE3_EXCLUSIVE_2", false, true);
+        $tpl->set("TYPE3_EXCLUSIVE_3", false, true);
+        $tpl->set("TYPE3_EXCLUSIVE_4", false, true);
+        $tpl->set("TYPE3_EXCLUSIVE_5", false, true);
 
-        $tpl->set('TYPE4_EXCLUSIVE_1', false, true);
-        $tpl->set('TYPE4_EXCLUSIVE_2', false, true);
-        $tpl->set('TYPE4_EXCLUSIVE_3', false, true);
-        $tpl->set('TYPE4_EXCLUSIVE_4', false, true);
-        $tpl->set('TYPE4_EXCLUSIVE_5', false, true);
+        $tpl->set("TYPE4_EXCLUSIVE_1", false, true);
+        $tpl->set("TYPE4_EXCLUSIVE_2", false, true);
+        $tpl->set("TYPE4_EXCLUSIVE_3", false, true);
+        $tpl->set("TYPE4_EXCLUSIVE_4", false, true);
+        $tpl->set("TYPE4_EXCLUSIVE_5", false, true);
 
         if ($normalpage && !$no_columns)
         {
-            $tpl->set('HAS_LEFT_COL', true, true);
-       	    $tpl->set('HAS_RIGHT_COL', true, true);
-            $tpl->set('IS_DISPLAYED_1', true, true);
-            $tpl->set('IS_DISPLAYED_2', true, true);
-            $tpl->set('IS_DISPLAYED_3', true, true);
-            $tpl->set('IS_DISPLAYED_4', true, true);
-            $tpl->set('IS_DISPLAYED_5', true, true);
-            $tpl->set('TYPE1_EXCLUSIVE_1', true, true);
-            $tpl->set('TYPE1_EXCLUSIVE_2', true, true);
-            $tpl->set('TYPE1_EXCLUSIVE_3', true, true);
-            $tpl->set('TYPE1_EXCLUSIVE_4', true, true);
-            $tpl->set('TYPE1_EXCLUSIVE_5', true, true);
+            $tpl->set("HAS_LEFT_COL", true, true);
+       	    $tpl->set("HAS_RIGHT_COL", true, true);
+            $tpl->set("IS_DISPLAYED_1", true, true);
+            $tpl->set("IS_DISPLAYED_2", true, true);
+            $tpl->set("IS_DISPLAYED_3", true, true);
+            $tpl->set("IS_DISPLAYED_4", true, true);
+            $tpl->set("IS_DISPLAYED_5", true, true);
+            $tpl->set("TYPE1_EXCLUSIVE_1", true, true);
+            $tpl->set("TYPE1_EXCLUSIVE_2", true, true);
+            $tpl->set("TYPE1_EXCLUSIVE_3", true, true);
+            $tpl->set("TYPE1_EXCLUSIVE_4", true, true);
+            $tpl->set("TYPE1_EXCLUSIVE_5", true, true);
         }
         elseif ($adminpage)
         {
-            $tpl->set('HAS_LEFT_COL', true, true);
-            $tpl->set('HAS_RIGHT_COL', false, true);
-            $tpl->set('IS_DISPLAYED_1', true, true);
-            $tpl->set('IS_DISPLAYED_2', true, true);
-            $tpl->set('IS_DISPLAYED_3', true, true);
-            $tpl->set('IS_DISPLAYED_4', true, true);
-            $tpl->set('IS_DISPLAYED_5', true, true);
-            $tpl->set('TYPE2_EXCLUSIVE_1', true, true);
-            $tpl->set('TYPE2_EXCLUSIVE_2', true, true);
-            $tpl->set('TYPE2_EXCLUSIVE_3', true, true);
-            $tpl->set('TYPE2_EXCLUSIVE_4', true, true);
-            $tpl->set('TYPE2_EXCLUSIVE_5', true, true);
+            $tpl->set("HAS_LEFT_COL", true, true);
+            $tpl->set("HAS_RIGHT_COL", false, true);
+            $tpl->set("IS_DISPLAYED_1", true, true);
+            $tpl->set("IS_DISPLAYED_2", true, true);
+            $tpl->set("IS_DISPLAYED_3", true, true);
+            $tpl->set("IS_DISPLAYED_4", true, true);
+            $tpl->set("IS_DISPLAYED_5", true, true);
+            $tpl->set("TYPE2_EXCLUSIVE_1", true, true);
+            $tpl->set("TYPE2_EXCLUSIVE_2", true, true);
+            $tpl->set("TYPE2_EXCLUSIVE_3", true, true);
+            $tpl->set("TYPE2_EXCLUSIVE_4", true, true);
+            $tpl->set("TYPE2_EXCLUSIVE_5", true, true);
         }
         elseif ($torrentspage || $forumpage || $no_columns==1)
         {
-            $tpl->set('HAS_LEFT_COL', false, true);
-           	$tpl->set('HAS_RIGHT_COL', false, true);
-            $tpl->set('IS_DISPLAYED_1', true, true);
-            $tpl->set('IS_DISPLAYED_2', true, true);
-            $tpl->set('IS_DISPLAYED_3', true, true);
-            $tpl->set('IS_DISPLAYED_4', true, true);
-            $tpl->set('IS_DISPLAYED_5', true, true);
-            $tpl->set('IS_DISPLAYED_5', true, true);
-            $tpl->set('TYPE3_EXCLUSIVE_1', true, true);
-            $tpl->set('TYPE3_EXCLUSIVE_2', true, true);
-            $tpl->set('TYPE3_EXCLUSIVE_3', true, true);
-            $tpl->set('TYPE3_EXCLUSIVE_4', true, true);
-            $tpl->set('TYPE3_EXCLUSIVE_5', true, true);
+            $tpl->set("HAS_LEFT_COL", false, true);
+           	$tpl->set("HAS_RIGHT_COL", false, true);
+            $tpl->set("IS_DISPLAYED_1", true, true);
+            $tpl->set("IS_DISPLAYED_2", true, true);
+            $tpl->set("IS_DISPLAYED_3", true, true);
+            $tpl->set("IS_DISPLAYED_4", true, true);
+            $tpl->set("IS_DISPLAYED_5", true, true);
+            $tpl->set("IS_DISPLAYED_5", true, true);
+            $tpl->set("TYPE3_EXCLUSIVE_1", true, true);
+            $tpl->set("TYPE3_EXCLUSIVE_2", true, true);
+            $tpl->set("TYPE3_EXCLUSIVE_3", true, true);
+            $tpl->set("TYPE3_EXCLUSIVE_4", true, true);
+            $tpl->set("TYPE3_EXCLUSIVE_5", true, true);
         }
         else
         {
-            $tpl->set('HAS_LEFT_COL', false, true);
-       	    $tpl->set('HAS_RIGHT_COL', false, true);
-            $tpl->set('IS_DISPLAYED_1', false, true);
-            $tpl->set('IS_DISPLAYED_2', false, true);
-            $tpl->set('IS_DISPLAYED_3', false, true);
-            $tpl->set('IS_DISPLAYED_4', false, true);
-            $tpl->set('IS_DISPLAYED_5', false, true);
-            $tpl->set('IS_DISPLAYED_5', false, true);
-            $tpl->set('TYPE4_EXCLUSIVE_1', true, true);
-            $tpl->set('TYPE4_EXCLUSIVE_2', true, true);
-            $tpl->set('TYPE4_EXCLUSIVE_3', true, true);
-            $tpl->set('TYPE4_EXCLUSIVE_4', true, true);
-            $tpl->set('TYPE4_EXCLUSIVE_5', true, true);
+            $tpl->set("HAS_LEFT_COL", false, true);
+       	    $tpl->set("HAS_RIGHT_COL", false, true);
+            $tpl->set("IS_DISPLAYED_1", false, true);
+            $tpl->set("IS_DISPLAYED_2", false, true);
+            $tpl->set("IS_DISPLAYED_3", false, true);
+            $tpl->set("IS_DISPLAYED_4", false, true);
+            $tpl->set("IS_DISPLAYED_5", false, true);
+            $tpl->set("IS_DISPLAYED_5", false, true);
+            $tpl->set("TYPE4_EXCLUSIVE_1", true, true);
+            $tpl->set("TYPE4_EXCLUSIVE_2", true, true);
+            $tpl->set("TYPE4_EXCLUSIVE_3", true, true);
+            $tpl->set("TYPE4_EXCLUSIVE_4", true, true);
+            $tpl->set("TYPE4_EXCLUSIVE_5", true, true);
         }
        echo $tpl->fetch(load_template('main.tpl'));
         
@@ -1148,7 +1153,7 @@ function format_comment($text, $strip_html = true) {
   if ($strip_html)
     $text = htmlspecialchars($text);
   $text = unesc($text);
-  $f=@fopen('badwords.txt', 'rb');
+  $f=@fopen('badwords.txt','r');
   if ($f && filesize ('badwords.txt')!=0) {
     $bw=fread($f,filesize('badwords.txt'));
     $badwords=explode("\n",$bw);
@@ -1189,7 +1194,7 @@ function success_msg($heading='Success!',$string,$close=false) {
   global $language,$STYLEPATH, $tpl, $page, $STYLEURL;
 
   if(!isset($tpl) || empty($tpl))
-      die($heading. '<br />' .$string);
+      die($heading."<br />".$string);
 
   $suc_tpl=new bTemplate();
   $suc_tpl->set('success_title',$heading);
@@ -1202,7 +1207,7 @@ function err_msg($heading='Error!',$string,$close=false) {
   global $language,$STYLEPATH, $tpl, $page,$STYLEURL;
 
   if(!isset($tpl) || empty($tpl))
-      die($heading. '<br />' .$string);
+      die($heading."<br />".$string);
 
   // just in case not found the language
   if (!$language['BACK'])
@@ -1225,7 +1230,7 @@ function information_msg($heading='Error!',$string,$close=false) {
   global $language,$STYLEPATH, $tpl, $page,$STYLEURL;
 
   if(!isset($tpl) || empty($tpl))
-      die($heading. '<br />' .$string);
+      die($heading."<br />".$string);
 
   // just in case not found the language
   if (!$language['BACK'])
@@ -1297,7 +1302,7 @@ function get_block($block_title,$alignement,$block,$use_cache=true,$width100=tru
 
   if ($use_cache) {
     // write cache file
-    $fp=fopen($cache_file, 'wb');
+    $fp=fopen($cache_file,'w');
     fputs($fp,$block_content);
     fclose($fp);
   }
@@ -1518,7 +1523,7 @@ if ( !function_exists('htmlspecialchars_decode') ) {
   }
 }
 
-function check_upload($tmp_name= '', $name= '')
+function check_upload($tmp_name="", $name="")
 {
     global $btit_settings, $language, $CURUSER;
 
@@ -1531,53 +1536,53 @@ function check_upload($tmp_name= '', $name= '')
     5 = All good
     */
 
-    if($tmp_name== '')
+    if($tmp_name=="")
         return 1;
-    if($name== '')
+    if($name=="")
         return 2;
 
     if(file_exists($tmp_name))
     {
-        $handle = fopen($tmp_name, 'rb');
-        $haystack = ' ' . fread($handle, filesize($tmp_name));
+        $handle = fopen($tmp_name, "r");
+        $haystack = " " . fread($handle, filesize($tmp_name));
         fclose($handle);
 
-        $needles=((isset($btit_settings['secsui_quarantine_search_terms']) && !empty($btit_settings['secsui_quarantine_search_terms']))?explode(',', $btit_settings['secsui_quarantine_search_terms']):array());
+        $needles=((isset($btit_settings["secsui_quarantine_search_terms"]) && !empty($btit_settings["secsui_quarantine_search_terms"]))?explode(",", $btit_settings["secsui_quarantine_search_terms"]):array());
 
-        $found= 'no';
+        $found="no";
 
         if(is_array($needles) && !empty($needles))
         {
             foreach ($needles as $needle)
             {
-                if ($found== 'no' && strpos($haystack, $needle))
+                if ($found=="no" && strpos($haystack, $needle))
                 {
-                    $found= 'yes';
+                    $found="yes";
                 }
             }
         }
-        if($found== 'yes')
+        if($found=="yes")
         {
-            $quarantined_name= '';
-            if(is_dir($btit_settings['secsui_quarantine_dir']))
+            $quarantined_name="";
+            if(is_dir($btit_settings["secsui_quarantine_dir"]))
             {
-                if(is_writable($btit_settings['secsui_quarantine_dir']))
+                if(is_writable($btit_settings["secsui_quarantine_dir"]))
                 {
-                    $quarantined_name=$btit_settings['secsui_quarantine_dir']. '/hack_attempt_' .$CURUSER['uid']. '-' .time(). '-' .$name;
+                    $quarantined_name=$btit_settings["secsui_quarantine_dir"]."/hack_attempt_".$CURUSER["uid"]."-".time()."-".$name;
                     move_uploaded_file($tmp_name, $quarantined_name);
                 }
                 else
                 {
-                    send_pm(0,$btit_settings['secsui_quarantine_pm'], sqlesc($language['QUAR_ERR']),sqlesc($language['QUAR_DIR_PROBLEM_1']. ' ' .((!empty($btit_settings['secsui_quarantine_dir']))? '([b]' .$btit_settings['secsui_quarantine_dir']. '[/b]) ' : '').$language['QUAR_DIR_PROBLEM_3']));
+                    send_pm(0,$btit_settings["secsui_quarantine_pm"], sqlesc($language["QUAR_ERR"]),sqlesc($language["QUAR_DIR_PROBLEM_1"]." ".((!empty($btit_settings["secsui_quarantine_dir"]))?"([b]".$btit_settings["secsui_quarantine_dir"]."[/b]) ":"").$language["QUAR_DIR_PROBLEM_3"]));
                     @unlink($tmp_name);
                 }
             }
             else
             {
-                send_pm(0,$btit_settings['secsui_quarantine_pm'], sqlesc($language['QUAR_ERR']),sqlesc($language['QUAR_DIR_PROBLEM_1']. ' ' .((!empty($btit_settings['secsui_quarantine_dir']))? '([b]' .$btit_settings['secsui_quarantine_dir']. '[/b]) ' : '').$language['QUAR_DIR_PROBLEM_2']));
+                send_pm(0,$btit_settings["secsui_quarantine_pm"], sqlesc($language["QUAR_ERR"]),sqlesc($language["QUAR_DIR_PROBLEM_1"]." ".((!empty($btit_settings["secsui_quarantine_dir"]))?"([b]".$btit_settings["secsui_quarantine_dir"]."[/b]) ":"").$language["QUAR_DIR_PROBLEM_2"]));
                 @unlink($tmp_name);
             }
-            send_pm(0,$btit_settings['secsui_quarantine_pm'], sqlesc($language['QUAR_PM_SUBJ']), sqlesc('[url=' .$BASEURL. '/index.php?page=userdetails&id=' .$CURUSER['uid']. ']' .$CURUSER['username']. '[/url] ' .$language['QUAR_PM_MSG_1']. ':' ."\n\n[b]".((isset($quarantined_name) && !empty($quarantined_name))?$quarantined_name: '[color=red]' .$language['QUAR_UNABLE']. '[/color]')."[/b]\n\n".$language['QUAR_PM_MSG_2']. ' [b]' .getip()."[/b]\n\n". ':yikes:'));
+            send_pm(0,$btit_settings["secsui_quarantine_pm"], sqlesc($language["QUAR_PM_SUBJ"]), sqlesc("[url=".$BASEURL."/index.php?page=userdetails&id=".$CURUSER["uid"]."]".$CURUSER["username"]."[/url] ".$language["QUAR_PM_MSG_1"].":"."\n\n[b]".((isset($quarantined_name) && !empty($quarantined_name))?$quarantined_name:"[color=red]".$language["QUAR_UNABLE"]."[/color]")."[/b]\n\n".$language["QUAR_PM_MSG_2"]." [b]".getip()."[/b]\n\n".":yikes:"));
             return 4;
         }
         else
@@ -1594,35 +1599,35 @@ function hash_generate($row, $pwd, $user)
     $salt=pass_the_salt(20);
     $passtype=array();
     // Type 1 - Used in btit / xbtit / Torrent Trader / phpMyBitTorrent
-    $passtype[1]['hash']=md5($pwd);
-    $passtype[1]['rehash']=md5($pwd);
-    $passtype[1]['salt']= '';
-    $passtype[1]['dupehash']=substr(sha1(md5($pwd)),30,10).substr(sha1(md5($pwd)),0,10);
+    $passtype[1]["hash"]=md5($pwd);
+    $passtype[1]["rehash"]=md5($pwd);
+    $passtype[1]["salt"]="";
+    $passtype[1]["dupehash"]=substr(sha1(md5($pwd)),30,10).substr(sha1(md5($pwd)),0,10);
     // Type 2 - Used in TBDev / U-232 / SZ Edition / Invision Power Board
-    $passtype[2]['hash']=md5(md5($row['salt']).md5($pwd));
-    $passtype[2]['rehash']=md5(md5($salt).md5($pwd));
-    $passtype[2]['salt']=$salt;
-    $passtype[2]['dupehash']=substr(sha1(md5($pwd)),30,10).substr(sha1(md5($pwd)),0,10);
+    $passtype[2]["hash"]=md5(md5($row["salt"]).md5($pwd));
+    $passtype[2]["rehash"]=md5(md5($salt).md5($pwd));
+    $passtype[2]["salt"]=$salt;
+    $passtype[2]["dupehash"]=substr(sha1(md5($pwd)),30,10).substr(sha1(md5($pwd)),0,10);
     // Type 3 - Used in Free Torrent Source /  Yuna Scatari / TorrentStrike / TSSE
-    $passtype[3]['hash']=md5($row['salt'].$pwd.$row['salt']);
-    $passtype[3]['rehash']=md5($salt.$pwd.$salt);
-    $passtype[3]['salt']=$salt;
-    $passtype[3]['dupehash']=substr(sha1(md5($pwd)),30,10).substr(sha1(md5($pwd)),0,10);
+    $passtype[3]["hash"]=md5($row["salt"].$pwd.$row["salt"]);
+    $passtype[3]["rehash"]=md5($salt.$pwd.$salt);
+    $passtype[3]["salt"]=$salt;
+    $passtype[3]["dupehash"]=substr(sha1(md5($pwd)),30,10).substr(sha1(md5($pwd)),0,10);
     // Type 4 - Used in Gazelle
-    $passtype[4]['hash']=sha1(md5($row['salt']).$pwd.sha1($row['salt']).$btit_settings['secsui_ss']);
-    $passtype[4]['rehash']=sha1(md5($salt).$pwd.sha1($salt).$btit_settings['secsui_ss']);
-    $passtype[4]['salt']=$salt;
-    $passtype[4]['dupehash']=substr(sha1(md5($pwd)),30,10).substr(sha1(md5($pwd)),0,10);
+    $passtype[4]["hash"]=sha1(md5($row["salt"]).$pwd.sha1($row["salt"]).$btit_settings["secsui_ss"]);
+    $passtype[4]["rehash"]=sha1(md5($salt).$pwd.sha1($salt).$btit_settings["secsui_ss"]);
+    $passtype[4]["salt"]=$salt;
+    $passtype[4]["dupehash"]=substr(sha1(md5($pwd)),30,10).substr(sha1(md5($pwd)),0,10);
     // Type 5 - Used in Simple Machines Forum
-    $passtype[5]['hash']=sha1(strtolower($user).$pwd);
-    $passtype[5]['rehash']=sha1(strtolower($user).$pwd);
-    $passtype[5]['salt']= '';
-    $passtype[5]['dupehash']=substr(sha1(md5($pwd)),30,10).substr(sha1(md5($pwd)),0,10);
+    $passtype[5]["hash"]=sha1(strtolower($user).$pwd);
+    $passtype[5]["rehash"]=sha1(strtolower($user).$pwd);
+    $passtype[5]["salt"]="";
+    $passtype[5]["dupehash"]=substr(sha1(md5($pwd)),30,10).substr(sha1(md5($pwd)),0,10);
     // Type 6 - New xbtit hashing style
-    $passtype[6]['hash']=sha1(substr(md5($pwd),0,16). '-' .md5($row['salt']). '-' .substr(md5($pwd),16,16));
-    $passtype[6]['rehash']=sha1(substr(md5($pwd),0,16). '-' .md5($salt). '-' .substr(md5($pwd),16,16));
-    $passtype[6]['salt']=$salt;
-    $passtype[6]['dupehash']=substr(sha1(md5($pwd)),30,10).substr(sha1(md5($pwd)),0,10);
+    $passtype[6]["hash"]=sha1(substr(md5($pwd),0,16)."-".md5($row["salt"])."-".substr(md5($pwd),16,16));
+    $passtype[6]["rehash"]=sha1(substr(md5($pwd),0,16)."-".md5($salt)."-".substr(md5($pwd),16,16));
+    $passtype[6]["salt"]=$salt;
+    $passtype[6]["dupehash"]=substr(sha1(md5($pwd)),30,10).substr(sha1(md5($pwd)),0,10);
 
     return $passtype;
 }
@@ -1651,7 +1656,7 @@ function ipb_passgen($pwd)
     global $THIS_BASEPATH;
 
     if(!isset($THIS_BASEPATH) || empty($THIS_BASEPATH))
-        $THIS_BASEPATH=str_replace(array("\\", '/include'), array('/', ''), __DIR__);
+        $THIS_BASEPATH=str_replace(array("\\", "/include"), array("/", ""), __DIR__);
     if(!defined('IPS_ENFORCE_ACCESS'))
         define('IPS_ENFORCE_ACCESS', true);
     if(!defined('IPB_THIS_SCRIPT'))
@@ -1681,7 +1686,7 @@ function set_ipb_cookie($ipb_fid=0)
     global $THIS_BASEPATH, $registry;
 
     if(!isset($THIS_BASEPATH) || empty($THIS_BASEPATH))
-        $THIS_BASEPATH=str_replace(array("\\", '/include'), array('/', ''), __DIR__);
+        $THIS_BASEPATH=str_replace(array("\\", "/include"), array("/", ""), __DIR__);
     if(!defined('IPS_ENFORCE_ACCESS'))
         define('IPS_ENFORCE_ACCESS', true);
     if(!defined('IPB_THIS_SCRIPT'))
@@ -1707,9 +1712,9 @@ function set_ipb_cookie($ipb_fid=0)
 
 function kill_ipb_cookie()
 {
-    setcookie('session_id', '', -3600, '/');
-    setcookie('member_id', '', -3600, '/');
-    setcookie('pass_hash', '', -3600, '/');
+    setcookie('session_id', "", -3600, '/');
+    setcookie('member_id', "", -3600, '/');
+    setcookie('pass_hash', "", -3600, '/');
 }
 
 function ipb_create($username, $email, $password, $id_level, $newuid)
@@ -1717,7 +1722,7 @@ function ipb_create($username, $email, $password, $id_level, $newuid)
     global $THIS_BASEPATH, $TABLE_PREFIX, $registry;
 
     if(!isset($THIS_BASEPATH) || empty($THIS_BASEPATH))
-        $THIS_BASEPATH=str_replace(array("\\", '/include'), array('/', ''), __DIR__);
+        $THIS_BASEPATH=str_replace(array("\\", "/include"), array("/", ""), __DIR__);
     if(!defined('IPS_ENFORCE_ACCESS'))
         define('IPS_ENFORCE_ACCESS', true);
     if(!defined('IPB_THIS_SCRIPT'))
@@ -1731,9 +1736,9 @@ function ipb_create($username, $email, $password, $id_level, $newuid)
         $registry = ipsRegistry::instance(); 
         $registry->init();
     }
-    $member_info = IPSMember::create(array('members' =>array('name' => "$username", 'members_display_name' => "$username", 'email' => "$email", 'password' => "$password", 'member_group_id' => "$id_level", 'allow_admin_mails' => '1', 'members_created_remote' => '1')));
-    $ipb_fid=$member_info['member_id'];
-    do_sqlquery("UPDATE `{$TABLE_PREFIX}users` SET `ipb_fid`=".$ipb_fid. ' WHERE `id`=' .$newuid);
+    $member_info = IPSMember::create(array("members"=>array("name" => "$username", "members_display_name" => "$username", "email" => "$email", "password" => "$password", "member_group_id" => "$id_level", "allow_admin_mails" => "1", "members_created_remote" => "1")));
+    $ipb_fid=$member_info["member_id"];
+    do_sqlquery("UPDATE `{$TABLE_PREFIX}users` SET `ipb_fid`=".$ipb_fid." WHERE `id`=".$newuid);
 }
 
 function ipb_send_pm($ipb_sender=0, $ipb_recepient, $ipb_subject, $ipb_msg, $system=false)
@@ -1743,18 +1748,18 @@ function ipb_send_pm($ipb_sender=0, $ipb_recepient, $ipb_subject, $ipb_msg, $sys
     if($ipb_sender==0)
     {
         $system=true;
-        if(isset($btit_settings['ipb_autoposter']) && $btit_settings['ipb_autoposter']!=0)
-            $ipb_sender=(int)(0+$btit_settings['ipb_autoposter']);
+        if(isset($btit_settings["ipb_autoposter"]) && $btit_settings["ipb_autoposter"]!=0)
+            $ipb_sender=(int)(0+$btit_settings["ipb_autoposter"]);
         else
             return false;
         $get=get_result("SELECT `ipb_fid` `recipient` FROM `{$TABLE_PREFIX}users` WHERE `id`=".$ipb_recepient);
     }
     else
     {
-        $get=get_result("SELECT (SELECT `ipb_fid` FROM `{$TABLE_PREFIX}users` WHERE `id`=".$ipb_sender.") `sender`, (SELECT `ipb_fid` FROM `{$TABLE_PREFIX}users` WHERE `id`=".$ipb_recepient. ') `recipient`');
-        $ipb_sender=(int)(0+$get[0]['sender']);
+        $get=get_result("SELECT (SELECT `ipb_fid` FROM `{$TABLE_PREFIX}users` WHERE `id`=".$ipb_sender.") `sender`, (SELECT `ipb_fid` FROM `{$TABLE_PREFIX}users` WHERE `id`=".$ipb_recepient.") `recipient`");
+        $ipb_sender=(int)(0+$get[0]["sender"]);
     }
-    $ipb_recepient=(int)(0+$get[0]['recipient']);
+    $ipb_recepient=(int)(0+$get[0]["recipient"]);
     
     if($ipb_sender==0 || $ipb_recepient==0 || $ipb_sender==$ipb_recipient)
     {
@@ -1763,7 +1768,7 @@ function ipb_send_pm($ipb_sender=0, $ipb_recepient, $ipb_subject, $ipb_msg, $sys
     }
 
     if(!isset($THIS_BASEPATH) || empty($THIS_BASEPATH))
-        $THIS_BASEPATH=str_replace(array("\\", '/include'), array('/', ''), __DIR__);
+        $THIS_BASEPATH=str_replace(array("\\", "/include"), array("/", ""), __DIR__);
     if(!defined('IPS_ENFORCE_ACCESS'))
         define('IPS_ENFORCE_ACCESS', true);
     if(!defined('IPB_THIS_SCRIPT'))
@@ -1782,7 +1787,7 @@ function ipb_send_pm($ipb_sender=0, $ipb_recepient, $ipb_subject, $ipb_msg, $sys
     $clean_post=trim($ipb_msg,"'");
     $classMessage = new messengerFunctions($registry);
     // Reciever, Sender, array of other users to invite (Display Name), Subject, Message, Is system message
-    $classMessage->sendNewPersonalTopic($ipb_recepient, $ipb_sender, array(), $clean_subj, $clean_post, (($system===true)?array('isSystem' => true, 'forcePm' => 1):array('forcePm' => 1)));
+    $classMessage->sendNewPersonalTopic($ipb_recepient, $ipb_sender, array(), $clean_subj, $clean_post, (($system===true)?array("isSystem" => true, "forcePm" => 1):array("forcePm" => 1)));
 
 }
 
@@ -1792,14 +1797,14 @@ function ipb_make_post($forum_id, $forum_subj, $forum_post, $poster_id=0, $updat
 
     if($poster_id==0)
     {
-        if(isset($btit_settings['ipb_autoposter']) && $btit_settings['ipb_autoposter']!=0)
-            $poster_id=(int)(0+$btit_settings['ipb_autoposter']);
+        if(isset($btit_settings["ipb_autoposter"]) && $btit_settings["ipb_autoposter"]!=0)
+            $poster_id=(int)(0+$btit_settings["ipb_autoposter"]);
         else
             return;
     }
 
     if(!isset($THIS_BASEPATH) || empty($THIS_BASEPATH))
-        $THIS_BASEPATH=str_replace(array("\\", '/include'), array('/', ''), __DIR__);
+        $THIS_BASEPATH=str_replace(array("\\", "/include"), array("/", ""), __DIR__);
     if(!defined('IPS_ENFORCE_ACCESS'))
         define('IPS_ENFORCE_ACCESS', true);
     if(!defined('IPB_THIS_SCRIPT'))
@@ -1835,7 +1840,7 @@ function ipb_make_post($forum_id, $forum_subj, $forum_post, $poster_id=0, $updat
     if($mycount>0)
     {
         $topic=$res[0];
-        $topicID = $topic['tid'];
+        $topicID = $topic["tid"];
         $classPost->setTopicID($topicID);
         $classPost->setTopicData($topic);
         $classPost->addReply();
@@ -1843,7 +1848,7 @@ function ipb_make_post($forum_id, $forum_subj, $forum_post, $poster_id=0, $updat
     else
     {
         $topic=get_result("SELECT MAX(`tid`)+1 `tid` FROM `{$ipb_prefix}topics`");
-        $topicID = $topic[0]['tid'];
+        $topicID = $topic[0]["tid"];
         $classPost->setTopicID($topicID);
         $classPost->setTopicTitle($clean_subj);
         $classPost->addTopic();

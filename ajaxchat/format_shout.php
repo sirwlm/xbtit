@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2015  DPWS Media LTD
+// Copyright (C) 2004 - 2015  Btiteam
 //
 //    This file is part of xbtit.
 //
@@ -43,11 +43,11 @@ function format_shout($text, $strip_html = true) {
     $s = unesc($s);
 
     # for main shout window
-    $f = @fopen('../badwords.txt', 'rb');
+    $f = @fopen("../badwords.txt","r");
     
-    if ($f && filesize('../badwords.txt') != 0) {
+    if ($f && filesize("../badwords.txt") != 0) {
     
-       $bw = fread($f, filesize('../badwords.txt'));
+       $bw = fread($f, filesize("../badwords.txt"));
        $badwords = explode("\n",$bw);
        
        for ($i=0; $i<count($badwords); ++$i)
@@ -57,11 +57,11 @@ function format_shout($text, $strip_html = true) {
     @fclose($f);
     
     # for shout history window
-    $f = @fopen('badwords.txt', 'rb');
+    $f = @fopen("badwords.txt","r");
     
-    if ($f && filesize('badwords.txt') != 0) {
+    if ($f && filesize("badwords.txt") != 0) {
     
-       $bw = fread($f, filesize('badwords.txt'));
+       $bw = fread($f, filesize("badwords.txt"));
        $badwords = explode("\n",$bw);
        
        for ($i=0; $i<count($badwords); ++$i)
@@ -126,7 +126,7 @@ function format_shout($text, $strip_html = true) {
     $s = nl2br($s);
 
     // Maintain spacing
-    $s = str_replace('  ', ' &nbsp;', $s);
+    $s = str_replace("  ", " &nbsp;", $s);
 
     reset($smilies);
     while (list($code, $url) = each($smilies))

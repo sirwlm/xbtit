@@ -74,8 +74,8 @@ $language['SETTING_FORUMBLOCK']='Forum block type';
 $language['SETTING_NUM_NEWS']='Grænse for Latest news block (numerisk)';
 $language['SETTING_NUM_POSTS']='Grænse for Forum block (numerisk)';
 $language['SETTING_NUM_LASTTORRENTS']='Grænse for Sidste torrents block (numerisk)';
-$language['SETTING_NUM_TOPTORRENTS']='Grænse for Mest populære torrents block (numerisk)';$language['Custom_foot']= 'Egen footer line (blank for ikke at vise):';
-	  $language['ADMIN_INFO']= 'Administration af:';
+$language['SETTING_NUM_TOPTORRENTS']='Grænse for Mest populære torrents block (numerisk)';$language["Custom_foot"]="Egen footer line (blank for ikke at vise):";
+	  $language["ADMIN_INFO"]="Administration af:";
 
 $language['CLOCK_ANALOG']='Analog';
 $language['CLOCK_DIGITAL']='Digital';
@@ -298,9 +298,9 @@ $language['MHI_COPY'] = 'Kopier';
 $language['MHI_AS'] = 'Som';
 
 
-$language['ACP_ADD_USER']='Tilføj ny bruger';
-$language['NEW_USER_EMAIL']='Send en email til den nye bruger med kodeord';
-$language['NEW_USER_EMAIL_TEXT']='
+$language["ACP_ADD_USER"]='Tilføj ny bruger';
+$language["NEW_USER_EMAIL"]='Send en email til den nye bruger med kodeord';
+$language["NEW_USER_EMAIL_TEXT"]='
 Hej %s,
 
 Du er lige blevet tilføjet på %s,
@@ -314,11 +314,11 @@ Med venlig hilsen
 
       
 
-$language['IMAGE_SETTING']= 'Billed indstilling';
-$language['ALLOW_IMAGE_UPLOAD']= 'Tillad billed upload';
-$language['ALLOW_SCREEN_UPLOAD']= 'Tillad screens upload';
-$language['IMAGE_UPLOAD_DIR']= 'Billed upload bibliotek';
-$language['FILE_SIZELIMIT']= 'Max billed størrelse';
+$language["IMAGE_SETTING"]="Billed indstilling";
+$language["ALLOW_IMAGE_UPLOAD"]="Tillad billed upload";
+$language["ALLOW_SCREEN_UPLOAD"]="Tillad screens upload";
+$language["IMAGE_UPLOAD_DIR"]="Billed upload bibliotek";
+$language["FILE_SIZELIMIT"]="Max billed størrelse";
 
 //INVITATION SYSTEM
 $language['ACP_INVITATION_SYSTEM']='Invitations system';
@@ -346,8 +346,8 @@ $language['SENDINV_EXPL']='Hvis brugernavn ikke indtastes, vil rank blive valgt 
 $language['RECYCLE_DATE']='Slette periode';
 $language['RECYCLE_EXPL']='<i>Periode i <u>dage</u> hvorefter inviationer vil blive slettet</i>';
         
-$language['SETTING_MIN_DLRATIO']= 'Minimum ratio for at kunne downloade torrents';
-$language['SETTING_CUSTOM_SETTINGS']= 'Custom indstilinger';
-$language['BYPASS_DLCHECK']= 'Bypass download check';
+$language["SETTING_MIN_DLRATIO"]="Minimum ratio for at kunne downloade torrents";
+$language["SETTING_CUSTOM_SETTINGS"]="Custom indstilinger";
+$language["BYPASS_DLCHECK"]="Bypass download check";
 
 ?>

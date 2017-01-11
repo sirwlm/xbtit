@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2016  DPWS Media LTD
+// Copyright (C) 2004 - 2016  Btiteam
 //
 //    This file is part of xbtit.
 //
@@ -31,7 +31,7 @@
 ////////////////////////////////////////////////////////////////////////////////////
 
 
-define('IN_BTIT',true);
+define("IN_BTIT",true);
 
 
 $THIS_BASEPATH=__DIR__;
@@ -42,7 +42,7 @@ dbconn();
 
 
 // get user's style
-$resheet=get_result("SELECT * FROM {$TABLE_PREFIX}style where id=".$CURUSER['style']. '',true,$btit_settings['cache_duration']);
+$resheet=get_result("SELECT * FROM {$TABLE_PREFIX}style where id=".$CURUSER["style"]."",true,$btit_settings['cache_duration']);
 if (!$resheet)
    {
 
@@ -53,17 +53,17 @@ if (!$resheet)
 else
     {
         $resstyle=$resheet[0];
-        $STYLEPATH="$THIS_BASEPATH/".$resstyle['style_url'];
-        $style="$BASEURL/".$resstyle['style_url']. '/main.css';
-        $STYLEURL="$BASEURL/".$resstyle['style_url'];
+        $STYLEPATH="$THIS_BASEPATH/".$resstyle["style_url"];
+        $style="$BASEURL/".$resstyle["style_url"]."/main.css";
+        $STYLEURL="$BASEURL/".$resstyle["style_url"];
     }
 
 
-$idlang=((int)$_GET['language']);
+$idlang=((int)$_GET["language"]);
 
 // getting user language
 if ($idlang==0)
-   $reslang=get_result("SELECT * FROM {$TABLE_PREFIX}language WHERE id=".$CURUSER['language'],true,$btit_settings['cache_duration']);
+   $reslang=get_result("SELECT * FROM {$TABLE_PREFIX}language WHERE id=".$CURUSER["language"],true,$btit_settings['cache_duration']);
 else
    $reslang=get_result("SELECT * FROM {$TABLE_PREFIX}language WHERE id=$idlang",true,$btit_settings['cache_duration']);
 
@@ -74,7 +74,7 @@ if (!$reslang)
 else
     {
         $rlang=$reslang[0];
-        $USERLANG="$THIS_BASEPATH/".$rlang['language_url'];
+        $USERLANG="$THIS_BASEPATH/".$rlang["language_url"];
     }
 
 if (!file_exists($USERLANG))
@@ -83,35 +83,35 @@ if (!file_exists($USERLANG))
 }
 
 
-require_once(load_language('lang_main.php'));
+require_once(load_language("lang_main.php"));
 
-if (!empty($language['charset']))
-   $GLOBALS['charset']=$language['charset'];
+if (!empty($language["charset"]))
+   $GLOBALS["charset"]=$language["charset"];
 
 if (isset($_GET['action']) && $_GET['action'])
             $action=$_GET['action'];
-else $action = '';
+else $action = '';;
 
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<?php echo (!empty($language['rtl'])?"<html dir=\"".$language['rtl']."\">\n":"<html>\n"); ?>
+<?php echo (!empty($language["rtl"])?"<html dir=\"".$language["rtl"]."\">\n":"<html>\n"); ?>
   <head>
   <title>Search User</title>
-  <meta http-equiv="content-type" content="text/html; charset=<?php echo $GLOBALS['charset'] ?>/>" />
+  <meta http-equiv="content-type" content="text/html; charset=<?php echo $GLOBALS["charset"] ?>/>" />
   <link rel="stylesheet" href="<?php echo $style; ?>" type="text/css" />
   </head>
   <body>
 <?php
 
-if ($action!= 'find')
+if ($action!="find")
    {
 ?>
 <form action="searchusers.php?action=find" name="users" method="post">
 <div align="center">
   <table class="lista">
   <tr>
-     <td class="header"><?php echo $language['USER_NAME'];?>:</td>
+     <td class="header"><?php echo $language["USER_NAME"];?>:</td>
      <td class="lista"><input type="text" name="user" size="40" maxlength="40" /></td>
      <td class="lista"><input type="submit" name="confirm" value="Search" /></td>
   </tr>
@@ -122,11 +122,11 @@ if ($action!= 'find')
 }
 else
 {
-$res=get_result("SELECT username FROM {$TABLE_PREFIX}users WHERE id>1 AND username LIKE '%".mysqli_query($GLOBALS['conn'],$_POST['user'])."%' ORDER BY username",true,$btit_settings['cache_duration']);
+$res=get_result("SELECT username FROM {$TABLE_PREFIX}users WHERE id>1 AND username LIKE '%".mysqli_query($GLOBALS['conn'],$_POST["user"])."%' ORDER BY username",true,$btit_settings['cache_duration']);
   if (!$res or count($res)==0)
      {
-         print('<center>' .$language['NO_USERS_FOUND']. '!<br />');
-         print('<a href=searchusers.php>' .$language['RETRY']. '</a></center>');
+         print("<center>".$language["NO_USERS_FOUND"]."!<br />");
+         print("<a href=searchusers.php>".$language["RETRY"]."</a></center>");
      }
   else {
 ?>
@@ -142,14 +142,14 @@ function SendIT(){
   <form action="searchusers.php?action=find" name="result" method="post">
   <table class="lista">
   <tr>
-     <td class="header"><?php print($language['USER_NAME']);?>:</td>
+     <td class="header"><?php print($language["USER_NAME"]);?>:</td>
 <?php
      print("\n<td class=\"lista\">
      <select name=\"name\" size=\"1\">");
      foreach($res as $id=>$result)
-         print("\n<option value=\"".$result['username']."\">".$result['username']. '</option>');
+         print("\n<option value=\"".$result["username"]."\">".$result["username"]."</option>");
      print("\n</select>\n</td>");
-     print("\n<td class=\"lista\"><input type=\"button\" name=\"confirm\" onclick=\"javascript:SendIT();\" value=\"".$language['FRM_CONFIRM']."\" /></td>");
+     print("\n<td class=\"lista\"><input type=\"button\" name=\"confirm\" onclick=\"javascript:SendIT();\" value=\"".$language["FRM_CONFIRM"]."\" /></td>");
 ?>
   </tr>
   </table>
@@ -158,6 +158,6 @@ function SendIT(){
 <?php
    }
 }
-print("\n<br />\n<div align=\"center\"><a href=\"javascript: window.close()\">".$language['CLOSE']. '</a></div>');
+print("\n<br />\n<div align=\"center\"><a href=\"javascript: window.close()\">".$language["CLOSE"]."</a></div>");
 print("</body>\n</html>\n");
 ?>

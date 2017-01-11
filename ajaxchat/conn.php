@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2016  DPWS Media LTD
+// Copyright (C) 2004 - 2016  Btiteam
 //
 //    This file is part of xbtit.
 //
@@ -33,25 +33,25 @@
 # establishes a connection to a mySQL Database accroding to the details specified in settings.php
 function getDBConnection () {
 
-    $dir=explode('/',str_replace("\\", '/', __DIR__));
+    $dir=explode("/",str_replace("\\", "/", __DIR__));
     unset($dir[(count($dir)-1)]);
-    $INC_PATH=implode('/',$dir). '/include';
+    $INC_PATH=implode("/",$dir)."/include";
 
-    include($INC_PATH. '/settings.php'); # contains the given DB setup $database, $dbhost, $dbuser, $dbpass
+    include($INC_PATH."/settings.php"); # contains the given DB setup $database, $dbhost, $dbuser, $dbpass
     //include($INC_PATH."/config.php");
     
     $conn = ($GLOBALS['conn'] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
     if (!$conn) {
-            echo 'Connection to DB was not possible!';
+            echo "Connection to DB was not possible!";
             end;
         }
         if (!((bool)mysqli_query( $conn, "USE $database"))) {
-            echo 'No DB with that name seems to exist on the server!';
+            echo "No DB with that name seems to exist on the server!";
             end;
         }
         
-        if($GLOBALS['charset']== 'UTF-8')
-            mysqli_query($GLOBALS['conn'], 'SET NAMES utf8');
+        if($GLOBALS["charset"]=="UTF-8")
+            mysqli_query($GLOBALS['conn'], "SET NAMES utf8");
         
         return $conn;
 }
@@ -59,23 +59,23 @@ function getDBConnection () {
 # establishes a connection to a mySQL Database accroding to the details specified in settings.php
 function his_getDBConnection () {
 
-    $dir=explode('/',str_replace("\\", '/', __DIR__));
+    $dir=explode("/",str_replace("\\", "/", __DIR__));
     unset($dir[(count($dir)-1)]);
-    $INC_PATH=implode('/',$dir). '/include';
+    $INC_PATH=implode("/",$dir)."/include";
 
-    include($INC_PATH. '/settings.php'); # contains the given DB setup $database, $dbhost, $dbuser, $dbpass
+    include($INC_PATH."/settings.php"); # contains the given DB setup $database, $dbhost, $dbuser, $dbpass
     //include($INC_PATH."/config.php");
     $conn = ($GLOBALS['conn'] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
     if (!$conn) {
-            echo 'Connection to DB was not possible!';
+            echo "Connection to DB was not possible!";
             end;
         }
         if (!((bool)mysqli_query( $conn, "USE $database"))) {
-            echo 'No DB with that name seems to exist at the server!';
+            echo "No DB with that name seems to exist at the server!";
             end;
         }
-        if($GLOBALS['charset']== 'UTF-8')
-            mysqli_query($GLOBALS['conn'], 'SET NAMES utf8');
+        if($GLOBALS["charset"]=="UTF-8")
+            mysqli_query($GLOBALS['conn'], "SET NAMES utf8");
             
         return $conn;
 }

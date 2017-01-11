@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2016  DPWS Media LTD
+// Copyright (C) 2004 - 2016  Btiteam
 //
 //    This file is part of xbtit.
 //
@@ -50,23 +50,23 @@ $name = $n; # name from the form
 $text = $c; # comment from the form
 $uid = (int)$u;  # userid from the form
 
-include('../include/settings.php');
-include('../include/common.php');
-require('../include/crk_protection.php');//xss fix
+include("../include/settings.php");
+include("../include/common.php");
+require("../include/crk_protection.php");//xss fix
 ((bool)mysqli_query( ($GLOBALS['conn'] = mysqli_connect($dbhost, $dbuser, $dbpass)), "USE $database"));
 
 $secsui_res=mysqli_query($GLOBALS['conn'], "SELECT * FROM `{$TABLE_PREFIX}settings`");
 while($secsui_arr=mysqli_fetch_assoc($secsui_res))
 {
-    $btit_settings[$secsui_arr['key']]=$secsui_arr['value'];
+    $btit_settings[$secsui_arr["key"]]=$secsui_arr["value"];
 }
 
 $cookie=test_my_cookie();
 
-if($cookie['is_valid']===false || $cookie['id']==1)
+if($cookie["is_valid"]===false || $cookie["id"]==1)
     die;
 
-if($cookie['id']!=$uid)
+if($cookie["id"]!=$uid)
 {
     // select first owner (default id_level=8) from users table
     $ra=mysqli_fetch_assoc(mysqli_query($GLOBALS['conn'], "SELECT `id` FROM `{$TABLE_PREFIX}users` WHERE `id_level`=8 ORDER BY `id` LIMIT 1"));
@@ -75,17 +75,17 @@ if($cookie['id']!=$uid)
     $ip=getip();
     $name="Hacker [$ip]";
     $uid=1;
-    $text= '[color=red][b]I am a hacker who deserves to be banned![/b][/color] :axe:';
+    $text="[color=red][b]I am a hacker who deserves to be banned![/b][/color] :axe:";
     $res=mysqli_query($GLOBALS['conn'], "SELECT `id`, `username` FROM `{$TABLE_PREFIX}users` WHERE `cip`='$ip' ORDER BY `id` ASC");
     if(@mysqli_num_rows($res)>0)
     {
-        $subject= 'Shoutbox hack attempt!';
+        $subject="Shoutbox hack attempt!";
         $msg="Someone with the IP Address $ip hacked the shoutbox on ".date('l jS F Y \a\\t g:ia', time()).", here is a list of potential members to check:\n\n";
         while($row=mysqli_fetch_assoc($res))
         {
-            $msg.="[url=$BASEURL/index.php?page=userdetails&id=".$row['id']. ']' .$row['username']."[/url]\n";
+            $msg.="[url=$BASEURL/index.php?page=userdetails&id=".$row["id"]."]".$row["username"]."[/url]\n";
         }
-        $FORUMLINK=$btit_settings['forum'];
+        $FORUMLINK=$btit_settings["forum"];
         send_pm(0,$admin_pm_id,sqlesc($subject),sqlesc($msg));
     }
 }
@@ -95,9 +95,9 @@ $name = str_replace("\'","'",$name);
 $name = str_replace("'","\'",$name);
 $text = str_replace("\'","'",$text);
 $text = str_replace("'","\'",$text);
-$text = str_replace('---', ' - - ',$text);
+$text = str_replace("---"," - - ",$text);
 
-$name = str_replace('---', ' - - ',$name);
+$name = str_replace("---"," - - ",$name);
 
 # the message is cut of after 500 letters
 if (strlen($text) > 500) { $text = substr($text,0,500); }
@@ -113,7 +113,7 @@ if (strlen($name) > 30) {
 }
 */
 
-require_once('conn.php');
+require_once("conn.php");
 
 # only if a name and a message have been provided the information is added to the db
 if ($name != '' && $text != '' && $uid !='') {
@@ -124,11 +124,11 @@ if ($name != '' && $text != '' && $uid !='') {
 # adds new data to the database
 function addData($name,$text,$uid) 
 {
-    include('../include/settings.php');   # getting table prefix
+    include("../include/settings.php");   # getting table prefix
     $now = time();
     $sql = "INSERT INTO {$TABLE_PREFIX}chat (time,name,text,uid) VALUES ('".$now."','".$name."','".$text."','".$uid."')";
     $conn = getDBConnection();
-    if($GLOBALS['charset']== 'UTF-8' && function_exists('mysql_set_charset'))
+    if($GLOBALS['charset']=="UTF-8" && function_exists('mysql_set_charset'))
         mysql_set_charset('utf8',$conn);
 
     $results = mysqli_query( $conn, $sql);
@@ -141,9 +141,9 @@ function addData($name,$text,$uid)
 
 # returns the id of a message at a certain position
 function getID($position) {
-  include('../include/settings.php');   # getting table prefix
+  include("../include/settings.php");   # getting table prefix
   
-    $sql =  "SELECT * FROM {$TABLE_PREFIX}chat ORDER BY id DESC LIMIT ".$position. ',1';
+    $sql =  "SELECT * FROM {$TABLE_PREFIX}chat ORDER BY id DESC LIMIT ".$position.",1";
     $conn = getDBConnection(); 
     $results = mysqli_query( $conn, $sql);
     if (!$results || empty($results)) {
@@ -160,7 +160,7 @@ function getID($position) {
 
 # deletes all message prior to a certain id
 function deleteEntries($id) {
-  include('../include/settings.php');   # getting table prefix
+  include("../include/settings.php");   # getting table prefix
   
     $sql =  "DELETE FROM {$TABLE_PREFIX}chat WHERE id < ".$id;
     $conn = getDBConnection();

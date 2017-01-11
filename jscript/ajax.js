@@ -1,5 +1,5 @@
 /* Simple AJAX Code-Kit (SACK) v1.6.1 */
-/* ï¿½2005 Gregory Wild-Smith */
+/* ©2005 Gregory Wild-Smith */
 /* www.twilightuniverse.com */
 /* Software licenced under a modified X11 licence,
    see documentation or authors website for more details */
@@ -65,7 +65,7 @@ function sack(file) {
     } else {
       this.vars[encodeURIComponent(name)] = Array(encodeURIComponent(value), true);
     }
-  };
+  }
 
   this.processURLString = function(string, encode) {
     encoded = encodeURIComponent(this.argumentSeparator);
@@ -79,7 +79,7 @@ function sack(file) {
         this.setVar(urlVars[0], urlVars[1]);
       }
     }
-  };
+  }
 
   this.createURLString = function(urlstring) {
     if (this.encodeURIString && this.URLString.length) {
@@ -113,11 +113,11 @@ function sack(file) {
     } else {
       this.URLString += urlstringtemp.join(this.argumentSeparator);
     }
-  };
+  }
 
   this.runResponse = function() {
     eval(this.response);
-  };
+  }
 
   this.runAJAX = function(urlstring) {
     if (this.failed) {

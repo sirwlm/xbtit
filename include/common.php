@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2016  DPWS Media LTD
+// Copyright (C) 2004 - 2016  Btiteam
 //
 //    This file is part of xbtit.
 //
@@ -65,16 +65,16 @@ function send_pm($sender,$recepient,$subject,$msg) {
             $sender['username']='System';
         } else $sender=$sender[0];
         # insert message
-        quickQuery("INSERT INTO `{$db_prefix}personal_messages` (".(($FORUMLINK== 'smf')? '`ID_MEMBER_FROM`, `fromName`' : '`id_member_from`, `from_name`'). ', `msgtime`, `subject`, `body`) VALUES (' .$sender['smf_fid']. ', ' .sqlesc($sender['username']). ', UNIX_TIMESTAMP(), ' .$subject. ', ' .$msg. ')');
+        quickQuery("INSERT INTO `{$db_prefix}personal_messages` (".(($FORUMLINK=="smf")?"`ID_MEMBER_FROM`, `fromName`":"`id_member_from`, `from_name`").", `msgtime`, `subject`, `body`) VALUES (".$sender['smf_fid'].", ".sqlesc($sender['username']).", UNIX_TIMESTAMP(), ".$subject.", ".$msg.")");
         # get id of message
         $pm_id=((is_null($___mysqli_res = mysqli_insert_id($GLOBALS['conn']))) ? false : $___mysqli_res);
         # insert recepient for message
-        quickQuery("INSERT INTO `{$db_prefix}pm_recipients` (".(($FORUMLINK== 'smf')? '`ID_PM`, `ID_MEMBER`' : '`id_pm`, `id_member`'). ') VALUES (' .$pm_id. ', ' .$recepient. ')');
+        quickQuery("INSERT INTO `{$db_prefix}pm_recipients` (".(($FORUMLINK=="smf")?"`ID_PM`, `ID_MEMBER`":"`id_pm`, `id_member`").") VALUES (".$pm_id.", ".$recepient.")");
         # notify recepient
-        if($FORUMLINK== 'smf')
-            quickQuery("UPDATE `{$db_prefix}members` SET `instantMessages`=`instantMessages`+1, `unreadMessages`=`unreadMessages`+1 WHERE `ID_MEMBER`=".$recepient. ' LIMIT 1');
+        if($FORUMLINK=="smf")
+            quickQuery("UPDATE `{$db_prefix}members` SET `instantMessages`=`instantMessages`+1, `unreadMessages`=`unreadMessages`+1 WHERE `ID_MEMBER`=".$recepient." LIMIT 1");
         else
-            quickQuery("UPDATE `{$db_prefix}members` SET `instant_messages`=`instant_messages`+1, `unread_messages`=`unread_messages`+1 WHERE `id_member`=".$recepient. ' LIMIT 1');
+            quickQuery("UPDATE `{$db_prefix}members` SET `instant_messages`=`instant_messages`+1, `unread_messages`=`unread_messages`+1 WHERE `id_member`=".$recepient." LIMIT 1");
         return true;
     } else {
         # internal PM system
@@ -86,7 +86,7 @@ function send_pm($sender,$recepient,$subject,$msg) {
 }
 
 function write_file($file, $content) {
-    if ($fp=@fopen($file, 'wb')) {
+    if ($fp=@fopen($file,'w')) {
         @fputs($fp,$content);
         @fclose($fp);
         return true;
@@ -182,9 +182,9 @@ function get_remote_file($http_url,$mode='r') {
 
 function get_fresh_config($qrystr) {
     global $mySecret;
-    $cache_file=realpath(__DIR__.'/..').'/cache/'.md5($qrystr. ' -- ' .$mySecret).'.txt';
+    $cache_file=realpath(__DIR__.'/..').'/cache/'.md5($qrystr." -- ".$mySecret).'.txt';
 
-    $mr=do_sqlquery($qrystr. ' -- ' .$mySecret,true);
+    $mr=do_sqlquery($qrystr." -- ".$mySecret,true);
     while ($mz=mysqli_fetch_assoc($mr)) {
         if ($mz['value']=='true')
             $return[$mz['key']]= true;
@@ -196,7 +196,7 @@ function get_fresh_config($qrystr) {
             $return[$mz['key']]= StripSlashes($mz['value']);
     }
     unset($mz);
-    ((mysqli_free_result($mr) || (is_object($mr) && (get_class($mr) == 'mysqli_result'))) ? true : false);
+    ((mysqli_free_result($mr) || (is_object($mr) && (get_class($mr) == "mysqli_result"))) ? true : false);
 
     # write new cache
     write_file($cache_file, serialize($return));
@@ -263,7 +263,7 @@ function get_result($qrystr,$display_error=false,$cachetime=0) {
         $return[]=$mz;
 
     unset($mz);
-    ((mysqli_free_result($mr) || (is_object($mr) && (get_class($mr) == 'mysqli_result'))) ? true : false);
+    ((mysqli_free_result($mr) || (is_object($mr) && (get_class($mr) == "mysqli_result"))) ? true : false);
 
     if ($cachetime>0)
         write_file($cache_file, serialize($return));
@@ -339,7 +339,7 @@ function getip() {
    return long2ip(ip2long($ip));
 }
 
-if(!function_exists('hex2bin'))
+if(!function_exists("hex2bin"))
 {
     function hex2bin ($input, $assume_safe=true)
     {
@@ -352,7 +352,7 @@ if(!function_exists('hex2bin'))
 function quickQuery($query) {
     $results = do_sqlquery($query);
     if (!is_bool($results))
-        ((mysqli_free_result($results) || (is_object($results) && (get_class($results) == 'mysqli_result'))) ? true : false);
+        ((mysqli_free_result($results) || (is_object($results) && (get_class($results) == "mysqli_result"))) ? true : false);
     else
         return $results;
     return true;
@@ -551,8 +551,8 @@ function getagent($httpagent, $peer_id='') {
         return MainlineDecodePeerId(substr($peer_id,3,5),'MLDonkey'); # MLDonkey
     if($peer_id[0]=='A')
     {
-        if(substr($peer_id,0,8)== 'AZ2500BT')
-            return 'BitTyrant';
+        if(substr($peer_id,0,8)=="AZ2500BT")
+            return "BitTyrant";
         return StdDecodePeerId(substr($peer_id,1,9),'ABC'); # ABC
     }
     if($peer_id[0]=='R')
@@ -629,8 +629,8 @@ function getagent($httpagent, $peer_id='') {
             return 'BitSpirit v2';
         return 'BitSpirit';
     }
-    if(substr($peer_id,1,2)== 'SP')
-        return StdDecodePeerId(substr($peer_id,3,4), 'BitSpirit');
+    if(substr($peer_id,1,2)=="SP")
+        return StdDecodePeerId(substr($peer_id,3,4),"BitSpirit");
 
     # eXeem beta
     if(substr($peer_id,0,3)=='-eX') {
@@ -646,57 +646,57 @@ function getagent($httpagent, $peer_id='') {
     if(substr($peer_id,0,12)==(chr(0)*12) && $peer_id[12]==chr(0) && $peer_id[13]==chr(0))
         return 'Experimental 3.1'; # Experimental 3.1
 
-    if(substr($peer_id,1,2)== 'UM')
-        return StdDecodePeerId(substr($peer_id,3,4), 'uTorrent for Mac');
-    if(substr($peer_id,1,2)== 'SD')
-        return 'Thunder';
-    if(substr($peer_id,1,2)== 'XL')
-        return 'XunLei';
-    if(substr($peer_id,1,2)== 'CD')
-        return 'Enhanced CTorrent ' . substr($peer_id,4,1) . '.' . substr($peer_id,6,1);
-    if(substr($peer_id,1,2)== 'qB')
-        return StdDecodePeerId(substr($peer_id,3,4), 'qBittorrent');
-    if(substr($peer_id,1,2)== 'AG')
-        return StdDecodePeerId(substr($peer_id,3,4), 'Ares');
-    if(substr($peer_id, 1, 2) == 'BF')
+    if(substr($peer_id,1,2)=="UM")
+        return StdDecodePeerId(substr($peer_id,3,4),"uTorrent for Mac");
+    if(substr($peer_id,1,2)=="SD")
+        return "Thunder";
+    if(substr($peer_id,1,2)=="XL")
+        return "XunLei";
+    if(substr($peer_id,1,2)=="CD")
+        return "Enhanced CTorrent " . substr($peer_id,4,1) . "." . substr($peer_id,6,1);
+    if(substr($peer_id,1,2)=="qB")
+        return StdDecodePeerId(substr($peer_id,3,4),"qBittorrent");
+    if(substr($peer_id,1,2)=="AG")
+        return StdDecodePeerId(substr($peer_id,3,4),"Ares");
+    if(substr($peer_id, 1, 2) == "BF")
     {
-        if(substr($peer_id, 3, 4) == '6110')
-            $ver= '0.10';
-        elseif(substr($peer_id, 3, 4) == '6C05')
-            $ver= '0.20';
-        elseif(substr($peer_id, 3, 4) == '6C0F')
-            $ver= '0.21';
-        elseif(substr($peer_id, 3, 4) == '7114')
-            $ver= '0.22';
-        elseif(substr($peer_id, 3, 4) == '7127')
-            $ver= '0.30';
-        elseif(substr($peer_id, 3, 4) == '7128')
-            $ver= '0.31';
-        elseif(substr($peer_id, 3, 4) == '7224')
-            $ver= '0.32';
-        else $ver= '';
+        if(substr($peer_id, 3, 4) == "6110")
+            $ver="0.10";
+        elseif(substr($peer_id, 3, 4) == "6C05")
+            $ver="0.20";
+        elseif(substr($peer_id, 3, 4) == "6C0F")
+            $ver="0.21";
+        elseif(substr($peer_id, 3, 4) == "7114")
+            $ver="0.22";
+        elseif(substr($peer_id, 3, 4) == "7127")
+            $ver="0.30";
+        elseif(substr($peer_id, 3, 4) == "7128")
+            $ver="0.31";
+        elseif(substr($peer_id, 3, 4) == "7224")
+            $ver="0.32";
+        else $ver="";
 
-    return 'BitFlu ' .$ver;
+    return "BitFlu ".$ver;
 }
-    if(substr($peer_id,1,2)== 'DE')
-        return StdDecodePeerId(substr($peer_id,3,3), 'Deluge');
-    if(substr($peer_id,1,2)== 'HL')
-        return StdDecodePeerId(substr($peer_id,3,4), 'Halite');
-    if(substr($peer_id,1,2)== 'TT')
-        return StdDecodePeerId(substr($peer_id,3,3), 'TuoTu');
-    if(substr($peer_id,1,2)== 'BE')
-        return StdDecodePeerId(substr($peer_id,3,2), 'BitTorrent SDK');
-    if(substr($peer_id,1,2)== 'LH')
-        return StdDecodePeerId(substr($peer_id,3,4), 'LH-ABC');
-    if(substr($peer_id,1,2)== 'FC')
-        return StdDecodePeerId(substr($peer_id,3,2), 'File Croc');
-    if(substr($peer_id,1,2)== 'OS')
-        return StdDecodePeerId(substr($peer_id,3,3), 'OneSwarm');
+    if(substr($peer_id,1,2)=="DE")
+        return StdDecodePeerId(substr($peer_id,3,3),"Deluge");
+    if(substr($peer_id,1,2)=="HL")
+        return StdDecodePeerId(substr($peer_id,3,4),"Halite");
+    if(substr($peer_id,1,2)=="TT")
+        return StdDecodePeerId(substr($peer_id,3,3),"TuoTu");
+    if(substr($peer_id,1,2)=="BE")
+        return StdDecodePeerId(substr($peer_id,3,2),"BitTorrent SDK");
+    if(substr($peer_id,1,2)=="LH")
+        return StdDecodePeerId(substr($peer_id,3,4),"LH-ABC");
+    if(substr($peer_id,1,2)=="FC")
+        return StdDecodePeerId(substr($peer_id,3,2),"File Croc");
+    if(substr($peer_id,1,2)=="OS")
+        return StdDecodePeerId(substr($peer_id,3,3),"OneSwarm");
 
     // Unknown Client - If HTTP Agent is empty
     // (mainly for the benefit of the customised version of the XBT backend so that it displays useful information to update missing clients)
-    if($httpagent== '')
-        return 'Unknown Client (' .substr($peer_id,0,8). ')';
+    if($httpagent=="")
+        return "Unknown Client (".substr($peer_id,0,8).")";
 
     // Unknown Client - If HTTP Agent is NOT empty
     return $httpagent;
@@ -718,83 +718,83 @@ function test_my_cookie()
 {
     global $btit_settings, $TABLE_PREFIX;
 
-    if($btit_settings['secsui_cookie_type']==1)
+    if($btit_settings["secsui_cookie_type"]==1)
     {
-        $cookie_id=(isset($_COOKIE['uid'])?(int)0+$_COOKIE['uid']:1);
-        $cookie_hash=(isset($_COOKIE['pass'])?$_COOKIE['pass']: '');
+        $cookie_id=(isset($_COOKIE["uid"])?(int)0+$_COOKIE["uid"]:1);
+        $cookie_hash=(isset($_COOKIE["pass"])?$_COOKIE["pass"]:"");
     }
-    elseif($btit_settings['secsui_cookie_type']==2)
+    elseif($btit_settings["secsui_cookie_type"]==2)
     {
-        $cookie_name=((isset($btit_settings['secsui_cookie_name']) && !empty($btit_settings['secsui_cookie_name']))?$btit_settings['secsui_cookie_name']: 'xbtitLoginCookie');
+        $cookie_name=((isset($btit_settings["secsui_cookie_name"]) && !empty($btit_settings["secsui_cookie_name"]))?$btit_settings["secsui_cookie_name"]:"xbtitLoginCookie");
         $cookie_array=unserialize($_COOKIE[$cookie_name]);
-        $cookie_id=(isset($cookie_array['id'])?(int)0+$cookie_array['id']:1);
-        $cookie_hash=(isset($cookie_array['hash'])?$cookie_array['hash']: '');
+        $cookie_id=(isset($cookie_array["id"])?(int)0+$cookie_array["id"]:1);
+        $cookie_hash=(isset($cookie_array["hash"])?$cookie_array["hash"]:"");
         unset($cookie_array);
     }
-    elseif($btit_settings['secsui_cookie_type']==3)
+    elseif($btit_settings["secsui_cookie_type"]==3)
     {
-        session_name('xbtit');
+        session_name("xbtit");
         session_start();
-        $cookie_array=unserialize($_SESSION['login_cookie']);
-        $cookie_id=(isset($cookie_array['id'])?(int)0+$cookie_array['id']:1);
-        $cookie_hash=(isset($cookie_array['hash'])?$cookie_array['hash']: '');
+        $cookie_array=unserialize($_SESSION["login_cookie"]);
+        $cookie_id=(isset($cookie_array["id"])?(int)0+$cookie_array["id"]:1);
+        $cookie_hash=(isset($cookie_array["hash"])?$cookie_array["hash"]:"");
         unset($cookie_array);
     }
     if($cookie_id<=1)
-        return array('is_valid' => false, 'id' => 1);
+        return array("is_valid" => false, "id" => 1);
     else
     {
         $res=get_result("SELECT `username`, `password`, `random`, `salt` FROM `{$TABLE_PREFIX}users` WHERE `id`=".$cookie_id);
         if(count($res)==1)
             $row=$res[0];
         else
-            return array('is_valid' => false, 'id' => 1);
+            return array("is_valid" => false, "id" => 1);
 
-        if($btit_settings['secsui_cookie_type']==1)
+        if($btit_settings["secsui_cookie_type"]==1)
         {
-            $user_hash=md5($row['random'].$row['password'].$row['random']);
+            $user_hash=md5($row["random"].$row["password"].$row["random"]);
         }
-        elseif($btit_settings['secsui_cookie_type']==2  || $btit_settings['secsui_cookie_type']==3)
+        elseif($btit_settings["secsui_cookie_type"]==2  || $btit_settings["secsui_cookie_type"]==3)
         {
-            $cookie_items=explode(',', $btit_settings['secsui_cookie_items']);
-            $cookie_string= '';
+            $cookie_items=explode(",", $btit_settings["secsui_cookie_items"]);
+            $cookie_string="";
 
             foreach($cookie_items as $ci_value)
             {
-                $ci_exp=explode('-',$ci_value);
+                $ci_exp=explode("-",$ci_value);
                 if($ci_exp[0]==8)
                 {
-                    $ci_exp2=explode('[+]', $ci_exp[1]);
+                    $ci_exp2=explode("[+]", $ci_exp[1]);
                     if($ci_exp2[0]==1)
                     {
-                        $ip_parts=explode('.', getip());
+                        $ip_parts=explode(".", getip());
 
                         if($ci_exp2[1]==1)
-                            $cookie_string.=$ip_parts[0]. '-';
+                            $cookie_string.=$ip_parts[0]."-";
                         if($ci_exp2[1]==2)
-                            $cookie_string.=$ip_parts[1]. '-';
+                            $cookie_string.=$ip_parts[1]."-";
                         if($ci_exp2[1]==3)
-                            $cookie_string.=$ip_parts[2]. '-';
+                            $cookie_string.=$ip_parts[2]."-";
                         if($ci_exp2[1]==4)
-                            $cookie_string.=$ip_parts[3]. '-';
+                            $cookie_string.=$ip_parts[3]."-";
                         if($ci_exp2[1]==5)
-                            $cookie_string.=$ip_parts[0]. '.' .$ip_parts[1]. '-';
+                            $cookie_string.=$ip_parts[0].".".$ip_parts[1]."-";
                         if($ci_exp2[1]==6)
-                            $cookie_string.=$ip_parts[1]. '.' .$ip_parts[2]. '-';
+                            $cookie_string.=$ip_parts[1].".".$ip_parts[2]."-";
                         if($ci_exp2[1]==7)
-                            $cookie_string.=$ip_parts[2]. '.' .$ip_parts[3]. '-';
+                            $cookie_string.=$ip_parts[2].".".$ip_parts[3]."-";
                         if($ci_exp2[1]==8)
-                            $cookie_string.=$ip_parts[0]. '.' .$ip_parts[2]. '-';
+                            $cookie_string.=$ip_parts[0].".".$ip_parts[2]."-";
                         if($ci_exp2[1]==9)
-                            $cookie_string.=$ip_parts[0]. '.' .$ip_parts[3]. '-';
+                            $cookie_string.=$ip_parts[0].".".$ip_parts[3]."-";
                         if($ci_exp2[1]==10)
-                            $cookie_string.=$ip_parts[1]. '.' .$ip_parts[3]. '-';
+                            $cookie_string.=$ip_parts[1].".".$ip_parts[3]."-";
                         if($ci_exp2[1]==11)
-                            $cookie_string.=$ip_parts[0]. '.' .$ip_parts[1]. '.' .$ip_parts[2]. '-';
+                            $cookie_string.=$ip_parts[0].".".$ip_parts[1].".".$ip_parts[2]."-";
                         if($ci_exp2[1]==12)
-                            $cookie_string.=$ip_parts[1]. '.' .$ip_parts[2]. '.' .$ip_parts[3]. '-';
+                            $cookie_string.=$ip_parts[1].".".$ip_parts[2].".".$ip_parts[3]."-";
                         if($ci_exp2[1]==13)
-                            $cookie_string.=$ip_parts[0]. '.' .$ip_parts[1]. '.' .$ip_parts[2]. '.' .$ip_parts[3]. '-';
+                            $cookie_string.=$ip_parts[0].".".$ip_parts[1].".".$ip_parts[2].".".$ip_parts[3]."-";
 
                         unset($ci_exp2);
                     }
@@ -803,41 +803,41 @@ function test_my_cookie()
                 {
                     if($ci_exp[0]==1 && $ci_exp[1]==1)
                     {
-                        $cookie_string.=$cookie_id. '-';
+                        $cookie_string.=$cookie_id."-";
                     }
                     if($ci_exp[0]==2 && $ci_exp[1]==1)
                     {
-                        $cookie_string.=$row['password']. '-';
+                        $cookie_string.=$row["password"]."-";
                     }
                     if($ci_exp[0]==3 && $ci_exp[1]==1)
                     {
-                        $cookie_string.=$row['random']. '-';
+                        $cookie_string.=$row["random"]."-";
                     }
                     if($ci_exp[0]==4 && $ci_exp[1]==1)
                     {
-                        $cookie_string.=strtolower($row['username']). '-';
+                        $cookie_string.=strtolower($row["username"])."-";
                     }
                     if($ci_exp[0]==5 && $ci_exp[1]==1)
                     {
-                        $cookie_string.=$row['salt']. '-';
+                        $cookie_string.=$row["salt"]."-";
                     }
                     if($ci_exp[0]==6 && $ci_exp[1]==1)
                     {
-                        $cookie_string.=$_SERVER['HTTP_USER_AGENT']. '-';
+                        $cookie_string.=$_SERVER["HTTP_USER_AGENT"]."-";
                     }
                     if($ci_exp[0]==7 && $ci_exp[1]==1)
                     {
-                        $cookie_string.=$_SERVER['HTTP_ACCEPT_LANGUAGE']. '-';
+                        $cookie_string.=$_SERVER["HTTP_ACCEPT_LANGUAGE"]."-";
                     }
                 }
                 unset($ci_exp);
             }
-            $user_hash=sha1(trim($cookie_string, '-'));
+            $user_hash=sha1(trim($cookie_string, "-"));
         }
         if($user_hash==$cookie_hash)
-            return array('is_valid' => true, 'id' => $cookie_id);
+            return array("is_valid" => true, "id" => $cookie_id);
         else
-            return array('is_valid' => false, 'id' => 1);
+            return array("is_valid" => false, "id" => 1);
     }
 }
 

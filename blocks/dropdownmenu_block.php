@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2016  DPWS Media LTD
+// Copyright (C) 2004 - 2016  Btiteam
 //
 //    This file is part of xbtit.
 //
@@ -38,43 +38,43 @@ global $CURUSER, $btit_settings, $language;
 print("<div class='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>");
 print("<ul class='nav navbar-nav navbar-right'>");
 
-print("<li><a href='index.php'>".$language['MNU_INDEX']."</a></li>\n");
+print("<li><a href='index.php'>".$language["MNU_INDEX"]."</a></li>\n");
          
-if ($CURUSER['view_torrents']== 'yes')
+if ($CURUSER["view_torrents"]=="yes")    
 {    
-	print("<li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'>".$language['MNU_TORRENT']."<b class='caret'></b></a>\n");
+	print("<li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'>".$language["MNU_TORRENT"]."<b class='caret'></b></a>\n");
     print("<ul class='dropdown-menu'>\n");
-    print("<li><a href='index.php?page=torrents&search=&category=0&active=0'>".$language['ALL']."</a></li>\n");
-    print("<li><a href='index.php?page=torrents&search=&category=0&active=1'>".$language['ACTIVE_ONLY']."</a></li>\n");
-    print("<li><a href='index.php?page=torrents&search=&category=0&active=2'>".$language['DEAD_ONLY']."</a></li>\n");
-    print("<li><a href='index.php?page=extra-stats'>".$language['MNU_STATS']."</a></li>\n");
+    print("<li><a href='index.php?page=torrents&search=&category=0&active=0'>".$language["ALL"]."</a></li>\n");
+    print("<li><a href='index.php?page=torrents&search=&category=0&active=1'>".$language["ACTIVE_ONLY"]."</a></li>\n");
+    print("<li><a href='index.php?page=torrents&search=&category=0&active=2'>".$language["DEAD_ONLY"]."</a></li>\n");
+    print("<li><a href='index.php?page=extra-stats'>".$language["MNU_STATS"]."</a></li>\n");
     
-if ($CURUSER['can_upload']== 'yes')
+if ($CURUSER["can_upload"]=="yes")                
 {
 
-    print("<li><a href='index.php?page=upload'>".$language['MNU_UPLOAD']."</a></li>\n");
+    print("<li><a href='index.php?page=upload'>".$language["MNU_UPLOAD"]."</a></li>\n");
 
 }	
 	
-    print('</ul></li>');
+    print("</ul></li>");
 
-if ($CURUSER['view_users']== 'yes')
+if ($CURUSER["view_users"]=="yes")
     print("<li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'>Community<b class='caret'></b></a>\n");
     print("<ul class='dropdown-menu'>\n");    
-if ($CURUSER['view_forum']== 'yes')
+if ($CURUSER["view_forum"]=="yes")
     {
-        if ($GLOBALS['FORUMLINK']== '' || $GLOBALS['FORUMLINK']== 'internal' || substr($GLOBALS['FORUMLINK'],0,3)== 'smf' || $GLOBALS['FORUMLINK']== 'ipb')
-            print("<li><a href='index.php?page=forum'>".$language['MNU_FORUM']."</a></li>\n");
+        if ($GLOBALS["FORUMLINK"]=="" || $GLOBALS["FORUMLINK"]=="internal" || substr($GLOBALS["FORUMLINK"],0,3)=="smf" || $GLOBALS["FORUMLINK"]=="ipb")
+            print("<li><a href='index.php?page=forum'>".$language["MNU_FORUM"]."</a></li>\n");
         else
-            print("<li><a href='".$GLOBALS['FORUMLINK']."'>".$language['MNU_FORUM']."</a></li>\n");
+            print("<li><a href='".$GLOBALS["FORUMLINK"]."'>".$language["MNU_FORUM"]."</a></li>\n");
     }
-if ($CURUSER['view_users']== 'yes')
+if ($CURUSER["view_users"]=="yes")
     {
-        print("<li><a href='index.php?page=users'>".$language['MNU_MEMBERS']."</a><b></b></li>\n");
+        print("<li><a href='index.php?page=users'>".$language["MNU_MEMBERS"]."</a><b></b></li>\n");
     }    
-    print('</ul></li>');
+    print("</ul></li>");
     
-if ($CURUSER['view_news']== 'yes')
+if ($CURUSER["view_news"]=="yes")
     {
         print("<li><a href='index.php?page=viewnews'>".$language['MNU_NEWS']."</a></li>\n");
     }
@@ -88,93 +88,93 @@ if ($CURUSER['view_news']== 'yes')
     print("<ul>\n");*/
 
 	
-if ($CURUSER['view_users']== 'yes')
+if ($CURUSER["view_users"]=="yes")
 		{
     print("<li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'>My Account<b class='caret'></b></a>\n");
     print("<ul class='dropdown-menu'>\n");
-    print("<li><a href='index.php?page=usercp&amp;uid=".$CURUSER['uid']."'>".$language['MNU_UCP_HOME']."</a></li>\n");
-    print("<li class='dropdown dropdown-submenu'><a href='#' class='dropdown-toggle' data-toggle='dropdown'>".$language['MNU_UCP_PM']."</a>\n");
+    print("<li><a href='index.php?page=usercp&amp;uid=".$CURUSER["uid"]."'>".$language['MNU_UCP_HOME']."</a></li>\n");
+    print("<li class='dropdown dropdown-submenu'><a href='#' class='dropdown-toggle' data-toggle='dropdown'>".$language["MNU_UCP_PM"]."</a>\n");
     print("<ul class='dropdown-menu'>\n");
-    print("<li><a href='index.php?page=usercp&uid=".$CURUSER['uid']."&do=pm&action=list&what=inbox'>".$language['MNU_UCP_IN']."</a></li>\n");
-    print("<li><a href='index.php?page=usercp&uid=".$CURUSER['uid']."&do=pm&action=list&what=outbox'>".$language['MNU_UCP_OUT']."</a></li>\n");
-    print("<li><a href='index.php?page=usercp&uid=".$CURUSER['uid']. '&do=pm&action=edit&uid=' .$CURUSER['uid']."&what=new'>".$language['MNU_UCP_NEWPM']."</a></li>\n");
-    print('</ul></li>');
-    print("<li class='dropdown dropdown-submenu'><a href='#' class='dropdown-toggle' data-toggle='dropdown'>".$language['MNU_UCP_INFO']."</a>\n");
+    print("<li><a href='index.php?page=usercp&uid=".$CURUSER["uid"]."&do=pm&action=list&what=inbox'>".$language['MNU_UCP_IN']."</a></li>\n");
+    print("<li><a href='index.php?page=usercp&uid=".$CURUSER["uid"]."&do=pm&action=list&what=outbox'>".$language['MNU_UCP_OUT']."</a></li>\n");
+    print("<li><a href='index.php?page=usercp&uid=".$CURUSER["uid"]."&do=pm&action=edit&uid=".$CURUSER["uid"]."&what=new'>".$language['MNU_UCP_NEWPM']."</a></li>\n");
+    print("</ul></li>");
+    print("<li class='dropdown dropdown-submenu'><a href='#' class='dropdown-toggle' data-toggle='dropdown'>".$language["MNU_UCP_INFO"]."</a>\n");
     print("<ul class='dropdown-menu'>\n");
-    print("<li><a href='index.php?page=usercp&do=user&action=change&uid=".$CURUSER['uid']."'>".$language['MNU_UCP_INFO']."</a></li>\n");
-    print("<li><a href='index.php?page=usercp&do=pwd&action=change&uid=".$CURUSER['uid']."'>".$language['MNU_UCP_CHANGEPWD']."</a></li>\n");
-    print("<li><a href='index.php?page=usercp&do=pid_c&action=change&uid=".$CURUSER['uid']."'>".$language['CHANGE_PID']."</a></li>\n");
+    print("<li><a href='index.php?page=usercp&do=user&action=change&uid=".$CURUSER["uid"]."'>".$language['MNU_UCP_INFO']."</a></li>\n");
+    print("<li><a href='index.php?page=usercp&do=pwd&action=change&uid=".$CURUSER["uid"]."'>".$language['MNU_UCP_CHANGEPWD']."</a></li>\n");
+    print("<li><a href='index.php?page=usercp&do=pid_c&action=change&uid=".$CURUSER["uid"]."'>".$language['CHANGE_PID']."</a></li>\n");
     print("</ul></li>\n");
     print("</ul></li>\n");
 
 } 
     
-    if ($CURUSER['admin_access']== 'yes') {
-        require_once(load_language('lang_admin.php'));
-        print("<li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'>".$language['ADMIN_ACCESS']."<b class='caret'></b></a>\n");
+    if ($CURUSER["admin_access"]=="yes") {
+        require_once(load_language("lang_admin.php"));
+        print("<li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'>".$language["ADMIN_ACCESS"]."<b class='caret'></b></a>\n");
         print("<ul class='dropdown-menu'>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER['uid']. '&amp;code=' .$CURUSER['random']."'>".$language['MNU_ADMINCP']."</a></li>\n");
+        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."'>".$language["MNU_ADMINCP"]."</a></li>\n");
         print("<li class='dropdown dropdown-submenu'><a href='#' class='dropdown-toggle' data-toggle='dropdown''>".$language['TRACKER_SETTINGS']."</a>\n");
         print("<ul class='dropdown-menu'>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER['uid']. '&amp;code=' .$CURUSER['random']."&do=config&action=read'>".$language['TRACKER_SETTINGS']."</a></li>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER['uid']. '&amp;code=' .$CURUSER['random']."&do=banip&action=read'>".$language['ACP_BAN_IP']."</a></li>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER['uid']. '&amp;code=' .$CURUSER['random']."&do=language&action=read'>".$language['ACP_LANGUAGES']."</a></li>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER['uid']. '&amp;code=' .$CURUSER['random']."&do=style&action=read'>".$language['ACP_STYLES']."</a></li>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER['uid']. '&amp;code=' .$CURUSER['random']."&do=security_suite'>".$language['ACP_SECSUI_SET']."</a></li>\n");
-        print('</ul></li>');
+        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=config&action=read'>".$language['TRACKER_SETTINGS']."</a></li>\n");
+        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=banip&action=read'>".$language['ACP_BAN_IP']."</a></li>\n");
+        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=language&action=read'>".$language['ACP_LANGUAGES']."</a></li>\n");
+        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=style&action=read'>".$language['ACP_STYLES']."</a></li>\n");
+        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=security_suite'>".$language["ACP_SECSUI_SET"]."</a></li>\n");
+        print("</ul></li>");
         print("<li class='dropdown dropdown-submenu'><a href='#' class='dropdown-toggle' data-toggle='dropdown''>".$language['ACP_FRONTEND']."</a>\n");
         print("<ul class='dropdown-menu'>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER['uid']. '&amp;code=' .$CURUSER['random']."&do=category&action=read'>".$language['ACP_CATEGORIES']."</a></li>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER['uid']. '&amp;code=' .$CURUSER['random']."&do=poller&action=read'>".$language['ACP_POLLS']. '</a></li>');
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER['uid']. '&amp;code=' .$CURUSER['random']."&do=badwords&action=read'>".$language['ACP_CENSORED']. '</a></li>');
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER['uid']. '&amp;code=' .$CURUSER['random']."&do=blocks&action=read'>".$language['ACP_BLOCKS']. '</a></li>');
-        print('</ul></li>');
+        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=category&action=read'>".$language['ACP_CATEGORIES']."</a></li>\n");
+        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=poller&action=read'>".$language['ACP_POLLS']."</a></li>");
+        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=badwords&action=read'>".$language["ACP_CENSORED"]."</a></li>");
+        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=blocks&action=read'>".$language['ACP_BLOCKS']."</a></li>");
+        print("</ul></li>");
         print("<li class='dropdown dropdown-submenu'><a href='#' class='dropdown-toggle' data-toggle='dropdown''>".$language['ACP_USERS_TOOLS']."</a>\n");
         print("<ul class='dropdown-menu'>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER['uid']. '&amp;code=' .$CURUSER['random']."&do=groups&action=read'>".$language['ACP_USER_GROUP']."</a></li>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER['uid']. '&amp;code=' .$CURUSER['random']."&do=masspm&action=write'>".$language['ACP_MASSPM']."</a></li>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER['uid']. '&amp;code=' .$CURUSER['random']."&do=pruneu'>".$language['ACP_PRUNE_USERS']."</a></li>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER['uid']. '&amp;code=' .$CURUSER['random']."&do=searchdiff'>".$language['ACP_SEARCH_DIFF']. '</a></li>');
-        print('</ul></li>');
+        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=groups&action=read'>".$language['ACP_USER_GROUP']."</a></li>\n");
+        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=masspm&action=write'>".$language['ACP_MASSPM']."</a></li>\n");
+        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=pruneu'>".$language['ACP_PRUNE_USERS']."</a></li>\n");
+        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=searchdiff'>".$language['ACP_SEARCH_DIFF']."</a></li>");
+        print("</ul></li>");
         print("<li class='dropdown dropdown-submenu'><a href='#' class='dropdown-toggle' data-toggle='dropdown''>".$language['ACP_TORRENTS_TOOLS']."</a>\n");
         print("<ul class='dropdown-menu'>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER['uid']. '&amp;code=' .$CURUSER['random']."&do=prunet'>".$language['ACP_PRUNE_TORRENTS']."</a></li>\n");
-        print('</ul></li>');
+        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=prunet'>".$language['ACP_PRUNE_TORRENTS']."</a></li>\n");
+        print("</ul></li>");
         print("<li class='dropdown dropdown-submenu'><a href='#' class='dropdown-toggle' data-toggle='dropdown''>".$language['ACP_FORUM']."</a>\n");
         print("<ul class='dropdown-menu'>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER['uid']. '&amp;code=' .$CURUSER['random']."&do=forum&action=read'>".$language['ACP_FORUM']."</a></li>\n");
-        print('</ul></li>');
+        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=forum&action=read'>".$language['ACP_FORUM']."</a></li>\n");
+        print("</ul></li>");
         print("<li class='dropdown dropdown-submenu'><a href='#' class='dropdown-toggle' data-toggle='dropdown''>".$language['ACP_OTHER_TOOLS']."</a>\n");
         print("<ul class='dropdown-menu'>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER['uid']. '&amp;code=' .$CURUSER['random']."&do=dbutil'>".$language['ACP_DBUTILS']. '</a></li>');
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER['uid']. '&amp;code=' .$CURUSER['random']."&do=mysql_stats'>".$language['ACP_MYSQL_STATS']. '</a></li>');
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER['uid']. '&amp;code=' .$CURUSER['random']."&do=logview'>".$language['ACP_SITE_LOG']. '</a></li>');
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER['uid']. '&amp;code=' .$CURUSER['random']."&do=php_log'>".$language['LOGS_PHP']. '</a></li>');
-        print('</ul></li>');
+        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=dbutil'>".$language['ACP_DBUTILS']."</a></li>");
+        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=mysql_stats'>".$language['ACP_MYSQL_STATS']."</a></li>");
+        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=logview'>".$language['ACP_SITE_LOG']."</a></li>");
+        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=php_log'>".$language["LOGS_PHP"]."</a></li>");
+        print("</ul></li>");
         print("<li class='dropdown dropdown-submenu'><a href='#' class='dropdown-toggle' data-toggle='dropdown''>".$language['ACP_MODULES']."</a>\n");
         print("<ul class='dropdown-menu'>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER['uid']. '&amp;code=' .$CURUSER['random']."&do=module_config&action=manage'>".$language['ACP_MODULES_CONFIG']. '</a></li>');
-        print('</ul></li>');
+        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=module_config&action=manage'>".$language['ACP_MODULES_CONFIG']."</a></li>");
+        print("</ul></li>");
         print("<li class='dropdown dropdown-submenu'><a href='#' class='dropdown-toggle' data-toggle='dropdown''>".$language['ACP_HACKS']."</a>\n");
         print("<ul class='dropdown-menu'>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER['uid']. '&amp;code=' .$CURUSER['random']."&do=hacks&action=read'>".$language['ACP_HACKS_CONFIG']. '</a></li>');
-        print('</ul></li>');
+        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=hacks&action=read'>".$language['ACP_HACKS_CONFIG']."</a></li>");
+        print("</ul></li>");
         
-        print('</ul></li>');
+        print("</ul></li>");
 
     }
 
 	
-	if ($CURUSER['uid']==1 || !$CURUSER) {
-        print("<li><a href='index.php?page=login'>".$language['LOGIN']."</a></li>\n");
+	if ($CURUSER["uid"]==1 || !$CURUSER) {
+        print("<li><a href='index.php?page=login'>".$language["LOGIN"]."</a></li>\n");
     }
     else {
-        print("<li><a href='logout.php'>".$language['LOGOUT']."</a></li>\n");
+        print("<li><a href='logout.php'>".$language["LOGOUT"]."</a></li>\n");
     }
     
 }
 
-print('</ul>');
-print('</div>')
+print("</ul>");
+print("</div>")
 
 ?>

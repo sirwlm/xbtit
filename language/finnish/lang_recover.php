@@ -1,9 +1,9 @@
 <?php
-$language['ERR_NO_EMAIL']= 'Anna toimiva s&auml;hk&ouml;postiosoite';
-$language['ERR_INV_EMAIL']= 'Sinun pitï¿½ï¿½ antaa toimiva s&auml;hk&ouml;postiosoite';
-$language['ERR_NO_CAPTCHA']= 'Anna kuvakoodi';
-$language['IMAGE_CODE']= 'Kuvakoodi';
-$language['SECURITY_CODE']= 'Vastaa kysymykseen';
-$language['RECOVER_EMAIL_1']="\nJoku, Toivottavasti sinï¿½, Pyysi resetoimaan salasanan joka on yhdistetty tï¿½hï¿½n  (%s) Sï¿½hkï¿½postiosoitteeseen.\n\nPyyntï¿½ lï¿½hetty %s.\n\nJos ei nï¿½in ole, niin ï¿½lï¿½ vï¿½litï¿½ tï¿½stï¿½ mailista. ï¿½Lï¿½ VASTAA.\n\nJos haluat resetoida salasanan, seuraa linkkiï¿½:\n\n%s\n\nTï¿½mï¿½n jï¿½lkeen sinulle lï¿½hetetï¿½ï¿½n uusi salasana sï¿½hkï¿½postitse.\n--\n%s";
-$language['RECOVER_EMAIL_2']="\nPyynnï¿½stï¿½si teimme uuden salasanan.\n\nTï¿½ssï¿½ kï¿½yttï¿½jï¿½tilisi tï¿½mï¿½nhetkiset tiedot:\n\n    Kï¿½yttï¿½jï¿½nimi: %s\n    Salasana: %s\n\nVoit kirjautua sisï¿½ï¿½n osoitteessa %s\n\n--\n%s";
+$language["ERR_NO_EMAIL"]="Anna toimiva s&auml;hk&ouml;postiosoite";
+$language["ERR_INV_EMAIL"]="Sinun pitää antaa toimiva s&auml;hk&ouml;postiosoite";
+$language["ERR_NO_CAPTCHA"]="Anna kuvakoodi";
+$language["IMAGE_CODE"]="Kuvakoodi";
+$language["SECURITY_CODE"]="Vastaa kysymykseen";
+$language["RECOVER_EMAIL_1"]="\nJoku, Toivottavasti sinä, Pyysi resetoimaan salasanan joka on yhdistetty tähän  (%s) Sähköpostiosoitteeseen.\n\nPyyntö lähetty %s.\n\nJos ei näin ole, niin älä välitä tästä mailista. ÄLÄ VASTAA.\n\nJos haluat resetoida salasanan, seuraa linkkiä:\n\n%s\n\nTämän jälkeen sinulle lähetetään uusi salasana sähköpostitse.\n--\n%s";
+$language["RECOVER_EMAIL_2"]="\nPyynnöstäsi teimme uuden salasanan.\n\nTässä käyttäjätilisi tämänhetkiset tiedot:\n\n    Käyttäjänimi: %s\n    Salasana: %s\n\nVoit kirjautua sisään osoitteessa %s\n\n--\n%s";
 ?>

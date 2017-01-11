@@ -50,14 +50,14 @@
 			$current_connid = "\x00\x00\x04\x17\x27\x10\x19\x80";
 			
 			//Connection request
-			$packet = $current_connid . pack('N', 0) . pack('N', $transaction_id);
+			$packet = $current_connid . pack("N", 0) . pack("N", $transaction_id);
 			fwrite($fp,$packet);
 			
 			//Connection response
 			$ret = fread($fp, 16);
 			if(strlen($ret) < 1){ throw new ScraperException('No connection response.',0,true); }
 			if(strlen($ret) < 16){ throw new ScraperException('Too short connection response.'); }
-			$retd = unpack('Naction/Ntransid',$ret);
+			$retd = unpack("Naction/Ntransid",$ret);
 			if($retd['action'] != 0 || $retd['transid'] != $transaction_id){
 				throw new ScraperException('Invalid connection response.');
 			}
@@ -66,7 +66,7 @@
 			//Scrape request
 			$hashes = '';
 			foreach($infohash as $hash){ $hashes .= pack('H*', $hash); }
-			$packet = $current_connid . pack('N', 2) . pack('N', $transaction_id) . $hashes;
+			$packet = $current_connid . pack("N", 2) . pack("N", $transaction_id) . $hashes;
 			fwrite($fp,$packet);
 			
 			//Scrape response
@@ -74,16 +74,16 @@
 			$ret = fread($fp, $readlength);
 			if(strlen($ret) < 1){ throw new ScraperException('No scrape response.',0,true); }
 			if(strlen($ret) < 8){ throw new ScraperException('Too short scrape response.'); }
-			$retd = unpack('Naction/Ntransid',$ret);
+			$retd = unpack("Naction/Ntransid",$ret);
 			// Todo check for error string if response = 3
-			if($retd['action'] !== 2 || $retd['transid'] !== $transaction_id){
+			if($retd['action'] != 2 || $retd['transid'] != $transaction_id){
 				throw new ScraperException('Invalid scrape response.');
 			}
 			if(strlen($ret) < $readlength){ throw new ScraperException('Too short scrape response.'); }
 			$torrents = array();
 			$index = 8;
 			foreach($infohash as $hash){
-				$retd = unpack('Nseeders/Ncompleted/Nleechers',substr($ret,$index,12));
+				$retd = unpack("Nseeders/Ncompleted/Nleechers",substr($ret,$index,12));
 				$retd['infohash'] = $hash;
 				$torrents[$hash] = $retd;
 				$index = $index + 12;

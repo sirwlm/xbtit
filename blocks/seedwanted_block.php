@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2016  DPWS Media LTD
+// Copyright (C) 2004 - 2016  Btiteam
 //
 //    This file is part of xbtit.
 //
@@ -32,7 +32,7 @@
 
 global $CURUSER, $BASEURL, $STYLEURL, $XBTT_USE,$btit_settings;
 
-if (!$CURUSER || $CURUSER['view_torrents']== 'no')
+if (!$CURUSER || $CURUSER["view_torrents"]=="no")
    {
     // do nothing
    }
@@ -48,7 +48,7 @@ else
 
    if (count($row)>0)
      {
-       block_begin('Seeder Wanted');
+       block_begin("Seeder Wanted");
 
        ?>
          <div class="panel panel-default">
@@ -58,17 +58,17 @@ else
          <div class="panel-body">
        <table cellpadding="4" cellspacing="1" width="100%">
        <tr>
-         <td colspan="2" align="center" class="header">&nbsp;<?php echo $language['TORRENT_FILE']; ?>&nbsp;</td>
-         <td align="center" class="header">&nbsp;<?php echo $language['CATEGORY'] ?>&nbsp;</td>
+         <td colspan="2" align="center" class="header">&nbsp;<?php echo $language["TORRENT_FILE"]; ?>&nbsp;</td>
+         <td align="center" class="header">&nbsp;<?php echo $language["CATEGORY"] ?>&nbsp;</td>
          <?php
-         if (max(0,$CURUSER['WT'])>0)
-         print("<TD align=\"center\" class=\"header\">".$language['WT']. '</TD>');
+         if (max(0,$CURUSER["WT"])>0)
+         print("<TD align=\"center\" class=\"header\">".$language["WT"]."</TD>");
          ?>
-         <td align="center" class="header">&nbsp;<?php echo $language['ADDED'] ?>&nbsp;</td>
-         <td align="center" class="header">&nbsp;<?php echo $language['SIZE'] ?>&nbsp;</td>
-         <td align="center" class="header">&nbsp;<?php echo $language['SHORT_S'] ?>&nbsp;</td>
-         <td align="center" class="header">&nbsp;<?php echo $language['SHORT_L'] ?>&nbsp;</td>
-         <td align="center" class="header">&nbsp;<?php echo $language['SHORT_C'] ?>&nbsp;</td>
+         <td align="center" class="header">&nbsp;<?php echo $language["ADDED"] ?>&nbsp;</td>
+         <td align="center" class="header">&nbsp;<?php echo $language["SIZE"] ?>&nbsp;</td>
+         <td align="center" class="header">&nbsp;<?php echo $language["SHORT_S"] ?>&nbsp;</td>
+         <td align="center" class="header">&nbsp;<?php echo $language["SHORT_L"] ?>&nbsp;</td>
+         <td align="center" class="header">&nbsp;<?php echo $language["SHORT_C"] ?>&nbsp;</td>
        </tr>
        <?php
 
@@ -78,57 +78,57 @@ else
            {
            echo "<tr>\n";
 
-               if ( strlen($data['hash']) > 0 )
+               if ( strlen($data["hash"]) > 0 )
                {
                   echo "\t<td NOWRAP align=\"center\" class=\"lista\">";
 
 
-           echo '<a class=seedwant href=download.php?id=' .$data['hash']. '&amp;f=' . rawurlencode($data['filename']) . ".torrent><img src='images/torrent.gif' border='0' alt='".$language['DOWNLOAD_TORRENT']."' title='".$language['DOWNLOAD_TORRENT']."' /></a>";
+           echo "<a class=seedwant href=download.php?id=".$data["hash"]."&amp;f=" . rawurlencode($data["filename"]) . ".torrent><img src='images/torrent.gif' border='0' alt='".$language["DOWNLOAD_TORRENT"]."' title='".$language["DOWNLOAD_TORRENT"]."' /></a>";
 
 
          //waitingtime
-             if (max(0,$CURUSER['WT'])>0){
+             if (max(0,$CURUSER["WT"])>0){
              if (max(0,$CURUSER['downloaded'])>0) $ratio=number_format($CURUSER['uploaded']/$CURUSER['downloaded'],2);
              else $ratio=0.0;
              $vz = $data['added']; // sql_timestamp_to_unix_timestamp($added["data"]);
              $timer = floor((time() - $vz) / 3600);
-             if($ratio<1.0 && $CURUSER['uid']!=$data['uploader']){
-                 $wait=$CURUSER['WT'];
+             if($ratio<1.0 && $CURUSER['uid']!=$data["uploader"]){
+                 $wait=$CURUSER["WT"];
              }
              $wait -=$timer;
              if ($wait<=0)$wait=0;
              }
          //end waitingtime
 
-                echo '</td>';
-                if ($GLOBALS['usepopup'])
-                     echo "\t<td width=60% class=\"lista\" style=\"padding-left:10px;\"><a class=\"seedwant\" href=\"javascript:popdetails('index.php?page=torrent-details&amp;id=" . $data['hash'] . "');\" title=\"" . $language['VIEW_DETAILS'] . ': ' . $data['filename'] . "\">" . $data['filename'] . '</a></td>';
+                echo "</td>";
+                if ($GLOBALS["usepopup"])
+                     echo "\t<td width=60% class=\"lista\" style=\"padding-left:10px;\"><a class=\"seedwant\" href=\"javascript:popdetails('index.php?page=torrent-details&amp;id=" . $data['hash'] . "');\" title=\"" . $language["VIEW_DETAILS"] . ": " . $data["filename"] . "\">" . $data["filename"] . "</a></td>";
                 else
-                     echo "\t<TD align=\"left\" class=\"lista\" style=\"padding-left:10px;\"><A class=\"seedwant\" HREF=\"index.php?page=torrent-details&amp;id=".$data['hash']."\" title=\"".$language['VIEW_DETAILS']. ': ' .$data['filename']."\">".$data['filename']. '</A></td>';
-                echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\"><a class=\"seedwant\" href=\"index.php?page=torrents&category=$data[catid]\">" . image_or_link( ($data['image'] == '' ? '' : "$STYLEPATH/images/categories/" . $data['image']), '', $data['cname']) . '</td>';
-                if (max(0,$CURUSER['WT'])>0)
-                echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\">".$wait. ' h</td>';
-                include('include/offset.php');
-                echo "\t<td nowrap=\"nowrap\" class=\"lista\" align=\"center\" style=\"text-align: center;\">" . date('d/m/Y', $data['added']-$offset) . '</td>';
-                echo "\t<td nowrap=\"nowrap\" align=\"center\" class=\"lista\" style=\"text-align: center;\">" . makesize($data['size']) . '</td>';
+                     echo "\t<TD align=\"left\" class=\"lista\" style=\"padding-left:10px;\"><A class=\"seedwant\" HREF=\"index.php?page=torrent-details&amp;id=".$data["hash"]."\" title=\"".$language["VIEW_DETAILS"].": ".$data["filename"]."\">".$data["filename"]."</A></td>";
+                echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\"><a class=\"seedwant\" href=\"index.php?page=torrents&category=$data[catid]\">" . image_or_link( ($data["image"] == "" ? "" : "$STYLEPATH/images/categories/" . $data["image"]), "", $data["cname"]) . "</td>";
+                if (max(0,$CURUSER["WT"])>0)
+                echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\">".$wait." h</td>";
+                include("include/offset.php");
+                echo "\t<td nowrap=\"nowrap\" class=\"lista\" align=\"center\" style=\"text-align: center;\">" . date("d/m/Y", $data["added"]-$offset) . "</td>";
+                echo "\t<td nowrap=\"nowrap\" align=\"center\" class=\"lista\" style=\"text-align: center;\">" . makesize($data["size"]) . "</td>";
 
-                if ($data['external']== 'no')
+                if ($data["external"]=="no")
                 {
-                    if ($GLOBALS['usepopup'])
+                    if ($GLOBALS["usepopup"])
                     {
-                        echo "\t<td align=\"center\" class=\"lista ".linkcolor($data['seeds'])."\" style=\"text-align: center;\"><a class=\"seedwant\" href=\"javascript:poppeer('index.php?page=peers&amp;id=".$data['hash']."');\" title=\"".$language['PEERS_DETAILS']."\">" . $data['seeds'] . "</a></td>\n";
-                        echo "\t<td align=\"center\" class=\"lista ".linkcolor($data['leechers'])."\" style=\"text-align: center;\"><a class=\"seedwant\" href=\"javascript:poppeer('index.php?page=peers&amp;id=".$data['hash']."');\" title=\"".$language['PEERS_DETAILS']."\">" .$data['leechers'] . "</a></td>\n";
-                        if ($data['finished']>0)
-                            echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\"><a class=\"seedwant\" href=\"javascript:poppeer('index.php?page=torrent_history&amp;id=".$data['hash']."');\" title=\"History - ".$data['filename']."\">" . $data['finished'] . '</a></td>';
+                        echo "\t<td align=\"center\" class=\"lista ".linkcolor($data["seeds"])."\" style=\"text-align: center;\"><a class=\"seedwant\" href=\"javascript:poppeer('index.php?page=peers&amp;id=".$data["hash"]."');\" title=\"".$language["PEERS_DETAILS"]."\">" . $data["seeds"] . "</a></td>\n";
+                        echo "\t<td align=\"center\" class=\"lista ".linkcolor($data["leechers"])."\" style=\"text-align: center;\"><a class=\"seedwant\" href=\"javascript:poppeer('index.php?page=peers&amp;id=".$data["hash"]."');\" title=\"".$language["PEERS_DETAILS"]."\">" .$data["leechers"] . "</a></td>\n";
+                        if ($data["finished"]>0)
+                            echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\"><a class=\"seedwant\" href=\"javascript:poppeer('index.php?page=torrent_history&amp;id=".$data["hash"]."');\" title=\"History - ".$data["filename"]."\">" . $data["finished"] . "</a></td>";
                         else
                             echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\">---</td>";
                     }
                     else
                     {
-                        echo "\t<td align=\"center\" class=\"lista ".linkcolor($data['seeds'])."\" style=\"text-align: center;\"><a class=\"seedwant\" href=\"index.php?page=peers&amp;id=".$data['hash']."\" title=\"".$language['PEERS_DETAILS']."\">" . $data['seeds'] . "</a></td>\n";
-                        echo "\t<td align=\"center\" class=\"lista ".linkcolor($data['leechers'])."\" style=\"text-align: center;\"><a class=\"seedwant\" href=\"index.php?page=peers&amp;id=".$data['hash']."\" title=\"".$language['PEERS_DETAILS']."\">" .$data['leechers'] . "</a></td>\n";
-                        if ($data['finished']>0)
-                            echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\"><a class=\"seedwant\" href=\"index.php?page=torrent_history&amp;id=".$data['hash']."\" title=\"History - ".$data['filename']."\">" . $data['finished'] . '</a></td>';
+                        echo "\t<td align=\"center\" class=\"lista ".linkcolor($data["seeds"])."\" style=\"text-align: center;\"><a class=\"seedwant\" href=\"index.php?page=peers&amp;id=".$data["hash"]."\" title=\"".$language["PEERS_DETAILS"]."\">" . $data["seeds"] . "</a></td>\n";
+                        echo "\t<td align=\"center\" class=\"lista ".linkcolor($data["leechers"])."\" style=\"text-align: center;\"><a class=\"seedwant\" href=\"index.php?page=peers&amp;id=".$data["hash"]."\" title=\"".$language["PEERS_DETAILS"]."\">" .$data["leechers"] . "</a></td>\n";
+                        if ($data["finished"]>0)
+                            echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\"><a class=\"seedwant\" href=\"index.php?page=torrent_history&amp;id=".$data["hash"]."\" title=\"History - ".$data["filename"]."\">" . $data["finished"] . "</a></td>";
                         else
                             echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\">---</td>";
                     }
@@ -136,10 +136,10 @@ else
                 else
                 {
                     // linkcolor
-                    echo "\t<td align=\"center\" class=\"lista ".linkcolor($data['seeds'])."\" style=\"text-align: center;\">" . $data['seeds'] . '</td>';
-                    echo "\t<td align=\"center\" class=\"lista ".linkcolor($data['leechers'])."\" style=\"text-align: center;\">" .$data['leechers'] . '</td>';
-                    if ($data['finished']>0)
-                        echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\">" . $data['finished'] . '</td>';
+                    echo "\t<td align=\"center\" class=\"lista ".linkcolor($data["seeds"])."\" style=\"text-align: center;\">" . $data["seeds"] . "</td>";
+                    echo "\t<td align=\"center\" class=\"lista ".linkcolor($data["leechers"])."\" style=\"text-align: center;\">" .$data["leechers"] . "</td>";
+                    if ($data["finished"]>0)
+                        echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\">" . $data["finished"] . "</td>";
                     else
                     echo "\t<td align=\"center\" class=\"lista\" style=\"text-align: center;\">---</td>";
                 }
@@ -149,10 +149,10 @@ else
        }
        else
        {
-         echo "<tr><td class=\"lista\" colspan=\"9\" align=\"center\" style=\"text-align: center;\">" . $language['NO_TORRENTS']  . '</td></tr>';
+         echo "<tr><td class=\"lista\" colspan=\"9\" align=\"center\" style=\"text-align: center;\">" . $language["NO_TORRENTS"]  . "</td></tr>";
        }
 
-       print('</table></div</div>');
+       print("</table></div</div>");
 
        block_end();
     }

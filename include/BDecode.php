@@ -67,7 +67,7 @@ class BDecode {
 				// Tolerate : or e because this is a multiuse function
 				$ret[1] = $offset+1;
 				if ($negative) {
-					if ($ret[0] === 0)
+					if ($ret[0] == 0)
 						return array(false);
 					$ret[0] = - $ret[0];
 				}
@@ -77,11 +77,11 @@ class BDecode {
 	}
 
 	function decodeEntry($wholefile, $offset=0) {
-		if ($wholefile[$offset] === 'd')
+		if ($wholefile[$offset] == 'd')
 			return $this->decodeDict($wholefile, $offset);
-		if ($wholefile[$offset] === 'l')
+		if ($wholefile[$offset] == 'l')
 			return $this->decodelist($wholefile, $offset);
-		if ($wholefile[$offset] === 'i')
+		if ($wholefile[$offset] == 'i')
 			return $this->numberdecode($wholefile, ++$offset);
 		// String value: decode number, then grab substring
 
@@ -97,12 +97,12 @@ class BDecode {
 	}
 
 	function decodeList($wholefile, $offset) {
-		if ($wholefile[$offset] !== 'l')
+		if ($wholefile[$offset] != 'l')
 			return array(false);
 		$offset++;
 		$ret = array();
 		for ($i=0;;$i++) {
-			if ($wholefile[$offset] === 'e')
+			if ($wholefile[$offset] == 'e')
 				break;
 			$value = $this->decodeEntry($wholefile, $offset);
 			if ($value[0] === false)
@@ -116,25 +116,25 @@ class BDecode {
 
 	// Tries to construct an array
 	function decodeDict($wholefile, $offset=0) {
-		if ($wholefile[$offset] === 'l')
+		if ($wholefile[$offset] == 'l')
 			return $this->decodeList($wholefile, $offset);
-		if ($wholefile[$offset] !== 'd')
+		if ($wholefile[$offset] != 'd')
 			return false;
 		$ret=array();
 		$offset++;
 		for (;;) {	
-			if ($wholefile[$offset] === 'e')	{
+			if ($wholefile[$offset] == 'e')	{
 				$offset++;
 				break;
 			}
 			$left = $this->decodeEntry($wholefile, $offset);
 			if ($left[0]===false) { 
-			     die('stop...' .$left[1]);
+			     die("stop...".$left[1]);
 			 	return false; 
 			}
 			
 			$offset = $left[1];
-			if ($wholefile[$offset] === 'd') {
+			if ($wholefile[$offset] == 'd') {
 				// Recurse
 				$value = $this->decodedict($wholefile, $offset);
 				if ($value[0]) {
@@ -143,7 +143,7 @@ class BDecode {
 				}
 				continue;
 			}
-			if ($wholefile[$offset] === 'l') {
+			if ($wholefile[$offset] == 'l') {
 				$value = $this->decodeList($wholefile, $offset);
 				if (!$value[0] && is_bool($value[0]))
 					return false;

@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2016  DPWS Media LTD
+// Copyright (C) 2004 - 2016  Btiteam
 //
 //    This file is part of xbtit.
 //
@@ -41,14 +41,14 @@ function format_shout($text)
 
     $s = unesc($s);
 
-    $f=@fopen('badwords.txt', 'rb');
-    if ($f && filesize ('badwords.txt')!==0)
+    $f=@fopen("badwords.txt","r");
+    if ($f && filesize ("badwords.txt")!=0)
        {
-       $bw=fread($f,filesize('badwords.txt'));
+       $bw=fread($f,filesize("badwords.txt"));
        $badwords=explode("\n",$bw);
        for ($i=0;$i<count($badwords);++$i)
            $badwords[$i]=trim($badwords[$i]);
-       $s = str_replace($badwords, '*censured*',$s);
+       $s = str_replace($badwords,"*censured*",$s);
        }
     @fclose($f);
 
@@ -109,7 +109,7 @@ function format_shout($text)
     $s = nl2br($s);
 
     // Maintain spacing
-    $s = str_replace('  ', ' &nbsp;', $s);
+    $s = str_replace("  ", " &nbsp;", $s);
 
     reset($smilies);
     while (list($code, $url) = each($smilies))
@@ -120,22 +120,23 @@ function format_shout($text)
 
 $msg = array();
 
-include __DIR__. '/chat.php';
+include(__DIR__."/chat.php");
 
 while (count($msg) >= 100)
       array_shift($msg);
 
 $msg2 = array_reverse($msg);
-include 'include/offset.php';
+include("include/offset.php");
 for ($i=0;$i<count($msg2);++$i)
 {
-  $shout[$i]['date']=date('d/m/y H:i:s',$msg2[$i]['date']-$offset);
-  $shout[$i]['user']=$msg2[$i]['pseudo'];
-  $shout[$i]['shout']=format_shout($msg2[$i]['texte']);
+  $shout[$i]["date"]=date("d/m/y H:i:s",$msg2[$i]['date']-$offset);
+  $shout[$i]["user"]=$msg2[$i]['pseudo'];
+  $shout[$i]["shout"]=format_shout($msg2[$i]['texte']);
 }
 unset($msg);
 unset($msg2);
 $tpl_shout=new bTemplate;
-$tpl_shout->set('chat',$shout);
-$tpl_shout->set('script',"<a href=\"javascript: window.close()\">".$language['CLOSE']. '</a>');
+$tpl_shout->set("chat",$shout);
+$tpl_shout->set("script","<a href=\"javascript: window.close()\">".$language["CLOSE"]."</a>");
 
+?>

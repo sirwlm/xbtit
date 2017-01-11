@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2016  DPWS Media LTD
+// Copyright (C) 2004 - 2016  Btiteam
 //
 //    This file is part of xbtit.
 //
@@ -30,14 +30,14 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-if (!defined('IN_BTIT'))
-      die('non direct access!');
+if (!defined("IN_BTIT"))
+      die("non direct access!");
 
-if (!defined('IN_ACP'))
-      die('non direct access!');
+if (!defined("IN_ACP"))
+      die("non direct access!");
 
 
-if (!$CURUSER || $CURUSER['admin_access']!= 'yes')
+if (!$CURUSER || $CURUSER["admin_access"]!="yes")
    {
        err_msg(ERROR,NOT_ADMIN_CP_ACCESS);
        stdfoot();
@@ -50,12 +50,12 @@ else
     $logres=do_sqlquery("SELECT COUNT(*) FROM {$TABLE_PREFIX}logs ORDER BY added DESC");
     $lognum=mysqli_fetch_row($logres);
     $num=$lognum[0];
-    $perpage=(max(0,$CURUSER['postsperpage'])>0?$CURUSER['postsperpage']:20);
-    list($pagertop, $pagerbottom, $limit) = pager($perpage, $num, 'index.php?page=admin&amp;user=' .$CURUSER['uid']. '&amp;code=' .$CURUSER['random']. '&amp;do=logview&amp;');
+    $perpage=(max(0,$CURUSER["postsperpage"])>0?$CURUSER["postsperpage"]:20);
+    list($pagertop, $pagerbottom, $limit) = pager($perpage, $num, "index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&amp;do=logview&amp;");
     
-    $admintpl->set('language',$language);
-    $admintpl->set('pager_top',$pagertop);
-    $admintpl->set('pager_bottom',$pagerbottom);
+    $admintpl->set("language",$language);
+    $admintpl->set("pager_top",$pagertop);
+    $admintpl->set("pager_bottom",$pagerbottom);
 
     $logres=do_sqlquery("SELECT * FROM {$TABLE_PREFIX}logs ORDER BY added DESC $limit");
     $log=array();
@@ -67,27 +67,27 @@ else
         {
         while ($logview=mysqli_fetch_assoc($logres))
             {
-            if ($logview['type']== 'delete')
-                $log[$i]['class']="class=\"deleted\"";
-            elseif ($logview['type']== 'add')
-                $log[$i]['class']="class=\"added\"";
-            elseif ($logview['type']== 'modify')
-                $log[$i]['class']="class=\"modified\"";
+            if ($logview["type"]=="delete")
+                $log[$i]["class"]="class=\"deleted\"";
+            elseif ($logview["type"]=="add")
+                $log[$i]["class"]="class=\"added\"";
+            elseif ($logview["type"]=="modify")
+                $log[$i]["class"]="class=\"modified\"";
             else
-                $log[$i]['class']="class=\"lista\"";
+                $log[$i]["class"]="class=\"lista\"";
 
-          $log[$i]['date']=date('d/m/Y H:i:s',$logview['added']-$offset);
-          $log[$i]['username']=$logview['user'];
-          $log[$i]['action']=$logview['txt'];
+          $log[$i]["date"]=date("d/m/Y H:i:s",$logview["added"]-$offset);
+          $log[$i]["username"]=$logview["user"];
+          $log[$i]["action"]=$logview["txt"];
           $i++;
          }
 
     }
 
-    $admintpl->set('logs',$log);
+    $admintpl->set("logs",$log);
 
     unset($logview);
-    ((mysqli_free_result($logres) || (is_object($logres) && (get_class($logres) == 'mysqli_result'))) ? true : false);
+    ((mysqli_free_result($logres) || (is_object($logres) && (get_class($logres) == "mysqli_result"))) ? true : false);
     unset($log);
 
 }

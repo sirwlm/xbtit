@@ -797,7 +797,7 @@ class PHPMailerTest extends PHPUnit_Framework_TestCase
     public function testHtml()
     {
         $this->Mail->isHTML(true);
-        $this->Mail->Subject .= ': HTML only';
+        $this->Mail->Subject .= ": HTML only";
 
         $this->Mail->Body = <<<EOT
 <html>
@@ -825,7 +825,7 @@ EOT;
     public function testHtmlIso8859()
     {
         $this->Mail->isHTML(true);
-        $this->Mail->Subject .= ': ISO-8859-1 HTML';
+        $this->Mail->Subject .= ": ISO-8859-1 HTML";
         $this->Mail->CharSet = 'iso-8859-1';
 
         //This file is in ISO-8859-1 charset
@@ -837,8 +837,8 @@ EOT;
         $this->Mail->msgHTML(
             mb_convert_encoding(
                 $content,
-                'ISO-8859-1',
-                mb_detect_encoding($content, 'UTF-8, ISO-8859-1, ISO-8859-15', true)
+                "ISO-8859-1",
+                mb_detect_encoding($content, "UTF-8, ISO-8859-1, ISO-8859-15", true)
             ),
             realpath(self::INCLUDE_DIR . 'examples')
         );
@@ -856,7 +856,7 @@ EOT;
     public function testHtmlUtf8()
     {
         $this->Mail->isHTML(true);
-        $this->Mail->Subject .= ': UTF-8 HTML';
+        $this->Mail->Subject .= ": UTF-8 HTML";
         $this->Mail->CharSet = 'UTF-8';
 
         $this->Mail->Body = <<<EOT
@@ -885,7 +885,7 @@ EOT;
     public function testUtf8WithEmbeddedImage()
     {
         $this->Mail->isHTML(true);
-        $this->Mail->Subject .= ': UTF-8 with embedded image';
+        $this->Mail->Subject .= ": UTF-8 with embedded image";
         $this->Mail->CharSet = 'UTF-8';
 
         $this->Mail->Body = <<<EOT
@@ -920,7 +920,7 @@ EOT;
     public function testPlainUtf8()
     {
         $this->Mail->isHTML(false);
-        $this->Mail->Subject .= ': UTF-8 plain text';
+        $this->Mail->Subject .= ": UTF-8 plain text";
         $this->Mail->CharSet = 'UTF-8';
 
         $this->Mail->Body = <<<EOT
@@ -1137,7 +1137,7 @@ EOT;
     {
         //Standalone ICS tests
         require_once realpath(self::INCLUDE_DIR . 'extras/EasyPeasyICS.php');
-        $ICS = new EasyPeasyICS('PHPMailer test calendar');
+        $ICS = new EasyPeasyICS("PHPMailer test calendar");
         $this->assertNotEmpty(
             $ICS->addEvent(
                 strtotime('tomorrow 10:00 Europe/Paris'),
@@ -1269,7 +1269,7 @@ EOT;
         $oklen = str_repeat(str_repeat('0', PHPMailer::MAX_LINE_LENGTH) . PHPMailer::CRLF, 10);
         $badlen = str_repeat(str_repeat('1', PHPMailer::MAX_LINE_LENGTH + 1) . PHPMailer::CRLF, 2);
 
-        $this->Mail->Body = 'This message contains lines that are too long.' .
+        $this->Mail->Body = "This message contains lines that are too long.".
             PHPMailer::CRLF . PHPMailer::CRLF . $oklen . $badlen . $oklen;
         $this->assertTrue(
             PHPMailer::hasLineLongerThanMax($this->Mail->Body),
@@ -1294,7 +1294,7 @@ EOT;
     {
         $oklen = str_repeat(str_repeat('0', PHPMailer::MAX_LINE_LENGTH) . PHPMailer::CRLF, 10);
 
-        $this->Mail->Body = 'This message does not contain lines that are too long.' .
+        $this->Mail->Body = "This message does not contain lines that are too long.".
             PHPMailer::CRLF . PHPMailer::CRLF . $oklen;
         $this->assertFalse(
             PHPMailer::hasLineLongerThanMax($this->Mail->Body),
@@ -1419,9 +1419,9 @@ EOT;
         );
         $this->assertEquals(
             array(
-                array('name' => 'Joe User', 'address' => 'joe@example.com'),
-                array('name' => 'Jill User', 'address' => 'jill@example.net'),
-                array('name' => '', 'address' => 'frank@example.com'),
+                array("name" => 'Joe User', 'address' => 'joe@example.com'),
+                array("name" => 'Jill User', 'address' => 'jill@example.net'),
+                array("name" => '', 'address' => 'frank@example.com'),
             ),
             $this->Mail->parseAddresses(
                 'Joe User <joe@example.com>,'
@@ -1528,7 +1528,7 @@ EOT;
         $this->Mail->preSend();
         $this->assertRegExp(
             "/Content-Transfer-Encoding: 8bit\r\n\r\n".
-            'This is a multi-part message in MIME format./',
+            "This is a multi-part message in MIME format./",
             $this->Mail->getSentMIMEMessage(),
             'MIME structure broken'
         );
@@ -1611,9 +1611,9 @@ EOT;
             'emailAddress' => 'phpmailer@example.com'
         );
         $keyconfig = array(
-            'digest_alg' => 'sha256',
-            'private_key_bits' => 2048,
-            'private_key_type' => OPENSSL_KEYTYPE_RSA,
+            "digest_alg" => "sha256",
+            "private_key_bits" => 2048,
+            "private_key_type" => OPENSSL_KEYTYPE_RSA,
         );
         $password = 'password';
         $certfile = 'certfile.pem';
@@ -1677,9 +1677,9 @@ EOT;
             'emailAddress' => 'phpmailer@example.com'
         );
         $keyconfig = array(
-            'digest_alg' => 'sha256',
-            'private_key_bits' => 2048,
-            'private_key_type' => OPENSSL_KEYTYPE_RSA,
+            "digest_alg" => "sha256",
+            "private_key_bits" => 2048,
+            "private_key_type" => OPENSSL_KEYTYPE_RSA,
         );
         $password = 'password';
         $cacertfile = 'cacertfile.pem';
@@ -1788,7 +1788,7 @@ EOT;
         );
         $this->assertFalse(PHPMailer::hasLineLongerThanMax($oklen), 'Long line false positive');
         $this->Mail->isHTML(false);
-        $this->Mail->Subject .= ': Line length test';
+        $this->Mail->Subject .= ": Line length test";
         $this->Mail->CharSet = 'UTF-8';
         $this->Mail->Encoding = '8bit';
         $this->Mail->Body = $oklen . $badlen . $oklen . $badlen;
@@ -2070,13 +2070,13 @@ EOT;
         $this->Mail->SMTPDebug = 4; //Show connection-level errors
         $this->assertTrue($this->Mail->smtpConnect(), 'SMTP single connect failed');
         $this->Mail->smtpClose();
-        $this->Mail->Host = 'ssl://localhost:12345;tls://localhost:587;10.10.10.10:54321;localhost:12345;10.10.10.10';
+        $this->Mail->Host = "ssl://localhost:12345;tls://localhost:587;10.10.10.10:54321;localhost:12345;10.10.10.10";
         $this->assertFalse($this->Mail->smtpConnect(), 'SMTP bad multi-connect succeeded');
         $this->Mail->smtpClose();
-        $this->Mail->Host = 'localhost:12345;10.10.10.10:54321;' . $_REQUEST['mail_host'];
+        $this->Mail->Host = "localhost:12345;10.10.10.10:54321;" . $_REQUEST['mail_host'];
         $this->assertTrue($this->Mail->smtpConnect(), 'SMTP multi-connect failed');
         $this->Mail->smtpClose();
-        $this->Mail->Host = ' localhost:12345 ; ' . $_REQUEST['mail_host'] . ' ';
+        $this->Mail->Host = " localhost:12345 ; " . $_REQUEST['mail_host'] . ' ';
         $this->assertTrue($this->Mail->smtpConnect(), 'SMTP hosts with stray spaces failed');
         $this->Mail->smtpClose();
         $this->Mail->Host = $_REQUEST['mail_host'];

@@ -446,7 +446,7 @@ $language['UPLOAD_LINK']='上传种子';
 # 追加结束
 
 # 追加语言定义 (HACKS)
-$language['SIGNATURE']= '论坛签名';//HACK:Signature on (Internal) Forum
+$language["SIGNATURE"]="论坛签名";//HACK:Signature on (Internal) Forum
 # 追加结束
 
 ?>

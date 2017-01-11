@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2016  DPWS Media LTD
+// Copyright (C) 2004 - 2016  Btiteam
 //
 //    This file is part of xbtit.
 //
@@ -41,7 +41,7 @@ function do_sanity() {
          {
              list($hash, $seeders, $leechers, $bytes, $filename) = $row;
 
-         $timeout=time()-(((int)$GLOBALS['report_interval']*2));
+         $timeout=time()-(((int)$GLOBALS["report_interval"]*2));
 
          // for testing purpose -- begin
          $resupd=do_sqlquery("SELECT * FROM {$TABLE_PREFIX}peers where lastupdate < ".$timeout ." AND infohash='$hash'");
@@ -49,10 +49,10 @@ function do_sanity() {
             {
             while ($resupdate = mysqli_fetch_array($resupd))
               {
-                  $uploaded=max(0,$resupdate['uploaded']);
-                  $downloaded=max(0,$resupdate['downloaded']);
-                  $pid=$resupdate['pid'];
-                  $ip=$resupdate['ip'];
+                  $uploaded=max(0,$resupdate["uploaded"]);
+                  $downloaded=max(0,$resupdate["downloaded"]);
+                  $pid=$resupdate["pid"];
+                  $ip=$resupdate["ip"];
                   // update user->peer stats only if not livestat
                   if (!$LIVESTATS)
                     {
@@ -65,7 +65,7 @@ function do_sanity() {
                   // update dead peer to non active in history table
                   if ($LOG_HISTORY)
                      {
-                          $resuser=do_sqlquery("SELECT id FROM {$TABLE_PREFIX}users WHERE ".($PRIVATE_ANNOUNCE?"pid='$pid'":"cip='$ip'"). ' ORDER BY lastconnect DESC LIMIT 1');
+                          $resuser=do_sqlquery("SELECT id FROM {$TABLE_PREFIX}users WHERE ".($PRIVATE_ANNOUNCE?"pid='$pid'":"cip='$ip'")." ORDER BY lastconnect DESC LIMIT 1");
                           $curu=@mysqli_fetch_row($resuser);
                           quickquery("UPDATE {$TABLE_PREFIX}history SET active='no' WHERE uid=$curu[0] AND infohash='$hash'");
                      }
@@ -82,7 +82,7 @@ function do_sanity() {
              while ($row = mysqli_fetch_row($results2))
                  $counts[$row[0]] = 0+$row[1];
 
-             quickQuery("UPDATE {$TABLE_PREFIX}files SET leechers=".(isset($counts['leecher'])?$counts['leecher']:0). ',seeds=' .(isset($counts['seeder'])?$counts['seeder']:0)." WHERE info_hash=\"$hash\"");
+             quickQuery("UPDATE {$TABLE_PREFIX}files SET leechers=".(isset($counts["leecher"])?$counts["leecher"]:0).",seeds=".(isset($counts["seeder"])?$counts["seeder"]:0)." WHERE info_hash=\"$hash\"");
              if ($bytes < 0)
              {
                  quickQuery("UPDATE {$TABLE_PREFIX}files SET dlbytes=0 WHERE info_hash=\"$hash\"");
@@ -102,11 +102,11 @@ function do_sanity() {
          
          // deleting orphan image in torrent's folder (if image code is enabled)
     $CAPTCHA_FOLDER = realpath("$CURRENTPATH/../$CAPTCHA_FOLDER");
-    if($dir = @opendir($CAPTCHA_FOLDER. '/'))
+    if($dir = @opendir($CAPTCHA_FOLDER."/"))
     {
         while(false !== ($file = @readdir($dir)))
         {
-            if($ext = substr(strrchr($file, '.'), 1) == 'png')
+            if($ext = substr(strrchr($file, "."), 1) == "png")
                 unlink("$CAPTCHA_FOLDER/$file");
         }
         @closedir($dir);

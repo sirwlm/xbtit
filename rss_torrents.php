@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2016  DPWS Media LTD
+// Copyright (C) 2004 - 2016  Btiteam
 //
 //    This file is part of xbtit.
 //
@@ -33,33 +33,33 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-require_once('include/functions.php');
-require_once('include/config.php');
+require_once("include/functions.php");
+require_once("include/config.php");
 
 if ($XBTT_USE)
    {
-    $tseeds= 'f.seeds+ifnull(x.seeders,0)';
-    $tleechs= 'f.leechers+ifnull(x.leechers,0)';
+    $tseeds="f.seeds+ifnull(x.seeders,0)";
+    $tleechs="f.leechers+ifnull(x.leechers,0)";
     $ttables="{$TABLE_PREFIX}files f INNER JOIN xbt_files x ON x.info_hash=f.bin_hash";
    }
 else
     {
-    $tseeds= 'f.seeds';
-    $tleechs= 'f.leechers';
+    $tseeds="f.seeds";
+    $tleechs="f.leechers";
     $ttables="{$TABLE_PREFIX}files f";
     }
 
 dbconn(true);
 
-if ($CURUSER['view_torrents']!= 'yes')
+if ($CURUSER["view_torrents"]!="yes")
    {
    header(ERR_500);
    die;
 }
 
-header('Content-type: text/xml');
+header("Content-type: text/xml");
 
-print("<?xml version=\"1.0\" encoding=\"".$GLOBALS['charset']."\"?>");
+print("<?xml version=\"1.0\" encoding=\"".$GLOBALS["charset"]."\"?>");
 ?>
 
 <rss version="2.0">
@@ -67,8 +67,8 @@ print("<?xml version=\"1.0\" encoding=\"".$GLOBALS['charset']."\"?>");
 <title><?php print $SITENAME;?></title>
 <description>rss feed script designed and coded by beeman (modified by Lupin and VisiGod)</description>
 <link><?php print $BASEURL;?></link>
-<lastBuildDate><?php print date('D, d M Y H:i:s O');?></lastBuildDate>
-<copyright><?php print '(c) ' . date('Y',time()). ' ' .$SITENAME;?></copyright>
+<lastBuildDate><?php print date("D, d M Y H:i:s O");?></lastBuildDate>
+<copyright><?php print "(c) ". date("Y",time())." " .$SITENAME;?></copyright>
 
 <?php
 
@@ -79,7 +79,7 @@ print("<?xml version=\"1.0\" encoding=\"".$GLOBALS['charset']."\"?>");
    {
     $id=$item['id'];
     $filename=($item['filename']);
-    $added=strip_tags(date('D, d M Y H:i:s O',$item['added']));
+    $added=strip_tags(date("D, d M Y H:i:s O",$item['added']));
     $cat=strip_tags($item['cname']);
     $seeders=strip_tags($item['seeders']);
     $leechers=strip_tags($item['leechers']);
@@ -94,7 +94,7 @@ print("<?xml version=\"1.0\" encoding=\"".$GLOBALS['charset']."\"?>");
   <description><![CDATA[<?php print $desc; ?>]]></description>
   <link><?php print "$BASEURL";?>/index.php?page=torrent-details&amp;id=<?php print "$id";?></link>
   <guid><?php print "$BASEURL";?>/index.php?page=torrent-details&amp;id=<?php print "$id";?></guid>
-  <enclosure url="<?php print("$BASEURL/download.php?id=$id&amp;f=$f.torrent");?>" length="<?php print $item['size'] ?>" type="application/x-bittorrent" />
+  <enclosure url="<?php print("$BASEURL/download.php?id=$id&amp;f=$f.torrent");?>" length="<?php print $item["size"] ?>" type="application/x-bittorrent" />
   <pubDate><?php print $added;?></pubDate>
   </item>
 

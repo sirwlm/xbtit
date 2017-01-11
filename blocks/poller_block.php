@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2016  DPWS Media LTD
+// Copyright (C) 2004 - 2016  Btiteam
 //
 //    This file is part of xbtit.
 //
@@ -33,10 +33,10 @@
 error_reporting(E_ALL & ~E_NOTICE);
 global $STYLEURL,$btit_settings, $language;
 
-if ($GLOBALS['ajax_poller'])
+if ($GLOBALS["ajax_poller"])
 {
 
-  if (!$CURUSER || $CURUSER['view_users']== 'yes')
+  if (!$CURUSER || $CURUSER["view_users"]=="yes")
     {
       print("<a name=\"poll\" /></a>");
       block_begin('".LATEST_POLL."');
@@ -48,7 +48,7 @@ if ($GLOBALS['ajax_poller'])
     <?php
     $poll = get_result("SELECT * FROM {$TABLE_PREFIX}poller WHERE active='yes' ORDER BY ID DESC LIMIT 1",true,$btit_settings['cache_duration']);
     if($poll)
-    $pollerId = $poll[0]['ID'];  // Id of poller
+    $pollerId = $poll[0]["ID"];  // Id of poller
     ?>
     <!-- START OF POLLER -->
     <div class="poller">
@@ -58,11 +58,11 @@ if ($GLOBALS['ajax_poller'])
       $res = get_result("select * from {$TABLE_PREFIX}poller where ID='$pollerId' LIMIT 1",true,$btit_settings['cache_duration']);
       if($res){
         $inf=$res[0];
-        echo "<div class=\"pollerTitle\">".$inf['pollerTitle']. '</div>';  // Output poller title
+        echo "<div class=\"pollerTitle\">".$inf["pollerTitle"]."</div>";  // Output poller title
         $resOptions = get_result("select * from {$TABLE_PREFIX}poller_option where pollerID='$pollerId' order by pollerOrder",true,$btit_settings['cache_duration']);  // Find poll options, i.e. radio buttons
         foreach($resOptions as $id=>$infOptions){
-          if($infOptions['defaultChecked'])$checked=" checked=\"checked\""; else $checked = '';
-          echo "<div class=\"pollerOption\"><input$checked type=\"radio\" value=\"".$infOptions['ID']."\" name=\"vote[".$inf['ID']."]\" id=\"pollerOption".$infOptions['ID']."\" /><label for=\"pollerOption".$infOptions['ID']."\" id=\"optionLabel".$infOptions['ID']."\">".$infOptions['optionText']. '</label></div>';
+          if($infOptions["defaultChecked"])$checked=" checked=\"checked\""; else $checked = "";
+          echo "<div class=\"pollerOption\"><input$checked type=\"radio\" value=\"".$infOptions["ID"]."\" name=\"vote[".$inf["ID"]."]\" id=\"pollerOption".$infOptions["ID"]."\" /><label for=\"pollerOption".$infOptions["ID"]."\" id=\"optionLabel".$infOptions["ID"]."\">".$infOptions["optionText"]."</label></div>";  
         }
       }      
       ?>      
@@ -71,7 +71,7 @@ if ($GLOBALS['ajax_poller'])
 
       </div>
       <div class="poller_waitMessage" id="poller_waitMessage<?php echo $pollerId; ?>" align="center">
-        <br /><br /><br /><br /><table border="0" cellspacing="0" cellpadding="4"><tr><td align="center" style="background-image: url('images/ajax-loader.gif'); background-repeat: no-repeat; background-position:center center; width:16px; height:16px;"></td><td align="left"><?php echo $language['FETCHING_RESULTS']; ?></td></tr></table><br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><table border="0" cellspacing="0" cellpadding="4"><tr><td align="center" style="background-image: url('images/ajax-loader.gif'); background-repeat: no-repeat; background-position:center center; width:16px; height:16px;"></td><td align="left"><?php echo $language["FETCHING_RESULTS"]; ?></td></tr></table><br /><br /><br /><br /><br />
       </div>
       <div class="poller_results" style="padding-left:5px; padding-right:5px;" id="poller_results<?php echo $pollerId; ?>">
       <!-- This div will be filled from Ajax, so leave it empty --></div>
@@ -84,29 +84,29 @@ if ($GLOBALS['ajax_poller'])
         $uid_query = get_result("SELECT COUNT(ID) FROM {$TABLE_PREFIX}poller_vote WHERE memberID='".$CURUSER['uid']."' AND pollerID='".$pollerId."'",true,$btit_settings['cache_duration']);
         $ip_query = get_result("SELECT COUNT(ID) FROM {$TABLE_PREFIX}poller_vote WHERE ipAddress='".ip2long($_SERVER['REMOTE_ADDR'])."' AND pollerID='".$pollerId."'",true,$btit_settings['cache_duration']);
 
-          if ($GLOBALS['ipcheck_poller']==false)
+          if ($GLOBALS["ipcheck_poller"]==false)
       {
         if ($uid_query)
           $uidcount = $uid_query[0];
-        $uid = $uidcount['COUNT(ID)'];
+        $uid = $uidcount["COUNT(ID)"];
         $ip = 0;
       }
-          elseif ($GLOBALS['ipcheck_poller']==true)
+          elseif ($GLOBALS["ipcheck_poller"]==true)
        {
         if ($uid_query)
           $uidcount = $uid_query[0];
         if ($ip_query)
           $ipcount = $ip_query[0];
-        $uid = $uidcount['COUNT(ID)'];
-        $ip = $ipcount['COUNT(ID)'];
+        $uid = $uidcount["COUNT(ID)"];
+        $ip = $ipcount["COUNT(ID)"];
       }
 
-          if ($uid == '0' && $ip >= '1' || $uid >= '1' && $ip >= '1' || $uid >= '1' && $ip == '0')
+          if ($uid == "0" && $ip >= "1" || $uid >= "1" && $ip >= "1" || $uid >= "1" && $ip == "0")
       {
         print("<script type=\"text/javascript\">\n");
         print("if(useCookiesToRememberCastedVotes){\n");
         // This is the code you can use to prevent someone from casting a vote. You should check on cookie or ip address
-        print('displayResultsWithoutVoting(' .$pollerId.");\n");
+        print("displayResultsWithoutVoting(".$pollerId.");\n");
         print("}\n");
         print("</script>\n");
       }
@@ -126,33 +126,33 @@ if ($GLOBALS['ajax_poller'])
 else
 {
 
-require_once ('include/functions.php');
-require_once ('include/config.php');
+require_once ("include/functions.php");
+require_once ("include/config.php");
 
 dbconn();
 
      $res =mysqli_query($GLOBALS['conn'], "SELECT * FROM {$TABLE_PREFIX}polls WHERE status='true'") or die(((is_object($GLOBALS['conn'])) ? mysqli_error($GLOBALS['conn']) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
      $result=mysqli_fetch_array($res);
-   $pid=$result['pid'];
+   $pid=$result["pid"];
 if($result){
      $res2=mysqli_query($GLOBALS['conn'], "SELECT * FROM {$TABLE_PREFIX}poll_voters WHERE pid='$pid'") or die(((is_object($GLOBALS['conn'])) ? mysqli_error($GLOBALS['conn']) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
-     $question=$result['poll_question'];
+     $question=$result["poll_question"];
      block_begin("Poll: $question");
      print("<tr><td class=blocklist align=center>\n");
      print("<table cellspacing=2 cellpading=2>\n");
 if(!isset ($CURUSER)) global $CURUSER;
 $total_votes = 0;
 $check=0;
-if($CURUSER['id_level']<3 || (isset($_POST['showres']) && $_POST['showres'] == 'Show Results')) $check=1;
+if($CURUSER["id_level"]<3 || (isset($_POST['showres']) && $_POST['showres'] == 'Show Results')) $check=1;
 else $check=0;
 while($voters=mysqli_fetch_array($res2)){
-if($CURUSER['uid']==$voters['memberid']) $check=1;
+if($CURUSER["uid"]==$voters["memberid"]) $check=1;
 }
 
 
         if($check==1){  
           
-          $poll_answers = unserialize(stripslashes($result['choices']));
+          $poll_answers = unserialize(stripslashes($result["choices"]));
           
           reset($poll_answers);
           foreach ($poll_answers as $entry)
@@ -169,7 +169,7 @@ if($CURUSER['uid']==$voters['memberid']) $check=1;
             }
             
                    
-            $percent = $votes == 0 ? 0 : $votes / $result['votes'] * 100;
+            $percent = $votes == 0 ? 0 : $votes / $result["votes"] * 100;
             $percent = sprintf( '%.2f' , $percent );
             $width   = $percent > 0 ? floor( round( $percent )*0.7) : 0;
       $percent = floor($percent);
@@ -184,7 +184,7 @@ if($CURUSER['uid']==$voters['memberid']) $check=1;
 // Show poll form
 
 
-    $poll_answers = unserialize(stripslashes($result['choices']));
+    $poll_answers = unserialize(stripslashes($result["choices"]));
           reset($poll_answers);
           
      ?>     
@@ -217,11 +217,11 @@ if($CURUSER['uid']==$voters['memberid']) $check=1;
 }            
 if(isset($_POST['submit']) && $_POST['submit'] == 'Submit' && isset($_POST['poll_vote']) && $check!=1){
   $voteid=$_POST['poll_vote'];
-  $memberid=$CURUSER['uid'];
+  $memberid=$CURUSER["uid"];
   $ip= $_SERVER['REMOTE_ADDR'];
   $new_poll_array=array();
   mysqli_query($GLOBALS['conn'], "INSERT INTO poll_voters SET ip='$ip', votedate='".time()."', pid='$pid', memberid='$memberid'");
-  $poll_answers = unserialize(stripslashes($result['choices']));
+  $poll_answers = unserialize(stripslashes($result["choices"]));
   reset($poll_answers);
 
   foreach ($poll_answers as $var){
@@ -232,9 +232,9 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Submit' && isset($_POST['poll
     $new_poll_array[] = array( $id, $choice, $votes);
   }
   $votings= addslashes(serialize($new_poll_array));
-  $uvotes=$result['votes']+1;
+  $uvotes=$result["votes"]+1;
   mysqli_query($GLOBALS['conn'], "UPDATE {$TABLE_PREFIX}polls SET votes='$uvotes', choices='$votings' WHERE pid='$pid'");
-  redirect('index.php');
+  redirect("index.php");
   
 }
     

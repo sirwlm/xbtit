@@ -232,8 +232,8 @@ class html2text
         '--',
         '-',
         '*',
-        'ï¿½',
-        'EUR',                                  // Euro sign. ï¿½ ?
+        '£',
+        'EUR',                                  // Euro sign. € ?
         '',                                     // Unknown/unhandled entities
         ' '                                     // Runs of spaces, post-handling
     );
@@ -316,7 +316,7 @@ class html2text
         $this->html = $source;
 
         if ( $from_file && file_exists($source) ) {
-            $fp = fopen($source, 'rb');
+            $fp = fopen($source, 'r');
             $this->html = fread($fp, filesize($source));
             fclose($fp);
         }
@@ -465,7 +465,7 @@ class html2text
 		if ( substr($link, 0, 7) == 'http://' || substr($link, 0, 8) == 'https://' ||
              substr($link, 0, 7) == 'mailto:' ) {
             $this->_link_count++;
-            $this->_link_list .= '[' . $this->_link_count . "] $link\n";
+            $this->_link_list .= "[" . $this->_link_count . "] $link\n";
             $additional = ' [' . $this->_link_count . ']';
 		} elseif ( substr($link, 0, 11) == 'javascript:' ) {
 			// Don't count the link; ignore it
@@ -473,7 +473,7 @@ class html2text
 		// what about href="#anchor" ?
         } else {
             $this->_link_count++;
-            $this->_link_list .= '[' . $this->_link_count . '] ' . $this->url;
+            $this->_link_list .= "[" . $this->_link_count . "] " . $this->url;
             if ( substr($link, 0, 1) != '/' ) {
                 $this->_link_list .= '/';
             }

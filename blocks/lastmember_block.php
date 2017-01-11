@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2016  DPWS Media LTD
+// Copyright (C) 2004 - 2016  Btiteam
 //
 //    This file is part of xbtit.
 //
@@ -31,7 +31,7 @@
 ////////////////////////////////////////////////////////////////////////////////////
 
 global $CURUSER,$btit_settings;
-if (!$CURUSER || $CURUSER['view_users']== 'no')
+if (!$CURUSER || $CURUSER["view_users"]=="no")
    {
     // do nothing
    }
@@ -39,18 +39,18 @@ else
     {
     //lastest member
 
-     block_begin ('Latest Member');
+     block_begin ("Latest Member");
      $a = get_result("SELECT id,username FROM {$TABLE_PREFIX}users WHERE
      id_level<>1 AND id_level<>2 ORDER BY id DESC LIMIT 1",true,$btit_settings['cache_duration']);
      if($a){
       $a=$a[0];
-      if ($CURUSER['view_users']== 'yes')
-      $latestuser = "<a class=\"lastmem\" href=\"index.php?page=userdetails&amp;id=" . $a['id'] . "\">" . $a['username'] . '</a>';
+      if ($CURUSER["view_users"]=="yes")
+      $latestuser = "<a class=\"lastmem\" href=\"index.php?page=userdetails&amp;id=" . $a["id"] . "\">" . $a["username"] . "</a>";
      else
      $latestuser = $a['username'];
-     echo " <div align=\"center\"><table border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" > <tr><td class=\"blocklist\" align=\"center\">".$language['WELCOME_LASTUSER']."<br /><b>$latestuser</b>!</td></tr></table></div>\n";
+     echo " <div align=\"center\"><table border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" > <tr><td class=\"blocklist\" align=\"center\">".$language["WELCOME_LASTUSER"]."<br /><b>$latestuser</b>!</td></tr></table></div>\n";
      }
-     block_end('');
+     block_end("");
 
 } // end if user can view
 

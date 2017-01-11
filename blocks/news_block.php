@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2016  DPWS Media LTD
+// Copyright (C) 2004 - 2016  Btiteam
 //
 //    This file is part of xbtit.
 //
@@ -30,9 +30,9 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-require_once ('include/blocks.php');
+require_once ("include/blocks.php");
 if (!isset($CURUSER)) global $CURUSER;
-if (!$CURUSER || $CURUSER['view_news']== 'no')
+if (!$CURUSER || $CURUSER["view_news"]=="no")
    {
        //err_msg(ERROR,NOT_AUTH_VIEW_NEWS."!");
        //stdfoot();
@@ -42,9 +42,9 @@ if (!$CURUSER || $CURUSER['view_news']== 'no')
 }
 else{
     global $USERLANG,$THIS_BASEPATH,$BASEURL;
-    $limit=$GLOBALS['block_newslimit'];
-    $root_path=realpath(__DIR__. '/../');
+    $limit=$GLOBALS["block_newslimit"];
+    $root_path=realpath(__DIR__."/../");
     require("$root_path/viewnews.php");
-    echo $viewnewstpl->fetch(load_template('viewnews.tpl'));
+    echo $viewnewstpl->fetch(load_template("viewnews.tpl"));
 }
 ?>
