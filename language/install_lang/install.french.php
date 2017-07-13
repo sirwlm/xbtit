@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2015  Btiteam
+// Copyright (C) 2004 - 2015  DPWS Media LTD
 //
 //    This file is part of xbtit.
 //
@@ -94,7 +94,7 @@ $install_lang["email2"]                 = "R&eacute;&eacute;crire le courriel ";
 $install_lang["is_succes"]              = "effectu&eacute;.";
 $install_lang["no_leave_blank"]         = "Ne rien laisser vide.";
 $install_lang["not_valid_email"]        = "Ce n'est pas une adresse courriel valide.";
-$install_lang["pass_not_same_username"] = "Le mot de passe ne peut être identique au pseudonyme.";
+$install_lang["pass_not_same_username"] = "Le mot de passe ne peut ï¿½tre identique au pseudonyme.";
 $install_lang["email_not_same"]         = "Les adresses courriel ne correspondent pas.";
 $install_lang["pass_not_same"]          = "Les mots de passe ne correspondent pas.";
 $install_lang["site_config"]            = "Configuration du tracker";
@@ -110,7 +110,7 @@ $install_lang["finished_step"]          = "R&eacute;sum&eacute;";
 $install_lang["succes_install1"]        = "L'installation est termin&eacute;e !";
 $install_lang["succes_install2a"]       = "<p>Vous avez install&eacute; avec succ&egrave;s ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." comme tracker.</p><p>L'installation a &eacute;t&eacute; bloqu&eacute; avec succ&egrave;s et le fichier <b>install.php</b> supprim&eacute; afin de pr&eacute;venir toute utilisation ult&eacute;rieure.</p>";
 $install_lang["succes_install2b"]       = "<p>Vous avez install&eacute; avec succ&egrave;s ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." comme tracker.</p><p>Nous vous conseillons de bloquer l'installation. Vous pouvez faire cela en renommant le fichier <b>install.unlock</b> en <b>install.lock</b> ou en supprimant le fichier <b>install.php</b>.</p>";
-$install_lang["succes_install3"]        = "<p>L'&eacute;quipe BTIT vous souhaite une agr&eacute;able utilisation du produit, et esp&egrave;re vous voir bientot sur le <a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">forum</a>.</p>";
+$install_lang["succes_install3"]        = "<p>L'&eacute;quipe BTIT vous souhaite une agr&eacute;able utilisation du produit, et esp&egrave;re vous voir bientot sur le <a href=\"http://dpwsmedia.com/smf/index.php\" target=\"_blank\">forum</a>.</p>";
 $install_lang["go_to_tracker"]          = "Aller au Tracker";
 $install_lang["forum_type"]             = "Type de Forum ";
 $install_lang["forum_internal"]         = "Forum interne xbtit";
@@ -128,7 +128,7 @@ $install_lang["allow_url_fopen_OFF"]    = "<span style=\"color:#FF0000; font-wei
 $install_lang["succes_upgrade1"]        = "La mise &agrave jour est compl&egrave;te!";
 $install_lang["succes_upgrade2a"]       = "<p>Vous avez mis &agrave jour avec succ&egrave;s ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." comme tracker.</p><p>La mise &agrave; jour a &eacute;t&eacute; bloqu&eacute; avec succ&egrave;s mais nous vous conseillons de supprim&eacute; les fichiers <b>upgrade.php+install.php</b> pour une protection accrue.</p>";
 $install_lang["succes_upgrade2b"]       = "<p>Vous avez mis &agrave jour avec succ&egrave;s ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." comme tracker.</p><p>Nous vous conseillons de bloquer la mise &agrave; jour. Vous pouvez faire cela en renommant le fichier <b>install.unlock</b> en <b>install.lock</b> ou en supprimant les fichiers <b>upgrade.php+install.php</b>.</p>";
-$install_lang["succes_upgrade3"]        = "<p>L'&eacute;quipe BTIT vous souhaite une agr&eacute;able utilisation du produit, et esp&egrave;re vous voir bientot sur le <a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">forum</a>.</p>";
+$install_lang["succes_upgrade3"]        = "<p>L'&eacute;quipe BTIT vous souhaite une agr&eacute;able utilisation du produit, et esp&egrave;re vous voir bientot sur le <a href=\"http://dpwsmedia.com/smf/index.php\" target=\"_blank\">forum</a>.</p>";
 $install_lang['error_mysql_database']   = "L'installation n'est pas en mesure d'acc&eacute;der &agrave; la base de donn&eacute;es &quot;<i>%s</i>&quot;. Chez certains h&eacute;bergeurs, vous devez cr&eacute;er la base de donn&eacute;es via le panneau d'administration avant que xBtit puisse l'utiliser. Certains ajoutent aussi des pr&eacute;fixes - comme votre pseudo - dans le nom des bases de donn&eacute;es.";
 $install_lang['error_message_click']    = "Cliquez icie";
 $install_lang['error_message_try_again']= "pour r&eacute;essayez";

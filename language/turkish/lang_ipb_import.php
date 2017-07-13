@@ -46,11 +46,11 @@ $lang[39]='<br /><center><strong>IPB Config file (';
 $lang[40]='<center><u><strong><font size="4" face="Arial">Stage 3: Creating the bridge</font></strong></u></center><br />';
 $lang[41]='<center>Now the database has been setup correctly it&#39;s time to start bridging the tracker members with the ipb members and adjusting everyone&#39;s rank to match their tracker rank,<br />This can take some time if you have a large memberbase so please be patient and allow<br />the script to do it&#39;s work!<br /><br /><strong>please <a href="'.$_SERVER['PHP_SELF'].'?act=member_bridge&amp;confirm=yes">click here</a> to proceed</center>';
 $lang[42]='<center><font face="Arial" size="2">Please <a target="_new" href="ipb/index.php?app=core&module=global&section=login">login to your new IPB forum</a> using your Tracker credentials and goto<br />the <strong>Admin Panel</strong> and setup the category/forum permissions for your ranks,<br />currently only the default category/forum is visible to all.<br /><br /><strong><font color="#0000FF">Your integrated IPB Forum should then be ready to use!</font></strong></font></center>';
-$lang[43]= '<center>Successfully bridged';
-$lang[44]= 'accounts.<br /><br /></center>';
+$lang[43]="<center>Successfully bridged";
+$lang[44]="accounts.<br /><br /></center>";
 $lang[45]="<center><b><span style='color:red'>WARNING: There are";
-$lang[46]= 'unbridged tracker accounts and';
+$lang[46]="unbridged tracker accounts and";
 $lang[47]="orphaned forum accounts.</span></b><br /><br />You should attempt to fix these manually by comparing the account details in phpMyAdmin.<br />You can use the following queries for this:<br /><br />Tracker:<br /><textarea rows='1' cols='80'>SELECT * FROM `{$TABLE_PREFIX}users` WHERE `ipb_fid`=0 AND `id`>1 ORDER BY `id` ASC;</textarea><br /><br />Forum:<br /><textarea rows='1' cols='80'>SELECT * FROM `{$ipb_prefix}members` WHERE `member_group_id`=0 ORDER BY `id_member` ASC;</textarea><br /><br />Once you have found a match you should update the \"ipb_fid\" field on the tracker account<br />with the contents of the \"id_member\" field on the appropriate forum record.<br /><br />Then update the \"member_group_id\" field on the forum record with the value from the \"id_level\" field on the tracker record.<br /><br />It is then advisable to delete any remaining orphaned IPB accounts by running the following query:<br /><textarea rows='1' cols='80'>DELETE FROM `{$ipb_prefix}members` WHERE `member_group_id`=0;</textarea><br /><br /></center>";
-$lang[48]= '<center>Successfully imported and bridged';
+$lang[48]="<center>Successfully imported and bridged";
 $lang[49]="<center><b><span style=\"color:#0000FF;\">Your integrated IPB Forum should now be ready to use!</span></b></center>";
 ?>

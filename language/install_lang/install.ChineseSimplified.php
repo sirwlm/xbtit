@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2015  Btiteam
+// Copyright (C) 2004 - 2015  DPWS Media LTD
 //
 //    This file is part of xbtit.
 //
@@ -110,7 +110,7 @@ $install_lang["finished_step"]          = "结束";
 $install_lang["succes_install1"]        = "安装已完成!";
 $install_lang["succes_install2a"]       = "<p>您成功地安装了 ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"].".</p><p>您已顺利对安装进程上锁并且文件 <b>install.php</b> 已被删除.</p>";
 $install_lang["succes_install2b"]       = "<p>您成功地安装了 ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"].".</p><p>我们建议对安装进程上锁. 对安装进程上锁您需要将文件 <b>install.unlock</b> 改名为 <b>install.lock</b> 并删除文件 <b>install.php</b>.</p>";
-$install_lang["succes_install3"]        = "<p>BTITeam希望您妥善使用我们的产品，有任何问题欢迎访问我们的<a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">论坛</a>.</p>";
+$install_lang["succes_install3"]        = "<p>DPWS Media LTD希望您妥善使用我们的产品，有任何问题欢迎访问我们的<a href=\"http://dpwsmedia.com/smf/index.php\" target=\"_blank\">论坛</a>.</p>";
 $install_lang["go_to_tracker"]          = "进入您的tracker";
 $install_lang["forum_type"]             = "论坛格式";
 $install_lang["forum_internal"]         = "xbtit自带的论坛";
@@ -128,7 +128,7 @@ $install_lang["allow_url_fopen_OFF"]        = "<span style=\"color:#FF0000; font
 $install_lang["succes_upgrade1"]        = "升级完成!";
 $install_lang["succes_upgrade2a"]       = "<p>您已成功升级您的tracker到 ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"].".</p><p>您已顺利对升级进程上锁, 我们同样建议您删除 <b>upgrade.php+install.php</b> 以保证安全.</p>";
 $install_lang["succes_upgrade2b"]       = "<p>您已成功升级您的tracker到 ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." .</p><p>我们建议对安装进程上锁. 对安装进程上锁您需要将文件 <b>install.unlock</b> 改名为 <b>install.lock</b> 或删除名为 <b>upgrade.php</b> 和 <b>install.php</b> 的文件.</p>";
-$install_lang["succes_upgrade3"]        = "<p>BTITeam希望您妥善使用我们的产品，有任何问题欢迎访问<a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">我们的论坛</a>.</p>";
+$install_lang["succes_upgrade3"]        = "<p>DPWS Media LTD希望您妥善使用我们的产品，有任何问题欢迎访问<a href=\"http://dpwsmedia.com/smf/index.php\" target=\"_blank\">我们的论坛</a>.</p>";
 $install_lang['error_mysql_database']   = '安装程序不能访问 &quot;<i>%s</i>&quot; 数据库.  对于一些主机来说, 您必须在xBtit使用数据库之前到管理面板中创建数据库.  一些主机可能要求您添加前缀(例如你的用户名)到您的数据库名称之前.';
 $install_lang['error_message_click']    = '点击这里';
 $install_lang['error_message_try_again']= '重试';

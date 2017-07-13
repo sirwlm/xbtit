@@ -1,7 +1,7 @@
 <?php
 // Traduzione eseguita da mOOn, con il QCheck di Laurianti.
 //Un grazie anche a Confe, e a chi si Ã¨ prodigato nel testare il Tracker
-// Per qualsiasi info ci trovate su http://www.btiteam.org
+// Per qualsiasi info ci trovate su http://dpwsmedia.com
 $language["ACP_BAN_IP"]="Banna Indirizzo IP";
 $language["ACP_FORUM"]="Settaggi Forum";
 $language["ACP_USER_GROUP"]="Settaggi Gruppo Utenti";
@@ -91,7 +91,7 @@ $language["SETTING_SMTP_USERNAME"]="SMTP Utente";
 $language["SETTING_SMTP_PASSWORD"]="SMTP Password";
 $language["SETTING_SMTP_PASSWORD_REPEAT"]="SMTP Password (Ripeti)";
 $language["XBTT_TABLES_ERROR"]="Devi importare le tabelle di xbtt(guarda le istruzioni di installazione di xbtt) nel tuo database prima di attivare il backend di xbtt!";
-$language["XBTT_URL_ERROR"]="L'indirizzo base di Xbtt è obbligatorio!";
+$language["XBTT_URL_ERROR"]="L'indirizzo base di Xbtt ï¿½ obbligatorio!";
 // BAN FORM
 $language["BAN_NOTE"]="In questa parte del pannello di amministrazione, puoi vedere gli indirizzi ip interdetti, ed escludere altri indirizzi ip dal tracker.<br />\nDevi inserirli in un raggio da (primo IP) a (ultimo IP).";
 $language["BAN_NOIP"]="Non ci sono indirizzi Ip interdetti";

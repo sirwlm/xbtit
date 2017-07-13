@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2015  Btiteam
+// Copyright (C) 2004 - 2015  DPWS Media LTD
 //
 //    This file is part of xbtit.
 //
@@ -110,8 +110,8 @@ $install_lang["finished"]               = "Afronding van Installatie";
 $install_lang["finished_step"]          = "Afronden";
 $install_lang["succes_install1"]        = "De installatie is gelukt!";
 $install_lang["succes_install2a"]       = "<p>U heeft met succes ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." ge&iuml;nstalleerd op uw tracker.</p><p>De installatie is met succes vergrendelt tegen hergebruik maar wij adviseren u om <b>install.php</b> te verwijderen voor de zekerheid.</p>";
-$install_lang["succes_install2b"]        = "<p>U heeft met succes ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." geïnstalleerd op uw tracker.</p><p>Wij adviseren u de installatie te vergrendelen. Dit kunt u doen door <b>install.unlock</b> te veranderen naar <b>install.lock</b> of dit <b>install.php</b> bestand te verwijderen.</p>";
-$install_lang["succes_install3"]        = "<p>Wij van BTITeam wensen u veel plezier bij het gebruik van dit product en hopen u nog eens te zien op ons <a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">forum</a>.</p>";
+$install_lang["succes_install2b"]        = "<p>U heeft met succes ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." geï¿½nstalleerd op uw tracker.</p><p>Wij adviseren u de installatie te vergrendelen. Dit kunt u doen door <b>install.unlock</b> te veranderen naar <b>install.lock</b> of dit <b>install.php</b> bestand te verwijderen.</p>";
+$install_lang["succes_install3"]        = "<p>Wij van DPWS Media LTD wensen u veel plezier bij het gebruik van dit product en hopen u nog eens te zien op ons <a href=\"http://dpwsmedia.com/smf/index.php\" target=\"_blank\">forum</a>.</p>";
 $install_lang["go_to_tracker"]          = "Ga naar uw tracker";
 $install_lang["forum_type"]             = "Forum Type";
 $install_lang["forum_internal"]         = "xbtit Intern Forum";
@@ -129,7 +129,7 @@ $install_lang["allow_url_fopen_OFF"]    = "<span style=\"color:#FF0000; font-wei
 $install_lang["succes_upgrade1"]        = "Upgrade is geslaagd!";
 $install_lang["succes_upgrade2a"]       = "<p>U heeft met succes ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." geupgrade op uw tracker.</p><p>De installatie is met succes vergrendelt tegen hergebruik maar wij adviseren u om <b>upgrade.php+install.php</b> te verwijderen voor de zekerheid.</p>";
 $install_lang["succes_upgrade2b"]       = "<p>U heeft met succes ".$GLOBALS["btit-tracker"]." ".$GLOBALS["current_btit_version"]." geupgrade op uw tracker.</p><p>Wij adviseren u de installatie te vergrendelen. Dit kunt u doen door <b>install.unlock</b> te veranderen naar <b>install.lock</b> of dit <b>upgrade.php+install.php</b> bestand te verwijderen.</p>";
-$install_lang["succes_upgrade3"]        = "<p>Wij van BTITeam hopen dat u veel plezier heeft met dit product en wij hopen u nog een terug te zien op ons <a href=\"http://www.btiteam.org/smf/index.php\" target=\"_blank\">forum</a>.</p>";
+$install_lang["succes_upgrade3"]        = "<p>Wij van DPWS Media LTD hopen dat u veel plezier heeft met dit product en wij hopen u nog een terug te zien op ons <a href=\"http://dpwsmedia.com/smf/index.php\" target=\"_blank\">forum</a>.</p>";
 $install_lang['error_mysql_database']   = 'De installer kon geen verbinding krijgen met de &quot;<i>%s</i>&quot; database. Met enkele hosts, moet u een database aanmaken in uw administratie paneel voordat xBtit het kan gebruiken. Ook het toevoegen van prefixes - zoals uw gebruikersnaam - aan uw database.';
 $install_lang['error_message_click']    = 'Klik hier';
 $install_lang['error_message_try_again']= 'om het opnieuw te proberen';

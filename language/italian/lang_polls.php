@@ -1,7 +1,7 @@
 <?php
 // Traduzione eseguita da mOOn, con il QCheck di Laurianti.
 //Un grazie anche a Confe, e a chi si è prodigato nel testare il Tracker
-// Per qualsiasi info ci trovate su http://www.btiteam.org
+// Per qualsiasi info ci trovate su http://dpwsmedia.com
 $language["POLL_ID"]="ID";
 $language["LATEST_POLL"]="Ultimo sondaggio";
 $language["CAST_VOTE"]="Assegna il mio voto";
@@ -48,5 +48,6 @@ $language["WEEKS"]="settimane";
 $language["DAYS"]="giorni";
 $language["HOURS"]="ore";
 $language["MINUTES"]="minuti";
-$language["SECONDS"]="secondi";
+$language["SECONDS"]="secondi";
+
 ?>
