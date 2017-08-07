@@ -413,9 +413,9 @@ function start($info_hash, $ip, $port, $peer_id, $left, $downloaded=0, $uploaded
       }
 
     if ($left === 0)
-        $status = 'seeder';
-    else
         $status = 'leecher';
+    else
+        $status = 'seecher';
 
     if (@isFireWalled($info_hash, $peer_id, $ip, $port))
         $nat = 'Y';
