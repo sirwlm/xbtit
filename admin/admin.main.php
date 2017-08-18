@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2016  DPWS Media LTD
+// Copyright (C) 2004 - 2016  Btiteam
 //
 //    This file is part of xbtit.
 //
@@ -42,10 +42,10 @@ if (!defined("IN_ACP"))
 $btit_url_last="";
 $btit_url_rss="";
 
-if(get_remote_file("http://dpwsmedia.com"))
+if(get_remote_file("http://www.btiteam.org"))
 {
-    $btit_url_rss="http://dpwsmedia.com/smf/index.php?type=rss;action=.xml;board=83;sa=news";
-    $btit_url_last="http://dpwsmedia.com/last_version.txt";
+    $btit_url_rss="http://www.btiteam.org/smf/index.php?type=rss;action=.xml;board=83;sa=news";
+    $btit_url_last="http://www.btiteam.org/last_version.txt";
 }
 
 */
@@ -150,7 +150,7 @@ if ((implode(" ",$current_version)!=implode(" ",$last_version)))
   {
   $your_version.="<table width=\"100%\"><tr><td align=\"right\">Installed version:</td><td align=\"left\">".implode(" ",$current_version)."</td></tr>\n";
   $your_version.="<tr><td align=\"right\">Current version:</td><td align=\"left\">".implode(" ",$last_version)."</td></tr>\n";
-  $your_version.="<tr><td colspan=\"2\" align=\"center\">Get Last Version <a href=\"http://dpwsmedia.com\" target=\"_blank\">here</a>!</td></tr>\n</table>";
+  $your_version.="<tr><td colspan=\"2\" align=\"center\">Get Last Version <a href=\"http://www.btiteam.org\" target=\"_blank\">here</a>!</td></tr>\n</table>";
 }
 else
   {
@@ -159,14 +159,9 @@ else
 if (!empty($your_version))
    $admin["xbtit_version"]=$your_version."<br />\n";
 */
-$bytes = disk_free_space(".");
-$si_prefix = array( 'B', 'KB', 'MB', 'GB', 'TB', 'EB', 'ZB', 'YB' );
-$base = 1024;
-$class = min((int)log($bytes , $base) , count($si_prefix) - 1);
 
 $admin["infos"].=("<br />\n<table border=\"0\">\n");
 $admin["infos"].=("<tr><td class=\"header\" align=\"center\">Server's OS</td></tr><tr><td align=\"left\">".php_uname()."</td></tr>");
-$admin["infos"].=('<tr><td class="header" align="center">Free Space</td></tr><tr><td align="left"><b>'.$_SERVER["DOCUMENT_ROOT"].'<br>Free:&nbsp;<font color=red>'.sprintf('%1.2f' , $bytes / pow($base,$class)) . ' ' . $si_prefix[$class] . '</b></td></tr>');
 $admin["infos"].=("<tr><td class=\"header\" align=\"center\">PHP version</td></tr><tr><td align=\"left\">".phpversion()."</td></tr>");
 
 $sqlver=mysqli_fetch_row(do_sqlquery("SELECT VERSION()"));

@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2016  DPWS Media LTD
+// Copyright (C) 2004 - 2016  Btiteam
 //
 //    This file is part of xbtit.
 //
@@ -32,7 +32,6 @@
 
 $CURRENTPATH = __DIR__;
 
-
 global $btit_settings;
 if ($btit_settings["error"]===true)
 {
@@ -41,6 +40,7 @@ error_reporting(E_ALL&~E_NOTICE&~E_WARNING&~E_STRICT&~'E_DEPRECATED');
 else 
 error_reporting(E_ALL&~E_NOTICE&~E_WARNING&~E_STRICT&~E_DEPRECATED);
 }
+ini_set("log_errors", 'On'); // enable or disable php error logging (use 'On' or 'Off')
 //create some logging :)
 require_once($CURRENTPATH.'/conextra.php');
 $signon= getConnection ();
@@ -48,8 +48,13 @@ $prefix=getPrefix ();
 $logname=mysqli_fetch_row(mysqli_query($signon, "SELECT `value` FROM {$prefix}settings WHERE `key`='php_log_name' LIMIT 1"));
 $logpath=mysqli_fetch_row(mysqli_query($signon, "SELECT `value` FROM {$prefix}settings WHERE `key`='php_log_path' LIMIT 1"));
 $when=@date("d.m.y");
-ini_set('log_errors','On'); // enable or disable php error logging (use 'On' or 'Off')
-ini_set('error_log',''.$logpath[0].'/'.$logname[0].'_'.$when.'_.log'); // path to server-writable log file
+if(!is_dir($logpath[0].'/')){
+mkdir($logpath[0], 0777, true);
+file_put_contents($logpath[0].'/'.$logname[0].'_'.$when.'_.log',"");
+ini_set('error_log',$logpath[0].'/'.$logname[0].'_'.$when.'_.log'); // path to server-writable log file
+error_log(date('l jS \of F Y h:i:s A'));
+}else
+ini_set('error_log',$logpath[0].'/'.$logname[0].'_'.$when.'_.log'); // path to server-writable log file
 
 #
 // Emulate register_globals off
@@ -199,7 +204,7 @@ function print_debug($level=3, $key=' - ') {
 function print_version() {
   global $tracker_version;
 
-  return '[&nbsp;&nbsp;<u>xbtit '.$tracker_version.' By</u>: <a href="http://dpwsmedia.com/" target="_blank">DPWS Media</a>&nbsp;]';
+  return '[&nbsp;&nbsp;<u>xbtit '.$tracker_version.' By</u>: <a href="http://www.btiteam.org/" target="_blank">Btiteam</a>&nbsp;]';
 }
 
 function print_designer() {
@@ -243,11 +248,11 @@ function check_online($session_id, $location)
 
     if($locationHasChanged || $overOneMinute)
     {
-        @quickQuery("UPDATE {$TABLE_PREFIX}online SET session_id='$session_id', user_name=$uname, user_group=$ugroup, prefixcolor=$prefix, suffixcolor=$suffix, location=$location, user_id=$uid, lastaction=UNIX_TIMESTAMP() $where");
+        @quickQuery("UPDATE {$TABLE_PREFIX}online SET session_id='$session_id', user_name=$uname, user_group=$ugroup, prefixcolor=$prefix, suffixcolor=$suffix, location=$location, user_id=$uid, lastaction=UNIX_TIMESTAMP(), user_ip='$ip' $where");
         // record don't already exist, then insert it
         if (mysqli_affected_rows($GLOBALS['conn'])==0)
         { 
-            @quickQuery("UPDATE {$TABLE_PREFIX}users SET lastconnect=NOW() WHERE id=$uid AND id>1");
+            @quickQuery("UPDATE {$TABLE_PREFIX}users SET lastconnect=NOW(), cip='$ip' WHERE id=$uid AND id>1");
             @quickQuery("INSERT INTO {$TABLE_PREFIX}online SET session_id='$session_id', user_name=$uname, user_group=$ugroup, prefixcolor=$prefix, suffixcolor=$suffix, user_id=$uid, user_ip='$ip', location=$location, lastaction=UNIX_TIMESTAMP()");
         }
     }

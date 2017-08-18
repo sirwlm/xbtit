@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2016  DPWS Media LTD
+// Copyright (C) 2004 - 2016  Btiteam
 //
 //    This file is part of xbtit.
 //
@@ -306,35 +306,35 @@ function tabella($action,$dati=array()) {
 // Captcha hack
 // -----------------------------
 // if set to use secure code: try to display imagecode
-if ($USE_IMAGECODE && $action!=='mod')
+if ($USE_IMAGECODE && $action!="mod")
   {
    if (extension_loaded('gd'))
      {
        $arr = gd_info();
-       if ($arr['FreeType Support']===1)
+       if ($arr['FreeType Support']==1)
         {
          $p=new ocr_captcha();
 
-         $tpl_account->set('CAPTCHA',true,true);
+         $tpl_account->set("CAPTCHA",true,true);
 
-         $tpl_account->set('account_captcha',$p->display_captcha(true));
+         $tpl_account->set("account_captcha",$p->display_captcha(true));
 
          $private=$p->generate_private();
       }
      else
        {
          include("$THIS_BASEPATH/include/security_code.php");
-         $scode_index = mt_rand(0, count($security_code) - 1);
+         $scode_index = rand(0, count($security_code) - 1);
          $scode="<input type=\"hidden\" name=\"security_index\" value=\"$scode_index\" />\n";
          $scode.=$security_code[$scode_index]["question"];
-         $tpl_account->set('scode_question',$scode);
-         $tpl_account->set('CAPTCHA',false,true);
+         $tpl_account->set("scode_question",$scode);
+         $tpl_account->set("CAPTCHA",false,true);
        }
      }
      else
        {
          include("$THIS_BASEPATH/include/security_code.php");
-         $scode_index = mt_rand(0, count($security_code) - 1);
+         $scode_index = rand(0, count($security_code) - 1);
          $scode="<input type=\"hidden\" name=\"security_index\" value=\"$scode_index\" />\n";
          $scode.=$security_code[$scode_index]["question"];
          $tpl_account->set("scode_question",$scode);
@@ -344,7 +344,7 @@ if ($USE_IMAGECODE && $action!=='mod')
 elseif ($action!="mod")
    {
        include("$THIS_BASEPATH/include/security_code.php");
-       $scode_index = mt_rand(0, count($security_code) - 1);
+       $scode_index = rand(0, count($security_code) - 1);
        $scode="<input type=\"hidden\" name=\"security_index\" value=\"$scode_index\" />\n";
        $scode.=$security_code[$scode_index]["question"];
        $tpl_account->set("scode_question",$scode);
@@ -381,17 +381,17 @@ if ($pwd != $pwd1) {
     exit;
     }
 
-if ($VALIDATION==='none')
+if ($VALIDATION=="none")
    $idlevel=3;
 else
    $idlevel=2;
 # Create Random number
 $floor = 100000;
 $ceiling = 999999;
-mt_srand((double)microtime()*1000000);
-$random = mt_rand($floor, $ceiling);
+srand((double)microtime()*1000000);
+$random = rand($floor, $ceiling);
 
-if ($utente==='' || $pwd==='' || $email==='') {
+if ($utente=="" || $pwd=="" || $email=="") {
    return -1;
    exit;
 }
@@ -421,7 +421,7 @@ if (mysqli_num_rows($res)>0)
 }
 // duplicate username
 
-if (strpos(mysqli_real_escape_string($GLOBALS['conn'],$utente), " ")===true)
+if (strpos(mysqli_real_escape_string($GLOBALS['conn'],$utente), " ")==true)
    {
    return -7;
    exit;
@@ -431,7 +431,7 @@ if ($USE_IMAGECODE)
   if (extension_loaded('gd'))
     {
      $arr = gd_info();
-     if ($arr['FreeType Support']===1)
+     if ($arr['FreeType Support']==1)
       {
         $public=$_POST['public_key'];
         $private=$_POST['private_key'];
@@ -440,7 +440,7 @@ if ($USE_IMAGECODE)
 
           if ($p->check_captcha($public,$private) != true)
               {
-              err_msg($language['ERROR'],$language['ERR_IMAGE_CODE']);
+              err_msg($language["ERROR"],$language["ERR_IMAGE_CODE"]);
               stdfoot();
               exit;
           }
@@ -448,10 +448,10 @@ if ($USE_IMAGECODE)
        else
          {
            include("$THIS_BASEPATH/include/security_code.php");
-           $scode_index=((int)$_POST['security_index']);
-           if ($security_code[$scode_index]['answer']!=$_POST['scode_answer'])
+           $scode_index=((int)$_POST["security_index"]);
+           if ($security_code[$scode_index]["answer"]!=$_POST["scode_answer"])
               {
-              err_msg($language['ERROR'],$language['ERR_IMAGE_CODE']);
+              err_msg($language["ERROR"],$language["ERR_IMAGE_CODE"]);
               stdfoot();
               exit;
             }
@@ -460,10 +460,10 @@ if ($USE_IMAGECODE)
      else
        {
          include("$THIS_BASEPATH/include/security_code.php");
-         $scode_index=((int)$_POST['security_index']);
-         if ($security_code[$scode_index]['answer']!=$_POST['scode_answer'])
+         $scode_index=((int)$_POST["security_index"]);
+         if ($security_code[$scode_index]["answer"]!=$_POST["scode_answer"])
             {
-            err_msg($language['ERROR'],$language['ERR_IMAGE_CODE']);
+            err_msg($language["ERROR"],$language["ERR_IMAGE_CODE"]);
             stdfoot();
             exit;
           }
@@ -482,7 +482,7 @@ else
   }
 
 $bannedchar=array("\\", "/", ":", "*", "?", "\"", "@", "$", "'", "`", ",", ";", ".", "<", ">", "!", "�", "%", "^", "&", "(", ")", "+", "=", "#", "~");
-if (straipos(mysqli_real_escape_string($GLOBALS['conn'],$utente), $bannedchar)===true)
+if (straipos(mysqli_real_escape_string($GLOBALS['conn'],$utente), $bannedchar)==true)
    {
    return -8;
    exit;

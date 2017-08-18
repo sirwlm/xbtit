@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2016  DPWS Media LTD
+// Copyright (C) 2004 - 2016  Btiteam
 //
 //    This file is part of xbtit.
 //
@@ -115,7 +115,7 @@ function load_lang_file()
         echo ("<p>This installer was unable to find the installer's language file or files.  They should be found under:</p>");
         echo ("<div style=\"margin: 1ex; font-family: monospace; font-weight: bold;\">/language/install_lang/</div>");
         echo ("<p>In some cases, FTP clients do not properly upload files with this many folders.  Please double check to make sure you <span style=\"font-weight: 600;\">have uploaded all the files in the distribution</span>.</p>");
-        echo ("<p>If you continue to get this error message, feel free to <a href=\"http://dpwsmedia.com/smf/index.php/\">look to us for support</a>.</p>");
+        echo ("<p>If you continue to get this error message, feel free to <a href=\"http://www.btiteam.org/smf/index.php/\">look to us for support</a>.</p>");
         echo ('</div>');
         die;
     }
@@ -953,7 +953,7 @@ elseif ($action === 'finished') {
     echo ("<br /><br />");
     echo ($install_lang['succes_install3']);
     echo ("<br />");
-    echo ("<p>DPWS Media LTD</p>");
+    echo ("<p>BTITeam</p>");
     echo ("<div align=\"center\"><a href=\"index.php\" target=\"_self\">".$install_lang['go_to_tracker']."</a>");
 }
 echo ("</td>\n</tr>\n</table>");

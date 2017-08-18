@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2016  DPWS Media LTD
+// Copyright (C) 2004 - 2016  Btiteam
 //
 //    This file is part of xbtit.
 //
@@ -35,7 +35,7 @@ class poll {
   var $pollerTitle;
   var $table_prefix;
 
-  function __construct() {
+  function poll() {
     global $TABLE_PREFIX;
     $this->ID='';
     $this->pollerTitle='';
